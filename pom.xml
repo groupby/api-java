@@ -12,6 +12,15 @@
   <name>GroupBy - API Java</name>
   <description>${project.name}</description>
 
+  <url>http://www.groupbyinc.com/</url>
+
+  <inceptionYear>2014</inceptionYear>
+
+  <organization>
+    <name>GroupBy Inc.</name>
+    <url>http://www.groupbyinc.com/</url>
+  </organization>
+
   <scm>
     <url>https://github.com/groupby/api-java</url>
     <connection>scm:git:git@github.com:groupby/api-java.git</connection>
@@ -117,26 +126,6 @@
       <version>${api.jsp.version}</version>
       <scope>provided</scope>
     </dependency>
-
-    <!-- ### GroupBy -->
-    <!--<dependency>-->
-    <!--<groupId>com.groupbyinc</groupId>-->
-    <!--<artifactId>common-jackson</artifactId>-->
-    <!--<version>${groupbyinc.common.version}</version>-->
-    <!--<optional>true</optional>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-    <!--<groupId>com.groupbyinc</groupId>-->
-    <!--<artifactId>common-http</artifactId>-->
-    <!--<version>${groupbyinc.common.version}</version>-->
-    <!--<optional>true</optional>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-    <!--<groupId>com.groupbyinc</groupId>-->
-    <!--<artifactId>common-utils</artifactId>-->
-    <!--<version>${groupbyinc.common.version}</version>-->
-    <!--<optional>true</optional>-->
-    <!--</dependency>-->
 
     <!-- ### Shaded -->
     <dependency>
