@@ -1,0 +1,790 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.groupbyinc</groupId>
+  <artifactId>api-java</artifactId>
+  <version>2.0.0-SNAPSHOT</version>
+
+  <packaging>jar</packaging>
+
+  <name>GroupBy - API Java</name>
+  <description>${project.name}</description>
+
+  <scm>
+    <url>https://github.com/groupby/api-java</url>
+    <connection>scm:git:git@github.com:groupby/api-java.git</connection>
+    <developerConnection>scm:git:git@github.com:groupby/api-java.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+
+  <properties>
+
+    <!-- # Build params-->
+    <project.build.jdkVersion>1.6</project.build.jdkVersion>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <project.build.locale>en_US</project.build.locale>
+    <repo.upload.retryAttempts>3</repo.upload.retryAttempts>
+
+    <!-- # Run-time params-->
+    <env.sys.prop>com.groupbyinc.bindle.environment</env.sys.prop>
+    <version.sys.prop>com.groupbyinc.bindle.version</version.sys.prop>
+
+    <!-- # GroupBy Dependency params-->
+    <groupbyinc.common.version>9</groupbyinc.common.version>
+
+    <!-- # 3rd-Party Dependency params-->
+    <logger.type>log4j12</logger.type>
+    <slf4j.version>1.7.7</slf4j.version>
+    <log4j.version>1.2.17</log4j.version>
+    <junit.version>4.11</junit.version>
+    <jackson2.version>2.4.1</jackson2.version>
+    <httpcomponents.version>4.3.5</httpcomponents.version>
+    <sonar.version>3.6.2</sonar.version>
+
+    <!-- API/Quickstart Dependency params -->
+    <api.servlet.version>2.5</api.servlet.version>
+    <api.jsp.version>2.1</api.jsp.version>
+
+    <log4j.properties />
+
+    <!-- # Skip plugin / run params -->
+    <skip.unit-tests>true</skip.unit-tests>
+
+    <!-- # Test params -->
+    <test.runOrder>random</test.runOrder>
+    <test.forkCount>1C</test.forkCount>
+    <test.reuseForks>true</test.reuseForks>
+    <test.threadLocal>true</test.threadLocal>
+    <test.threadCount>4</test.threadCount>
+    <test.parallel>classesAndMethods</test.parallel>
+    <test.log4j.properties>log4j-test.xml</test.log4j.properties>
+
+    <!-- # Run params -->
+    <run.version>${project.version}-DEV</run.version>
+    <run.log4j.properties>log4j-debug.xml</run.log4j.properties>
+
+  </properties>
+
+  <dependencies>
+
+    <!-- ### Logging -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-${logger.type}</artifactId>
+      <version>${slf4j.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+
+    <!-- # Log4J -->
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>${log4j.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+
+    <!-- ### Test -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.skyscreamer</groupId>
+      <artifactId>jsonassert</artifactId>
+      <version>1.2.2</version>
+    </dependency>
+
+    <!-- ### Servlet/JSP/JSTL -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>${api.servlet.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet.jsp</groupId>
+      <artifactId>jsp-api</artifactId>
+      <version>${api.jsp.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- ### GroupBy -->
+    <!--<dependency>-->
+    <!--<groupId>com.groupbyinc</groupId>-->
+    <!--<artifactId>common-jackson</artifactId>-->
+    <!--<version>${groupbyinc.common.version}</version>-->
+    <!--<optional>true</optional>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+    <!--<groupId>com.groupbyinc</groupId>-->
+    <!--<artifactId>common-http</artifactId>-->
+    <!--<version>${groupbyinc.common.version}</version>-->
+    <!--<optional>true</optional>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+    <!--<groupId>com.groupbyinc</groupId>-->
+    <!--<artifactId>common-utils</artifactId>-->
+    <!--<version>${groupbyinc.common.version}</version>-->
+    <!--<optional>true</optional>-->
+    <!--</dependency>-->
+
+    <!-- ### Shaded -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.1</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-collections4</artifactId>
+      <version>4.0</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <version>1.9</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.4</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>1.2</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>commons-net</groupId>
+      <artifactId>commons-net</artifactId>
+      <version>3.3</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>${httpcomponents.version}</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>${jackson2.version}</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson2.version}</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>${jackson2.version}</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.dataformat</groupId>
+      <artifactId>jackson-dataformat-smile</artifactId>
+      <version>${jackson2.version}</version>
+      <optional>true</optional>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+
+    <resources>
+
+      <!-- ### Filtered Resources -->
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>log4j.xml</include>
+          <include>**/*.properties</include>
+        </includes>
+      </resource>
+
+      <!-- ### Unfiltered Resources -->
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>false</filtering>
+        <excludes>
+          <exclude>log4j.xml</exclude>
+          <exclude>**/*.properties</exclude>
+        </excludes>
+      </resource>
+
+    </resources>
+
+    <testResources>
+
+      <!-- ### Filtered Resources -->
+      <testResource>
+        <directory>src/test/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>log4j.xml</include>
+          <include>**/*.properties</include>
+        </includes>
+      </testResource>
+
+      <!-- ### Unfiltered Resources -->
+      <testResource>
+        <directory>src/test/resources</directory>
+        <filtering>false</filtering>
+        <excludes>
+          <exclude>log4j.xml</exclude>
+          <exclude>**/*.properties</exclude>
+        </excludes>
+      </testResource>
+
+    </testResources>
+
+    <pluginManagement>
+
+      <plugins>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.2</version>
+          <configuration>
+            <source>${project.build.jdkVersion}</source>
+            <target>${project.build.jdkVersion}</target>
+            <compilerVersion>${project.build.jdkVersion}</compilerVersion>
+            <encoding>${project.build.sourceEncoding}</encoding>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>2.4</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>2.10.1</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>2.6</version>
+          <configuration>
+            <filesets>
+              <fileset>
+                <directory>${project.basedir}</directory>
+                <includes>
+                  <include>dependency-reduced-pom.xml</include>
+                </includes>
+              </fileset>
+            </filesets>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>2.9</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>2.7</version>
+          <configuration>
+            <encoding>${project.build.sourceEncoding}</encoding>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-shade-plugin</artifactId>
+          <version>2.3</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>2.4.1</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>2.5</version>
+          <configuration>
+            <forceCreation>true</forceCreation>
+            <skipIfEmpty>true</skipIfEmpty>
+            <archive>
+              <manifest>
+                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                <packageName />
+              </manifest>
+              <manifestEntries>
+                <Jdk-Compatibility-Version>${project.build.jdkVersion}</Jdk-Compatibility-Version>
+                <Maven-Version>${maven.version}</Maven-Version>
+                <Encoding>${project.build.sourceEncoding}</Encoding>
+                <Built-By>${project.organization.name}</Built-By>
+                <Created-By>${project.organization.name}</Created-By>
+                <Created-Date>${date.current}</Created-Date>
+                <Vendor>${project.organization.name}</Vendor>
+                <Vendor-Url>${project.organization.url}</Vendor-Url>
+                <Copyright>Copyright (c) ${date.current.year} ${project.organization.name}</Copyright>
+              </manifestEntries>
+            </archive>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>test-jar</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.17</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>2.17</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>2.5.1</version>
+          <configuration>
+            <autoVersionSubmodules>true</autoVersionSubmodules>
+            <allowTimestampedSnapshots>true</allowTimestampedSnapshots>
+            <tagNameFormat>v@{project.version}</tagNameFormat>
+            <pomFileName>pom.xml</pomFileName>
+            <releaseProfiles>
+              build-installer,attach-sources-and-javadoc,disable-unit-tests,disable-integration-tests
+            </releaseProfiles>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>2.5.2</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>2.8.2</version>
+          <configuration>
+            <retryFailedDeploymentCount>${repo.upload.retryAttempts}</retryFailedDeploymentCount>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-invoker-plugin</artifactId>
+          <version>1.9</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <version>1.9.1</version>
+        </plugin>
+
+        <plugin>
+          <groupId>com.soebes.maven.plugins</groupId>
+          <artifactId>echo-maven-plugin</artifactId>
+          <version>0.2</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.sonar</groupId>
+          <artifactId>sonar-maven3-plugin</artifactId>
+          <version>${sonar.version}</version>
+        </plugin>
+
+      </plugins>
+
+    </pluginManagement>
+
+    <plugins>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <!-- ### set project.version.lowercase property -->
+          <execution>
+            <id>set-project.version.lowercase-property</id>
+            <goals>
+              <goal>regex-property</goal>
+            </goals>
+            <configuration>
+              <name>project.version.lowercase</name>
+              <value>${project.version}</value>
+              <regex>SNAPSHOT</regex>
+              <replacement>snapshot</replacement>
+              <failIfNoMatch>false</failIfNoMatch>
+            </configuration>
+          </execution>
+          <!-- ### set parsedVersion property (parsed project.version into components) -->
+          <execution>
+            <id>set-parsedVersion-property</id>
+            <goals>
+              <goal>parse-version</goal>
+            </goals>
+          </execution>
+          <!-- ### set maven.version property -->
+          <execution>
+            <id>set-maven.version-property</id>
+            <goals>
+              <goal>maven-version</goal>
+            </goals>
+          </execution>
+          <!-- ### set date.current property -->
+          <execution>
+            <id>set-date.current-property</id>
+            <goals>
+              <goal>timestamp-property</goal>
+            </goals>
+            <configuration>
+              <name>date.current</name>
+              <locale>${project.build.locale}</locale>
+              <pattern>yyyy-MM-dd'T'HH:mm:ssZ</pattern>
+            </configuration>
+          </execution>
+          <!-- ### set date.current.year property -->
+          <execution>
+            <id>set-date.current.year-property</id>
+            <goals>
+              <goal>timestamp-property</goal>
+            </goals>
+            <configuration>
+              <name>date.current.year</name>
+              <locale>${project.build.locale}</locale>
+              <pattern>yyyy</pattern>
+            </configuration>
+          </execution>
+          <!-- ### set date.current.humanReadable property -->
+          <execution>
+            <id>set-date.current.humanReadable-property</id>
+            <goals>
+              <goal>timestamp-property</goal>
+            </goals>
+            <configuration>
+              <name>date.current.humanReadable</name>
+              <locale>${project.build.locale}</locale>
+              <pattern>MMMM d, yyyy</pattern>
+            </configuration>
+          </execution>
+          <!-- ### remove old installed artifacts from local repo to free up local disk space -->
+          <execution>
+            <id>remove-old-installers</id>
+            <goals>
+              <goal>remove-project-artifact</goal>
+            </goals>
+            <configuration>
+              <removeAll>false</removeAll>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <skipTests>${skip.unit-tests}</skipTests>
+          <runOrder>${test.runOrder}</runOrder>
+          <forkCount>${test.forkCount}</forkCount>
+          <reuseForks>${test.reuseForks}</reuseForks>
+          <threadCount>${test.threadCount}</threadCount>
+          <parallel>${test.parallel}</parallel>
+          <argLine>
+            -Xmx2048m
+            -Xms1024m
+            -XX:+CMSClassUnloadingEnabled
+            -Dlog4j.properties=${test.log4j.properties}
+            -Dfile.encoding=${project.build.sourceEncoding}
+            -DthreadLocal=${test.threadLocal}
+          </argLine>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>com.soebes.maven.plugins</groupId>
+        <artifactId>echo-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>echo</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <echos>
+            <echo>Properties:</echo>
+            <echo>project.build.jdkVersion=${project.build.jdkVersion}</echo>
+            <echo>environment=${environment}</echo>
+            <echo>skip.unit-tests=${skip.unit-tests}</echo>
+            <echo>logger.log4j.root.level=${logger.log4j.root.level}</echo>
+            <echo>logger.log4j.com.groupbyinc.level=${logger.log4j.com.groupbyinc.level}</echo>
+            <echo>log4j.properties=${log4j.properties}</echo>
+            <echo>test.log4j.properties=${test.log4j.properties}</echo>
+            <echo>test.runOrder=${test.runOrder}</echo>
+            <echo>test.forkCount=${test.forkCount}</echo>
+            <echo>test.threadLocal=${test.threadLocal}</echo>
+            <echo>test.threadCount=${test.threadCount}</echo>
+            <echo>test.parallel=${test.parallel}</echo>
+            <echo>test.reuseForks=${test.reuseForks}</echo>
+          </echos>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <shadeTestJar>true</shadeTestJar>
+              <createSourcesJar>true</createSourcesJar>
+              <createDependencyReducedPom>true</createDependencyReducedPom>
+              <dependencyReducedPomLocation>
+                ${project.build.directory}/${project.build.finalName}.pom
+              </dependencyReducedPomLocation>
+              <artifactSet>
+                <includes>
+                  <include>org.apache.commons:*</include>
+                  <include>org.apache.httpcomponents:*</include>
+                  <include>commons-codec:*</include>
+                  <include>commons-io:*</include>
+                  <include>commons-logging:*</include>
+                  <include>commons-net:*</include>
+                  <include>com.fasterxml.jackson.core:*</include>
+                  <include>com.fasterxml.jackson.dataformat:*</include>
+                  <include>${project.groupId}:*</include>
+                </includes>
+              </artifactSet>
+              <relocations>
+                <relocation>
+                  <pattern>com.fasterxml.jackson</pattern>
+                  <shadedPattern>com.groupbyinc.common.jackson</shadedPattern>
+                </relocation>
+                <relocation>
+                  <pattern>org.apache.commons</pattern>
+                  <shadedPattern>com.groupbyinc.common.util</shadedPattern>
+                </relocation>
+                <relocation>
+                  <pattern>org.apache</pattern>
+                  <shadedPattern>com.groupbyinc.common</shadedPattern>
+                </relocation>
+              </relocations>
+              <filters>
+                <filter>
+                  <artifact>*:*</artifact>
+                  <excludes>
+                    <exclude>META-INF/LICENSE*</exclude>
+                    <exclude>META-INF/NOTICE*</exclude>
+                    <exclude>META-INF/DEPENDENCIES*</exclude>
+                  </excludes>
+                </filter>
+              </filters>
+              <transformers>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <manifestEntries>
+                    <Archive-Type>Uber JAR</Archive-Type>
+                  </manifestEntries>
+                </transformer>
+              </transformers>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <finalName>bindle-api-java-${project.version}</finalName>
+          <descriptors>
+            <descriptor>${project.basedir}/bin.xml</descriptor>
+          </descriptors>
+        </configuration>
+        <executions>
+          <execution>
+            <id>create-compressed-packages</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+
+  </build>
+
+  <profiles>
+
+    <profile>
+      <id>default</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <environment>local</environment>
+        <logger.log4j.root.level>INFO</logger.log4j.root.level>
+        <logger.log4j.com.groupbyinc.level>DEBUG</logger.log4j.com.groupbyinc.level>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>attach-sources-and-javadoc</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+                <configuration>
+                  <encoding>${project.build.sourceEncoding}</encoding>
+                  <docencoding>${project.build.sourceEncoding}</docencoding>
+                  <charset>${project.build.sourceEncoding}</charset>
+                  <detectOfflineLinks>false</detectOfflineLinks>
+                  <detectJavaApiLink>false</detectJavaApiLink>
+                  <detectLinks>false</detectLinks>
+                  <validateLinks>false</validateLinks>
+                  <additionalparam>-Xdoclint:none</additionalparam>
+                  <quiet>true</quiet>
+                  <keywords>true</keywords>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>create-release</id>
+      <properties>
+        <skip.unit-tests>false</skip.unit-tests>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>unit</id>
+      <properties>
+        <skip.unit-tests>false</skip.unit-tests>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>enable-test-thread-local</id>
+      <properties>
+        <test.threadLocal>true</test.threadLocal>
+      </properties>
+    </profile>
+
+  </profiles>
+
+  <repositories>
+
+    <repository>
+      <id>groupby-public</id>
+      <name>GroupBy - Public</name>
+      <url>https://artifacts.groupbyinc.com/content/groups/public/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+
+  </repositories>
+
+  <pluginRepositories>
+
+    <pluginRepository>
+      <id>groupby-public</id>
+      <name>GroupBy - Public</name>
+      <url>https://artifacts.groupbyinc.com/content/groups/public/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </pluginRepository>
+
+  </pluginRepositories>
+
+  <distributionManagement>
+
+    <repository>
+      <id>groupby-releases</id>
+      <name>GroupBy - Releases</name>
+      <url>https://artifacts.groupbyinc.com/content/repositories/releases/</url>
+    </repository>
+
+    <snapshotRepository>
+      <id>groupby-snapshots</id>
+      <name>GroupBy - Snapshots</name>
+      <url>https://artifacts.groupbyinc.com/content/repositories/snapshots/</url>
+    </snapshotRepository>
+
+  </distributionManagement>
+
+</project>

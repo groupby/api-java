@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE taglib
+        PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+        "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+<taglib>
+    <tlib-version>1.0</tlib-version>
+    <jsp-version>1.2</jsp-version>
+    <short-name>gc</short-name>
+    <uri>http://www.groupbyinc.com/jsp/jstl</uri>
+    <display-name>GroupBy Utils</display-name>
+    <description>Functions for interacting with the bridge</description>
+
+    <tag>
+        <name>results</name>
+        <tagclass>
+            com.groupbyinc.api.tags.ResultsTag
+        </tagclass>
+        <bodycontent>empty</bodycontent>
+        <description>Fetch Results from the Server</description>
+        <attribute>
+            <name>var</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>The name of the el variable to create in the page scope</description>
+        </attribute>
+        <attribute>
+            <name>searchString</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>The query to search with</description>
+        </attribute>
+        <attribute>
+            <name>sort</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>Sort Direction|desc or asc</description>
+        </attribute>
+        <attribute>
+            <name>fields</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>Tilde ~ separated list of fields to bring back with each
+                record. If this is not set, no fields will be returned. If * is
+                specified all fields will be returned
+            </description>
+        </attribute>
+        <attribute>
+            <name>refinements</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>refinements to apply to the data set</description>
+        </attribute>
+        <attribute>
+            <name>customUrlParams</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>Other parameters for the server</description>
+        </attribute>
+        <attribute>
+            <name>bridgeHost</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>The host of the bridge service</description>
+        </attribute>
+        <attribute>
+            <name>bridgePort</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>The port of the bridge service</description>
+        </attribute>
+        <attribute>
+            <name>clientKey</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>the key to use for queries to the bridge</description>
+        </attribute>
+        <attribute>
+            <name>subCollection</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>the sub collection, example, FAQs</description>
+        </attribute>
+        <attribute>
+            <name>area</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>The area to bring back</description>
+        </attribute>
+    </tag>
+
+    <function>
+        <description>
+            MD5 a string
+        </description>
+        <name>md5</name>
+        <function-class>com.groupbyinc.api.tags.Functions</function-class>
+        <function-signature>java.lang.String md5(java.lang.String)</function-signature>
+    </function>
+    <function>
+        <description>
+            regex replace
+        </description>
+        <name>replaceAll</name>
+        <function-class>com.groupbyinc.api.tags.Functions</function-class>
+        <function-signature>java.lang.String replaceAll(java.lang.String,
+            java.lang.String, java.lang.String)
+        </function-signature>
+    </function>
+    <function>
+        <description>
+            JavaScript Escape function
+        </description>
+        <name>escapeJs</name>
+        <function-class>com.groupbyinc.api.tags.Functions</function-class>
+        <function-signature>java.lang.String escapeJs(java.lang.String)</function-signature>
+    </function>
+    <function>
+        <description>
+            Collection contains method
+        </description>
+        <name>contains</name>
+        <function-class>com.groupbyinc.api.tags.Functions</function-class>
+        <function-signature>boolean contains(java.util.Collection,java.lang.Object)</function-signature>
+    </function>
+    <function>
+        <description>
+            camelCase 2 Camel Case
+        </description>
+        <name>uncamel</name>
+        <function-class>com.groupbyinc.api.tags.Functions</function-class>
+        <function-signature>java.lang.String uncamel(java.lang.String)</function-signature>
+    </function>
+    <function>
+        <description>
+            Reverse a list
+        </description>
+        <name>reverse</name>
+        <function-class>com.groupbyinc.api.tags.Functions</function-class>
+        <function-signature>java.util.List reverse(java.util.List)</function-signature>
+    </function>
+    <function>
+        <description>
+            Convert epoch long to ISO date
+        </description>
+        <name>epochToIso</name>
+        <function-class>com.groupbyinc.api.tags.Functions</function-class>
+        <function-signature>java.lang.String epochToIso(java.lang.String)</function-signature>
+    </function>
+</taglib>
