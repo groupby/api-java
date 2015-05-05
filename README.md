@@ -3,4 +3,4 @@ api-java
 
 Java API
 
-Current Version: **2.0.138**
+Current Version: **2.0.143**
