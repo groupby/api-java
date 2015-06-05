@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.groupbyinc</groupId>
+    <artifactId>api-java</artifactId>
+    <version>2.0.160-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>api-java-flux</artifactId>
+
+  <packaging>jar</packaging>
+
+  <name>GroupBy - API - Java - Flux</name>
+  <description>${project.name}</description>
+
+  <build>
+
+    <plugins>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <shadeTestJar>true</shadeTestJar>
+              <shadedArtifactAttached>true</shadedArtifactAttached>
+              <shadedClassifierName>uber</shadedClassifierName>
+              <createSourcesJar>true</createSourcesJar>
+              <createDependencyReducedPom>true</createDependencyReducedPom>
+              <dependencyReducedPomLocation>
+                ${project.build.directory}/${project.build.finalName}.pom
+              </dependencyReducedPomLocation>
+              <artifactSet>
+                <includes>
+                  <include>${project.groupId}:*</include>
+                </includes>
+              </artifactSet>
+              <filters>
+                <filter>
+                  <artifact>${project.groupId}:${project.parent.artifactId}-common</artifact>
+                  <includes>
+                    <include>com/groupbyinc/**</include>
+                    <include>META-INF/**</include>
+                  </includes>
+                </filter>
+              </filters>
+              <transformers>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <manifestEntries>
+                    <Archive-Type>Uber JAR</Archive-Type>
+                  </manifestEntries>
+                </transformer>
+              </transformers>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <finalName>api-java-${project.version}</finalName>
+          <descriptors>
+            <descriptor>${project.basedir}/../common/bin.xml</descriptor>
+          </descriptors>
+        </configuration>
+        <executions>
+          <execution>
+            <id>create-compressed-packages</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+
+  </build>
+
+  <dependencies>
+
+    <!-- ### GroupBy -->
+    <dependency>
+      <groupId>com.groupbyinc</groupId>
+      <artifactId>common-jackson</artifactId>
+      <version>${groupbyinc.common.version}</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>com.groupbyinc</groupId>
+      <artifactId>common-http</artifactId>
+      <version>${groupbyinc.common.version}</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>com.groupbyinc</groupId>
+      <artifactId>common-utils</artifactId>
+      <version>${groupbyinc.common.version}</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>api-java-common</artifactId>
+      <version>${project.version}</version>
+      <optional>true</optional>
+    </dependency>
+
+    <dependency>
+      <groupId>com.groupbyinc</groupId>
+      <artifactId>common-test</artifactId>
+      <version>${groupbyinc.common.version}</version>
+      <scope>test</scope>
+      <optional>true</optional>
+    </dependency>
+
+  </dependencies>
+
+</project>
