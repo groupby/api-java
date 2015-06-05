@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.groupbyinc</groupId>
+    <artifactId>parent-oss</artifactId>
+    <version>2</version>
+  </parent>
+
+  <artifactId>api-java</artifactId>
+  <version>2.0.160-SNAPSHOT</version>
+
+  <packaging>pom</packaging>
+
+  <name>GroupBy - API - Java</name>
+  <description>${project.name}</description>
+
+  <modules>
+    <module>common</module>
+    <module>flux</module>
+    <module>gsa</module>
+  </modules>
+
+  <scm>
+    <url>https://github.com/groupby/api-java</url>
+    <connection>scm:git:git@github.com:groupby/api-java.git</connection>
+    <developerConnection>scm:git:git@github.com:groupby/api-java.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+
+  <properties>
+    <project.build.jdkVersion>1.6</project.build.jdkVersion>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <repo.upload.retryAttempts>3</repo.upload.retryAttempts>
+    <log4j.properties />
+
+    <!-- ### Versions -->
+    <api.servlet.version>2.5</api.servlet.version>
+    <api.jsp.version>2.1</api.jsp.version>
+    <junit.version>4.12</junit.version>
+    <cloning.util.version>1.9.2</cloning.util.version>
+    <groupbyinc.common.version>21</groupbyinc.common.version>
+
+    <!-- ### Test -->
+    <test.runOrder>random</test.runOrder>
+    <test.forkCount>1C</test.forkCount>
+    <test.reuseForks>true</test.reuseForks>
+    <test.slow>false</test.slow>
+    <test.threadLocal>true</test.threadLocal>
+    <test.threadCount>4</test.threadCount>
+    <test.parallel>classesAndMethods</test.parallel>
+  </properties>
+
+  <build>
+
+    <pluginManagement>
+
+      <plugins>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.2</version>
+          <configuration>
+            <source>${project.build.jdkVersion}</source>
+            <target>${project.build.jdkVersion}</target>
+            <compilerVersion>${project.build.jdkVersion}</compilerVersion>
+            <encoding>${project.build.sourceEncoding}</encoding>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>2.4</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>2.10.1</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>1.5</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>2.6</version>
+          <configuration>
+            <filesets>
+              <fileset>
+                <directory>${project.basedir}</directory>
+                <includes>
+                  <include>dependency-reduced-pom.xml</include>
+                </includes>
+              </fileset>
+            </filesets>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>2.9</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>2.7</version>
+          <configuration>
+            <encoding>${project.build.sourceEncoding}</encoding>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-shade-plugin</artifactId>
+          <version>2.3</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>2.4.1</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>2.5</version>
+          <configuration>
+            <forceCreation>true</forceCreation>
+            <archive>
+              <manifest>
+                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                <packageName />
+              </manifest>
+              <manifestEntries>
+                <Jdk-Compatibility-Version>${project.build.jdkVersion}</Jdk-Compatibility-Version>
+                <Maven-Version>${maven.version}</Maven-Version>
+                <Encoding>${project.build.sourceEncoding}</Encoding>
+                <Built-By>${project.organization.name}</Built-By>
+                <Created-By>${project.organization.name}</Created-By>
+                <Created-Date>${date.current}</Created-Date>
+                <Vendor>${project.organization.name}</Vendor>
+                <Vendor-Url>${project.organization.url}</Vendor-Url>
+                <Copyright>Copyright (c) ${date.current.year} ${project.organization.name}</Copyright>
+              </manifestEntries>
+            </archive>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>2.5</version>
+          <configuration>
+            <failOnMissingWebXml>false</failOnMissingWebXml>
+            <archive>
+              <manifest>
+                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                <packageName />
+              </manifest>
+              <manifestEntries>
+                <Jdk-Compatibility-Version>${project.build.jdkVersion}</Jdk-Compatibility-Version>
+                <Maven-Version>${maven.version}</Maven-Version>
+                <Encoding>${project.build.sourceEncoding}</Encoding>
+                <Built-By>${project.organization.name}</Built-By>
+                <Created-By>${project.organization.name}</Created-By>
+                <Created-Date>${date.current}</Created-Date>
+                <Vendor>${project.organization.name}</Vendor>
+                <Vendor-Url>${project.organization.url}</Vendor-Url>
+                <Copyright>Copyright (c) ${date.current.year} ${project.organization.name}</Copyright>
+              </manifestEntries>
+            </archive>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.17</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>2.17</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>2.5.1</version>
+          <configuration>
+            <autoVersionSubmodules>true</autoVersionSubmodules>
+            <allowTimestampedSnapshots>false</allowTimestampedSnapshots>
+            <tagNameFormat>${project.artifactId}-v@{project.version}</tagNameFormat>
+            <pomFileName>pom.xml</pomFileName>
+            <releaseProfiles>create-release,attach-and-sign</releaseProfiles>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>2.5.2</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>2.8.2</version>
+          <configuration>
+            <retryFailedDeploymentCount>${repo.upload.retryAttempts}</retryFailedDeploymentCount>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <version>1.9.1</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
+          <version>1.3.2</version>
+        </plugin>
+
+      </plugins>
+
+    </pluginManagement>
+
+    <plugins>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <!-- ### set project.version.lowercase property -->
+          <execution>
+            <id>set-project.version.lowercase-property</id>
+            <goals>
+              <goal>regex-property</goal>
+            </goals>
+            <configuration>
+              <name>project.version.lowercase</name>
+              <value>${project.version}</value>
+              <regex>SNAPSHOT</regex>
+              <replacement>snapshot</replacement>
+              <failIfNoMatch>false</failIfNoMatch>
+            </configuration>
+          </execution>
+          <!-- ### set parsedVersion property (parsed project.version into components) -->
+          <execution>
+            <id>set-parsedVersion-property</id>
+            <goals>
+              <goal>parse-version</goal>
+            </goals>
+          </execution>
+          <!-- ### set maven.version property -->
+          <execution>
+            <id>set-maven.version-property</id>
+            <goals>
+              <goal>maven-version</goal>
+            </goals>
+          </execution>
+          <!-- ### set date.current property -->
+          <execution>
+            <id>set-date.current-property</id>
+            <goals>
+              <goal>timestamp-property</goal>
+            </goals>
+            <configuration>
+              <name>date.current</name>
+              <locale>${project.build.locale}</locale>
+              <pattern>yyyy-MM-dd'T'HH:mm:ssZ</pattern>
+            </configuration>
+          </execution>
+          <!-- ### set date.current.year property -->
+          <execution>
+            <id>set-date.current.year-property</id>
+            <goals>
+              <goal>timestamp-property</goal>
+            </goals>
+            <configuration>
+              <name>date.current.year</name>
+              <locale>${project.build.locale}</locale>
+              <pattern>yyyy</pattern>
+            </configuration>
+          </execution>
+          <!-- ### set date.current.humanReadable property -->
+          <execution>
+            <id>set-date.current.humanReadable-property</id>
+            <goals>
+              <goal>timestamp-property</goal>
+            </goals>
+            <configuration>
+              <name>date.current.humanReadable</name>
+              <locale>${project.build.locale}</locale>
+              <pattern>MMMM d, yyyy</pattern>
+            </configuration>
+          </execution>
+          <!-- ### remove old installed artifacts from local repo to free up local disk space -->
+          <execution>
+            <id>remove-old-installers</id>
+            <goals>
+              <goal>remove-project-artifact</goal>
+            </goals>
+            <configuration>
+              <removeAll>false</removeAll>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <skipTests>${test.unit.skipTests}</skipTests>
+          <runOrder>${test.runOrder}</runOrder>
+          <forkCount>${test.forkCount}</forkCount>
+          <reuseForks>${test.reuseForks}</reuseForks>
+          <threadCount>${test.threadCount}</threadCount>
+          <parallel>${test.parallel}</parallel>
+          <argLine>
+            -Xmx1024m
+            -Xms256m
+            -XX:+CMSClassUnloadingEnabled
+            -Dlog4j.properties=${log4j.properties}
+            -Dfile.encoding=${project.build.sourceEncoding}
+            -DskipTests=${test.unit.skipTests}
+            -Dmaven.test.skip=${test.unit.skipTests}
+            -Dslow=${test.slow}
+            -DthreadLocal=${test.threadLocal}
+          </argLine>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <configuration>
+          <skipTests>${test.integration.skipTests}</skipTests>
+        </configuration>
+        <executions>
+          <execution>
+            <id>failsafe-integration-test</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>integration-test</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>failsafe-verify</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.6.5</version>
+        <extensions>true</extensions>
+        <configuration>
+          <serverId>ossrh</serverId>
+          <nexusUrl>https://oss.sonatype.org</nexusUrl>
+          <autoReleaseAfterClose>true</autoReleaseAfterClose>
+        </configuration>
+      </plugin>
+
+    </plugins>
+
+  </build>
+
+  <dependencies>
+
+    <!-- ### Servlet/JSP/JSTL -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>${api.servlet.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet.jsp</groupId>
+      <artifactId>jsp-api</artifactId>
+      <version>${api.jsp.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>uk.com.robust-it</groupId>
+      <artifactId>cloning</artifactId>
+      <version>${cloning.util.version}</version>
+    </dependency>
+  </dependencies>
+
+  <profiles>
+
+    <profile>
+      <id>default</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <test.unit.skipTests>false</test.unit.skipTests>
+        <test.integration.skipTests>true</test.integration.skipTests>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>attach-and-sign</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+                <configuration>
+                  <encoding>${project.build.sourceEncoding}</encoding>
+                  <docencoding>${project.build.sourceEncoding}</docencoding>
+                  <charset>${project.build.sourceEncoding}</charset>
+                  <detectOfflineLinks>false</detectOfflineLinks>
+                  <detectJavaApiLink>false</detectJavaApiLink>
+                  <detectLinks>false</detectLinks>
+                  <validateLinks>false</validateLinks>
+                  <additionalparam>-Xdoclint:none</additionalparam>
+                  <quiet>true</quiet>
+                  <keywords>true</keywords>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>create-release</id>
+      <properties>
+        <test.unit.skipTests>true</test.unit.skipTests>
+        <test.integration.skipTests>true</test.integration.skipTests>
+      </properties>
+    </profile>
+
+  </profiles>
+
+  <distributionManagement>
+
+    <repository>
+      <id>ossrh</id>
+      <name>Sonatype OSS - Releases</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+
+    <snapshotRepository>
+      <id>ossrh</id>
+      <name>Sonatype OSS - Snapshots</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    </snapshotRepository>
+
+  </distributionManagement>
+
+</project>
