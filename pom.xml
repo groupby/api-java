@@ -204,7 +204,7 @@
           <configuration>
             <autoVersionSubmodules>true</autoVersionSubmodules>
             <allowTimestampedSnapshots>false</allowTimestampedSnapshots>
-            <tagNameFormat>${project.artifactId}-v@{project.version}</tagNameFormat>
+            <tagNameFormat>v@{project.version}</tagNameFormat>
             <pomFileName>pom.xml</pomFileName>
             <releaseProfiles>create-release,attach-and-sign</releaseProfiles>
           </configuration>
