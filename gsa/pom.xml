@@ -16,6 +16,13 @@
   <name>GroupBy - API - Java - GSA</name>
   <description>${project.name}</description>
 
+  <scm>
+    <url>https://github.com/groupby/api-java</url>
+    <connection>scm:git:git@github.com:groupby/api-java.git</connection>
+    <developerConnection>scm:git:git@github.com:groupby/api-java.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+
   <build>
 
     <plugins>
@@ -80,6 +87,23 @@
             <goals>
               <goal>single</goal>
             </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>de.jutzig</groupId>
+        <artifactId>github-release-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>github-deploy</id>
+            <phase>deploy</phase>
+            <goals>
+              <goal>release</goal>
+            </goals>
+            <configuration>
+              <artifact>${project.build.directory}/${project.artifactId}-${project.version}-uber.jar</artifact>
+            </configuration>
           </execution>
         </executions>
       </plugin>
