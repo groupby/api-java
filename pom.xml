@@ -51,13 +51,23 @@
     <test.threadLocal>true</test.threadLocal>
     <test.threadCount>4</test.threadCount>
     <test.parallel>classesAndMethods</test.parallel>
+
+    <test.unit.skipTests>true</test.unit.skipTests>
   </properties>
 
   <build>
 
+    <defaultGoal>clean install-gb</defaultGoal>
+
     <pluginManagement>
 
       <plugins>
+
+        <plugin>
+          <groupId>com.groupbyinc</groupId>
+          <artifactId>common-lifecycle</artifactId>
+          <version>${groupbyinc.common.version}</version>
+        </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -350,30 +360,6 @@
       </plugin>
 
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-failsafe-plugin</artifactId>
-        <configuration>
-          <skipTests>${test.integration.skipTests}</skipTests>
-        </configuration>
-        <executions>
-          <execution>
-            <id>failsafe-integration-test</id>
-            <phase>integration-test</phase>
-            <goals>
-              <goal>integration-test</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>failsafe-verify</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>verify</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
         <groupId>org.sonatype.plugins</groupId>
         <artifactId>nexus-staging-maven-plugin</artifactId>
         <version>1.6.5</version>
@@ -383,6 +369,12 @@
           <nexusUrl>https://oss.sonatype.org</nexusUrl>
           <autoReleaseAfterClose>true</autoReleaseAfterClose>
         </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>com.groupbyinc</groupId>
+        <artifactId>common-lifecycle</artifactId>
+        <extensions>true</extensions>
       </plugin>
 
     </plugins>
@@ -414,13 +406,9 @@
   <profiles>
 
     <profile>
-      <id>default</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
+      <id>unit</id>
       <properties>
         <test.unit.skipTests>false</test.unit.skipTests>
-        <test.integration.skipTests>true</test.integration.skipTests>
       </properties>
     </profile>
 
