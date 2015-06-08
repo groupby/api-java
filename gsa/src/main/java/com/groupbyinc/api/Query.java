@@ -126,8 +126,7 @@ public class Query extends AbstractQuery<Request, Query> {
      * <code>
      * Sets a language filter on the query. This allows the GSA to return only results from a certain
      * language as well as do accent-insensitive searches. Please see the GSA
-     * documentation under [Language Filters](http://www.google
-     * .com/support/enterprise/static/gsa/docs/admin/72/gsa_doc_set/xml_reference/request_format.html#1077312)
+     * documentation under [Language Filters](http://www.google.com/support/enterprise/static/gsa/docs/admin/72/gsa_doc_set/xml_reference/request_format.html#1077312)
      * for a detailed list of supported languages and filter options. If you do not specify a language
      * (or pass in an unrecognized language), the language filter will be ignored.
      *
