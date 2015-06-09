@@ -423,6 +423,14 @@
       </properties>
     </profile>
 
+    <!-- ### Needed for build integration -->
+    <profile>
+      <id>slow</id>
+      <properties>
+        <test.unit.skipTests>false</test.unit.skipTests>
+      </properties>
+    </profile>
+
     <profile>
       <id>attach-and-sign</id>
       <build>
