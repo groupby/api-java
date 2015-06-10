@@ -6,6 +6,7 @@
     <groupId>com.groupbyinc</groupId>
     <artifactId>parent-oss</artifactId>
     <version>2</version>
+    <relativePath/>
   </parent>
 
   <artifactId>api-java</artifactId>
