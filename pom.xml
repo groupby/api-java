@@ -217,7 +217,8 @@
             <allowTimestampedSnapshots>false</allowTimestampedSnapshots>
             <tagNameFormat>v@{project.version}</tagNameFormat>
             <pomFileName>pom.xml</pomFileName>
-            <releaseProfiles>create-release,attach-and-sign</releaseProfiles>
+            <goals>deploy-gb</goals>
+            <releaseProfiles>attach-and-sign</releaseProfiles>
           </configuration>
         </plugin>
 
@@ -486,14 +487,6 @@
           </plugin>
         </plugins>
       </build>
-    </profile>
-
-    <profile>
-      <id>create-release</id>
-      <properties>
-        <test.unit.skipTests>true</test.unit.skipTests>
-        <test.integration.skipTests>true</test.integration.skipTests>
-      </properties>
     </profile>
 
   </profiles>
