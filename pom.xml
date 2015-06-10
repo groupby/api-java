@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.groupbyinc</groupId>
     <artifactId>parent-oss</artifactId>
-    <version>3</version>
+    <version>4</version>
     <relativePath />
   </parent>
 
@@ -42,7 +42,7 @@
     <api.jsp.version>2.1</api.jsp.version>
     <junit.version>4.12</junit.version>
     <cloning.util.version>1.9.2</cloning.util.version>
-    <groupbyinc.common.version>23</groupbyinc.common.version>
+    <groupbyinc.common.version>24</groupbyinc.common.version>
 
     <!-- ### Test -->
     <test.runOrder>random</test.runOrder>
@@ -491,6 +491,38 @@
     </profile>
 
   </profiles>
+
+  <repositories>
+
+    <repository>
+      <id>sonatype-releases</id>
+      <name>Sonatype - Releases</name>
+      <url>https://oss.sonatype.org/content/repositories/releases/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+
+  </repositories>
+
+  <pluginRepositories>
+
+    <pluginRepository>
+      <id>sonatype-releases</id>
+      <name>Sonatype - Releases</name>
+      <url>https://oss.sonatype.org/content/repositories/releases/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </pluginRepository>
+
+  </pluginRepositories>
 
   <distributionManagement>
 
