@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.groupbyinc</groupId>
     <artifactId>parent-oss</artifactId>
-    <version>2</version>
+    <version>3</version>
     <relativePath />
   </parent>
 
@@ -42,7 +42,7 @@
     <api.jsp.version>2.1</api.jsp.version>
     <junit.version>4.12</junit.version>
     <cloning.util.version>1.9.2</cloning.util.version>
-    <groupbyinc.common.version>22</groupbyinc.common.version>
+    <groupbyinc.common.version>23</groupbyinc.common.version>
 
     <!-- ### Test -->
     <test.runOrder>random</test.runOrder>
