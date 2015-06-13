@@ -1,6 +1,9 @@
 GroupBy Search API
 ========
 
+![release](https://img.shields.io/maven-central/v/com.groupbyinc/api-java.svg)
+![license](https://img.shields.io/github/license/groupby/api-java.svg)
+
 This project uses a custom version of the maven lifecycle, please follow the steps carefully to ensure a
 successful build.
 
@@ -27,7 +30,7 @@ The uber jar must be used to ensure shaded dependencies are included correctly.
 <dependency>
   <groupId>com.groupbyinc</groupId>
   <artifactId>api-java-flux</artifactId>
-  <version>2.0.160</version>
+  <version>2.0.166</version>
   <classifier>uber</classifier>
 </dependency>
 ```
@@ -35,7 +38,7 @@ The uber jar must be used to ensure shaded dependencies are included correctly.
 #### Gradle
 
 ```gradle
-compile group: 'com.groupbyinc', name: 'api-java-flux', version: '2.0.160', classifier: 'uber'
+compile group: 'com.groupbyinc', name: 'api-java-flux', version: '2.0.166', classifier: 'uber'
 ```
 
 ### Examples
