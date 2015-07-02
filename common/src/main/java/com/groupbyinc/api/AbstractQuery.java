@@ -29,6 +29,9 @@ import java.util.Map;
 public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends AbstractQuery<R, Q>> {
     private static final String DOTS = "\\.\\.";
 
+    // matches a tilde separated string
+    public static final String TILDE_REGEX = "~((?=[\\w]*[=:]))";
+
     private static <R extends AbstractRequest<R>> String requestToJson(R request) {
         try {
             return Mappers.writeValueAsString(request);
@@ -334,6 +337,13 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
         return requestToJson(request);
     }
 
+    protected String [] splitRefinements(String refinementString) {
+        if(StringUtils.isNotBlank(refinementString)) {
+            return refinementString.split(TILDE_REGEX);
+        }
+        return new String[]{};
+    }
+
     /**
      * <code>
      * A helper method to parse and set refinements.
@@ -353,7 +363,7 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
         if (refinementString == null) {
             return (Q) this;
         }
-        String[] filterStrings = refinementString.split("~");
+        String[] filterStrings = splitRefinements(refinementString);
         for (String filterString : filterStrings) {
             if (StringUtils.isBlank(filterString) || "=".equals(filterString)) {
                 continue;
