@@ -21,7 +21,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class UrlFunctionsTest {
 
-    private final String DEFAULT_BEAUTIFIER="default";
+    private final String DEFAULT_BEAUTIFIER = "default";
 
     UrlBeautifier urlBeautifier;
 
@@ -47,24 +47,23 @@ public class UrlFunctionsTest {
         urlBeautifier.addRefinementMapping('f', "league");
 
         List<Navigation> navigations = new ArrayList<Navigation>();
-        navigations.add(new Navigation()
-                                .setName("gender")
-                                .setDisplayName("Gender")
-                                .setType(Navigation.Type.String)
-                                .setRefinements(asList(new RefinementValue().setValue("Women"))));
+        navigations.add(
+                new Navigation().setName("gender").setDisplayName("Gender").setRange(false).setRefinements(
+                        asList(new RefinementValue().setValue("Women"))));
 
         navigations.add(
-                new Navigation().setName("simpleColorDesc").setDisplayName("Color").setType(Navigation.Type.String)
-                                .setRefinements(asList(new RefinementValue().setValue("Pink"))));
-
+                new Navigation().setName("simpleColorDesc").setDisplayName("Color").setRange(false).setRefinements(
+                        asList(new RefinementValue().setValue("Pink"))));
 
         String url = UrlFunctions.toUrlAdd(
-                DEFAULT_BEAUTIFIER, "", navigations, "product", new RefinementValue().setValue("Clothing").setCount(87));
+                DEFAULT_BEAUTIFIER, "", navigations, "product", new RefinementValue().setValue("Clothing").setCount(
+                        87));
         assertEquals("/Women/Clothing/Pink/gtc/index.html", url);
     }
 
     @Test
-    public void refinementAdditionWithMappingMulti() throws JspException, AbstractUrlBeautifier.UrlBeautificationException {
+    public void refinementAdditionWithMappingMulti()
+            throws JspException, AbstractUrlBeautifier.UrlBeautificationException {
         // http://localhost:8888/nikepoc/Women/Pink/gc/index.html?refinements=~product=Clothing&language=
         // http://localhost:8888/nikepoc/Women/Clothing/Pink/gtc/index.html
 
@@ -79,15 +78,13 @@ public class UrlFunctionsTest {
         List<Refinement> refinements = new ArrayList<Refinement>();
         refinements.add(new RefinementValue().setValue("Women"));
 
-        navigations.add(new Navigation()
-                                .setName("gender")
-                                .setDisplayName("Gender")
-                                .setType(Navigation.Type.String)
-                                .setRefinements(refinements));
+        navigations.add(
+                new Navigation().setName("gender").setDisplayName("Gender").setRange(false).setRefinements(
+                        refinements));
 
         navigations.add(
-                new Navigation().setName("simpleColorDesc").setDisplayName("Color").setType(Navigation.Type.String)
-                                .setRefinements(Collections.singletonList(new RefinementValue().setValue("Pink"))));
+                new Navigation().setName("simpleColorDesc").setDisplayName("Color").setRange(false).setRefinements(
+                        Collections.singletonList(new RefinementValue().setValue("Pink"))));
 
         String url = UrlFunctions.toUrlAdd(
                 DEFAULT_BEAUTIFIER, "", navigations, "gender", new RefinementValue().setValue("Men").setCount(87));
@@ -99,40 +96,37 @@ public class UrlFunctionsTest {
     }
 
     @Test
-    public void refinementAdditionWithoutMapping () throws JspException {
+    public void refinementAdditionWithoutMapping() throws JspException {
         List<Navigation> navigations = new ArrayList<Navigation>();
-        navigations.add(new Navigation()
-                                .setName("gender")
-                                .setDisplayName("Gender")
-                                .setType(Navigation.Type.String)
-                                .setRefinements(asList(new RefinementValue().setValue("Women"))));
+        navigations.add(
+                new Navigation().setName("gender").setDisplayName("Gender").setRange(false).setRefinements(
+                        asList(new RefinementValue().setValue("Women"))));
 
         navigations.add(
-                new Navigation().setName("simpleColorDesc").setDisplayName("Color").setType(Navigation.Type.String)
-                                .setRefinements(asList(new RefinementValue().setValue("Pink"))));
-
+                new Navigation().setName("simpleColorDesc").setDisplayName("Color").setRange(false).setRefinements(
+                        asList(new RefinementValue().setValue("Pink"))));
 
         String url = UrlFunctions.toUrlAdd(
-                DEFAULT_BEAUTIFIER, "", navigations, "product", new RefinementValue().setValue("Clothing").setCount(87));
+                DEFAULT_BEAUTIFIER, "", navigations, "product", new RefinementValue().setValue("Clothing").setCount(
+                        87));
         assertEquals("/index.html?refinements=%7Egender%3DWomen%7EsimpleColorDesc%3DPink%7Eproduct%3DClothing", url);
     }
 
     @Test
-    public void refinementAdditionWithoutMappingAndSpace () throws JspException {
+    public void refinementAdditionWithoutMappingAndSpace() throws JspException {
         List<Navigation> navigations = new ArrayList<Navigation>();
-        navigations.add(new Navigation()
-                                .setName("gender")
-                                .setDisplayName("Gender")
-                                .setType(Navigation.Type.String)
-                                .setRefinements(asList(new RefinementValue().setValue("Women"))));
+        navigations.add(
+                new Navigation().setName("gender").setDisplayName("Gender").setRange(false).setRefinements(
+                        asList(new RefinementValue().setValue("Women"))));
 
         navigations.add(
-                new Navigation().setName("simpleColorDesc").setDisplayName("Color").setType(Navigation.Type.String)
-                                .setRefinements(asList(new RefinementValue().setValue("Pink"))));
-
+                new Navigation().setName("simpleColorDesc").setDisplayName("Color").setRange(false).setRefinements(
+                        asList(new RefinementValue().setValue("Pink"))));
 
         String url = UrlFunctions.toUrlAdd(
-                DEFAULT_BEAUTIFIER, "", navigations, "product", new RefinementValue().setValue("Clothing Box").setCount(87));
-        assertEquals("/index.html?refinements=%7Egender%3DWomen%7EsimpleColorDesc%3DPink%7Eproduct%3DClothing+Box", url);
+                DEFAULT_BEAUTIFIER, "", navigations, "product", new RefinementValue().setValue("Clothing Box").setCount(
+                        87));
+        assertEquals(
+                "/index.html?refinements=%7Egender%3DWomen%7EsimpleColorDesc%3DPink%7Eproduct%3DClothing+Box", url);
     }
 }
