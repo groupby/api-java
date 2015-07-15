@@ -26,7 +26,7 @@ public class AbstractQueryTest {
     @Test
     public void splitTestNoCategory () {
         String [] split = query.splitRefinements("~gender=Women~simpleColorDesc=Pink~product=Clothing");
-        assertArrayEquals(new String[]{"", "gender=Women", "simpleColorDesc=Pink", "product=Clothing"}, split);
+        assertArrayEquals(new String[]{"gender=Women", "simpleColorDesc=Pink", "product=Clothing"}, split);
     }
 
     @Test
@@ -34,8 +34,7 @@ public class AbstractQueryTest {
         String[] split = query.splitRefinements("~category_leaf_expanded=Category Root~Athletics~Men's~Sneakers");
 
         assertArrayEquals(
-                new String[]{
-                        "", "category_leaf_expanded=Category Root~Athletics~Men's~Sneakers"}, split);
+                new String[]{"category_leaf_expanded=Category Root~Athletics~Men's~Sneakers"}, split);
     }
 
     @Test
@@ -43,8 +42,7 @@ public class AbstractQueryTest {
         String[] split = query.splitRefinements("~category_leaf_expanded=Category Root~Athletics~Men's~Sneakers~category_leaf_id=580003");
 
         assertArrayEquals(
-                new String[]{
-                        "", "category_leaf_expanded=Category Root~Athletics~Men's~Sneakers", "category_leaf_id=580003"}, split);
+                new String[]{"category_leaf_expanded=Category Root~Athletics~Men's~Sneakers", "category_leaf_id=580003"}, split);
     }
 
     @Test
@@ -66,8 +64,7 @@ public class AbstractQueryTest {
         String [] split = query.splitRefinements(reallyLongString);
 
         assertArrayEquals(
-                new String[]{
-                        "", "category_leaf_expanded=Category Root~Athletics~Men's~Sneakers", "category_leaf_id=580003",
+                new String[]{"category_leaf_expanded=Category Root~Athletics~Men's~Sneakers", "category_leaf_id=580003",
                         "color=BLUE", "color=YELLOW", "color=GREY", "feature=Lace Up", "feature=Light Weight",
                         "brand=Nike"
                 },

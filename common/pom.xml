@@ -37,6 +37,12 @@
       <version>${groupbyinc.common.version}</version>
       <optional>true</optional>
     </dependency>
+    <dependency>
+      <groupId>net.sourceforge.jregex</groupId>
+      <artifactId>jregex</artifactId>
+      <version>${jregex.version}</version>
+    </dependency>
+
 
     <!-- ### Test -->
     <dependency>

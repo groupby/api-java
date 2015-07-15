@@ -7,14 +7,16 @@ import com.groupbyinc.api.model.Sort;
 import com.groupbyinc.api.model.refinement.RefinementRange;
 import com.groupbyinc.api.model.refinement.RefinementValue;
 import com.groupbyinc.api.parser.Mappers;
-import com.groupbyinc.api.request.RefinementsRequest;
 import com.groupbyinc.api.request.AbstractRequest;
+import com.groupbyinc.api.request.RefinementsRequest;
 import com.groupbyinc.api.request.RestrictNavigation;
 import com.groupbyinc.api.request.SelectedRefinement;
 import com.groupbyinc.api.request.refinement.SelectedRefinementRange;
 import com.groupbyinc.api.request.refinement.SelectedRefinementValue;
 import com.groupbyinc.common.util.collections4.CollectionUtils;
 import com.groupbyinc.common.util.lang3.StringUtils;
+import jregex.Pattern;
+import jregex.RETokenizer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -337,10 +339,12 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
         return requestToJson(request);
     }
 
-    protected String [] splitRefinements(String refinementString) {
-        if(StringUtils.isNotBlank(refinementString)) {
-            return refinementString.split(TILDE_REGEX);
-        }
+    protected String[] splitRefinements(String refinementString) {
+        if (StringUtils.isNotBlank(refinementString)) {
+            Pattern pattern = new Pattern(TILDE_REGEX);
+            RETokenizer tokenizer = pattern.tokenizer(refinementString);
+            return tokenizer.split();
+        }   
         return new String[]{};
     }
 
