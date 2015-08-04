@@ -15,7 +15,6 @@ import java.util.List;
  * - `id`: an MD5 hash of the name.
  * - `name`: the name of the metadata used to create this dynamic navigation option.
  * - `displayName`: the human digestible version of this name.
- * - `type`: the facet type, values of date, float, int, string.
  * - `range`: true if the navigation option is a range.
  * - `or`: true if the navigation option supports or-queries.
  * - `refinements`: A list of the refinement values for this dynamic navigation
@@ -26,10 +25,6 @@ import java.util.List;
  * @author will
  */
 public class Navigation {
-    public enum Type {
-        Date, Float, Integer, String, Range_Date, Range_Integer, Range_Float // NOSONAR
-    }
-
     public enum Sort {
         Count_Ascending, Count_Descending, Value_Ascending, Value_Descending // NOSONAR
     }
@@ -40,7 +35,6 @@ public class Navigation {
     private String displayName;
     private boolean range = false;
     private boolean or = false;
-    private Type type;
     private Sort sort;
 
     @JsonInclude(value = JsonInclude.Include.NON_DEFAULT)
@@ -165,30 +159,6 @@ public class Navigation {
      */
     public Navigation setOr(boolean or) {
         this.or = or;
-        return this;
-    }
-
-    /**
-     * <code>
-     * Will return one of the following types:
-     *
-     *     Date, Float, Integer, String
-     *     Range_Date, Range_Integer, Range_Float
-     *
-     * </code>
-     *
-     * @return The type of navigation.
-     */
-    public Type getType() {
-        return type;
-    }
-
-    /**
-     * @param type Set the type of navigation.
-     * @return
-     */
-    public Navigation setType(Type type) {
-        this.type = type;
         return this;
     }
 
