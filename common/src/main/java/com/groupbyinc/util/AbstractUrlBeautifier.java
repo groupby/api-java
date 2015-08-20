@@ -65,15 +65,15 @@ public abstract class AbstractUrlBeautifier<RQ extends AbstractRequest<RQ>, Q ex
      */
     public String toUrl(String searchString, String existingRefinements) throws UrlBeautificationException {
         StringBuilder pathSegmentLookup = new StringBuilder("/");
-        Q pQuery = createQuery();
+        Q query = createQuery();
         if (StringUtils.isNotBlank(searchString)) {
-            pQuery.setQuery(searchString);
+            query.setQuery(searchString);
         }
         URIBuilder uri = new URIBuilder();
         uri.setPath("");
-        pQuery.addRefinementsByString(existingRefinements);
-        Map<String, Navigation> navigations = getDistinctRefinements(pQuery);
-        addRefinements(pQuery.getQuery(), navigations, pathSegmentLookup, uri);
+        query.addRefinementsByString(existingRefinements);
+        Map<String, Navigation> navigations = getDistinctRefinements(query);
+        addRefinements(query.getQuery(), navigations, pathSegmentLookup, uri);
         addReferenceBlock(pathSegmentLookup, uri);
         addAppend(uri);
         addUnmappedRefinements(navigations, uri);
