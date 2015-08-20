@@ -32,7 +32,7 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
     private static final String DOTS = "\\.\\.";
 
     // matches a tilde separated string
-    public static final String TILDE_REGEX = "~((?=[\\w]*[=:]))";
+    public static final String TILDE_REGEX = "~((?=[\\w.]*[=:]))";
 
     private static <R extends AbstractRequest<R>> String requestToJson(R request) {
         try {

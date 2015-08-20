@@ -9,11 +9,10 @@ import org.junit.Test;
 
 import javax.servlet.jsp.JspException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -35,7 +34,30 @@ public class UrlFunctionsTest {
     }
 
     @Test
-    public void refinementAdditionWithMapping() throws JspException, AbstractUrlBeautifier.UrlBeautificationException {
+    public void testNestedRefinementAdditionWithMapping()
+            throws JspException, AbstractUrlBeautifier.UrlBeautificationException {
+
+        urlBeautifier.addRefinementMapping('t', "product.title");
+
+        String url = UrlFunctions.toUrlAdd(
+                DEFAULT_BEAUTIFIER, "", new ArrayList<Navigation>(), "product.title", new RefinementValue().setValue(
+                        "Civil War").setCount(87));
+        assertEquals("/Civil+War/t/index.html", url);
+    }
+
+    @Test
+    public void testNestedRefinementAdditionWithoutMapping()
+            throws JspException, AbstractUrlBeautifier.UrlBeautificationException {
+
+        String url = UrlFunctions.toUrlAdd(
+                DEFAULT_BEAUTIFIER, "", new ArrayList<Navigation>(), "product.title", new RefinementValue().setValue(
+                        "Civil War").setCount(87));
+        assertEquals("/index.html?refinements=%7Eproduct.title%3DCivil+War", url);
+    }
+
+    @Test
+    public void testRefinementAdditionWithMapping()
+            throws JspException, AbstractUrlBeautifier.UrlBeautificationException {
         // http://localhost:8888/nikepoc/Women/Pink/gc/index.html?refinements=~product=Clothing&language=
         // http://localhost:8888/nikepoc/Women/Clothing/Pink/gtc/index.html
 
@@ -49,11 +71,11 @@ public class UrlFunctionsTest {
         List<Navigation> navigations = new ArrayList<Navigation>();
         navigations.add(
                 new Navigation().setName("gender").setDisplayName("Gender").setRange(false).setRefinements(
-                        asList(new RefinementValue().setValue("Women"))));
+                        singletonList(new RefinementValue().setValue("Women"))));
 
         navigations.add(
                 new Navigation().setName("simpleColorDesc").setDisplayName("Color").setRange(false).setRefinements(
-                        asList(new RefinementValue().setValue("Pink"))));
+                        singletonList(new RefinementValue().setValue("Pink"))));
 
         String url = UrlFunctions.toUrlAdd(
                 DEFAULT_BEAUTIFIER, "", navigations, "product", new RefinementValue().setValue("Clothing").setCount(
@@ -62,7 +84,7 @@ public class UrlFunctionsTest {
     }
 
     @Test
-    public void refinementAdditionWithMappingMulti()
+    public void testRefinementAdditionWithMappingMulti()
             throws JspException, AbstractUrlBeautifier.UrlBeautificationException {
         // http://localhost:8888/nikepoc/Women/Pink/gc/index.html?refinements=~product=Clothing&language=
         // http://localhost:8888/nikepoc/Women/Clothing/Pink/gtc/index.html
@@ -84,7 +106,7 @@ public class UrlFunctionsTest {
 
         navigations.add(
                 new Navigation().setName("simpleColorDesc").setDisplayName("Color").setRange(false).setRefinements(
-                        Collections.singletonList(new RefinementValue().setValue("Pink"))));
+                        singletonList(new RefinementValue().setValue("Pink"))));
 
         String url = UrlFunctions.toUrlAdd(
                 DEFAULT_BEAUTIFIER, "", navigations, "gender", new RefinementValue().setValue("Men").setCount(87));
@@ -96,15 +118,15 @@ public class UrlFunctionsTest {
     }
 
     @Test
-    public void refinementAdditionWithoutMapping() throws JspException {
+    public void testRefinementAdditionWithoutMapping() throws JspException {
         List<Navigation> navigations = new ArrayList<Navigation>();
         navigations.add(
                 new Navigation().setName("gender").setDisplayName("Gender").setRange(false).setRefinements(
-                        asList(new RefinementValue().setValue("Women"))));
+                        singletonList(new RefinementValue().setValue("Women"))));
 
         navigations.add(
                 new Navigation().setName("simpleColorDesc").setDisplayName("Color").setRange(false).setRefinements(
-                        asList(new RefinementValue().setValue("Pink"))));
+                        singletonList(new RefinementValue().setValue("Pink"))));
 
         String url = UrlFunctions.toUrlAdd(
                 DEFAULT_BEAUTIFIER, "", navigations, "product", new RefinementValue().setValue("Clothing").setCount(
@@ -113,15 +135,15 @@ public class UrlFunctionsTest {
     }
 
     @Test
-    public void refinementAdditionWithoutMappingAndSpace() throws JspException {
+    public void testRefinementAdditionWithoutMappingAndSpace() throws JspException {
         List<Navigation> navigations = new ArrayList<Navigation>();
         navigations.add(
                 new Navigation().setName("gender").setDisplayName("Gender").setRange(false).setRefinements(
-                        asList(new RefinementValue().setValue("Women"))));
+                        singletonList(new RefinementValue().setValue("Women"))));
 
         navigations.add(
                 new Navigation().setName("simpleColorDesc").setDisplayName("Color").setRange(false).setRefinements(
-                        asList(new RefinementValue().setValue("Pink"))));
+                        singletonList(new RefinementValue().setValue("Pink"))));
 
         String url = UrlFunctions.toUrlAdd(
                 DEFAULT_BEAUTIFIER, "", navigations, "product", new RefinementValue().setValue("Clothing Box").setCount(
