@@ -21,6 +21,7 @@ import com.groupbyinc.common.jackson.module.afterburner.AfterburnerModule;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 public class Mappers {
@@ -98,9 +99,8 @@ public class Mappers {
 
     public static byte[] writeValueAsBytes(Object object, boolean binary, boolean pretty) {
         try {
-            ObjectWriter w = getWriter(binary, pretty);
             if (pretty && !binary) {
-                return (w.writeValueAsString(object) + DefaultIndenter.SYS_LF).getBytes();
+                return writeValueAsString(object, true).getBytes(StandardCharsets.UTF_8);
             } else {
                 return getWriter(binary, pretty).writeValueAsBytes(object);
             }

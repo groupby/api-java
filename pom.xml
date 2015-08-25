@@ -42,7 +42,7 @@
     <api.jsp.version>2.1</api.jsp.version>
     <junit.version>4.12</junit.version>
     <cloning.util.version>1.9.2</cloning.util.version>
-    <groupbyinc.common.version>24</groupbyinc.common.version>
+    <groupbyinc.common.version>28</groupbyinc.common.version>
     <jregex.version>1.2_01</jregex.version>
 
     <!-- ### Test -->
