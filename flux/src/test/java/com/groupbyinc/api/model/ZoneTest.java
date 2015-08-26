@@ -1,7 +1,7 @@
 package com.groupbyinc.api.model;
 
 import com.groupbyinc.api.model.zone.RecordZone;
-import com.groupbyinc.api.parser.Mappers;
+import com.groupbyinc.utils.Mappers;
 import org.junit.Test;
 
 import java.util.ArrayList;

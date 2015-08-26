@@ -2,8 +2,8 @@ package com.groupbyinc.api.model;
 
 import com.groupbyinc.api.model.refinement.RefinementRange;
 import com.groupbyinc.api.model.refinement.RefinementValue;
-import com.groupbyinc.api.parser.Mappers;
 import com.groupbyinc.test.util.AssertUtils;
+import com.groupbyinc.utils.Mappers;
 import org.junit.Test;
 
 import static java.util.Arrays.asList;

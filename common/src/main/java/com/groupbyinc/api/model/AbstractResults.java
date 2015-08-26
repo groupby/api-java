@@ -1,8 +1,8 @@
 package com.groupbyinc.api.model;
 
-import com.groupbyinc.api.parser.Mappers;
 import com.groupbyinc.common.jackson.annotation.JsonIgnore;
 import com.groupbyinc.common.jackson.core.JsonProcessingException;
+import com.groupbyinc.utils.Mappers;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -3,7 +3,6 @@ package com.groupbyinc.api;
 import com.groupbyinc.api.model.AbstractResults;
 import com.groupbyinc.api.model.BaseResults;
 import com.groupbyinc.api.model.RefinementsResult;
-import com.groupbyinc.api.parser.Mappers;
 import com.groupbyinc.common.http.HttpRequestInterceptor;
 import com.groupbyinc.common.http.HttpResponseInterceptor;
 import com.groupbyinc.common.http.client.protocol.RequestAcceptEncoding;
@@ -12,6 +11,7 @@ import com.groupbyinc.common.http.impl.client.CloseableHttpClient;
 import com.groupbyinc.common.http.impl.execchain.ClientExecChain;
 import com.groupbyinc.common.http.impl.execchain.RetryExec;
 import com.groupbyinc.common.http.protocol.ImmutableHttpProcessor;
+import com.groupbyinc.utils.Mappers;
 import org.junit.Test;
 
 import java.io.IOException;

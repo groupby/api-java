@@ -6,7 +6,6 @@ import com.groupbyinc.api.model.Refinement;
 import com.groupbyinc.api.model.Sort;
 import com.groupbyinc.api.model.refinement.RefinementRange;
 import com.groupbyinc.api.model.refinement.RefinementValue;
-import com.groupbyinc.api.parser.Mappers;
 import com.groupbyinc.api.request.AbstractRequest;
 import com.groupbyinc.api.request.RefinementsRequest;
 import com.groupbyinc.api.request.RestrictNavigation;
@@ -15,6 +14,7 @@ import com.groupbyinc.api.request.refinement.SelectedRefinementRange;
 import com.groupbyinc.api.request.refinement.SelectedRefinementValue;
 import com.groupbyinc.common.util.collections4.CollectionUtils;
 import com.groupbyinc.common.util.lang3.StringUtils;
+import com.groupbyinc.utils.Mappers;
 import jregex.Pattern;
 import jregex.RETokenizer;
 
