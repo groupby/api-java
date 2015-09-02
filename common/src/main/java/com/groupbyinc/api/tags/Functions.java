@@ -1,6 +1,11 @@
 package com.groupbyinc.api.tags;
 
+import com.groupbyinc.api.model.AbstractResults;
+import com.groupbyinc.api.model.Navigation;
+import com.groupbyinc.api.model.Refinement;
+import com.groupbyinc.api.model.refinement.RefinementValue;
 import com.groupbyinc.common.util.codec.digest.DigestUtils;
+import com.groupbyinc.common.util.collections4.CollectionUtils;
 import com.groupbyinc.common.util.lang3.StringEscapeUtils;
 import com.groupbyinc.common.util.lang3.StringUtils;
 
@@ -27,14 +32,14 @@ public class Functions {
 
     public static String md5(String value) {
         if (value == null) {
-            return "";
+            return StringUtils.EMPTY;
         }
         return DigestUtils.md5Hex(value);
     }
 
     public static String replaceAll(String haystack, String needle, String newNeedle) {
         if (haystack == null) {
-            return "";
+            return StringUtils.EMPTY;
         }
         if (needle == null) {
             return haystack;
@@ -51,7 +56,7 @@ public class Functions {
 
     public static String epochToIso(String value) {
         if (value == null || value.trim().length() == 0) {
-            return "";
+            return StringUtils.EMPTY;
         }
         return ISO_DATE.format(new Date(Long.parseLong(value)));
     }
@@ -87,5 +92,28 @@ public class Functions {
         }
         Collections.reverse(copy);
         return copy;
+    }
+
+    public static boolean isRefinementSelected(AbstractResults<?, ?> results, String navigationName, String value) {
+        if (StringUtils.isEmpty(navigationName) || StringUtils.isEmpty(value)) {
+            return false;
+        } else if (CollectionUtils.isEmpty(results.getSelectedNavigation())) {
+            return false;
+        }
+
+        for (Navigation n : results.getSelectedNavigation()) {
+            if (navigationName.equals(n.getName())) {
+                if (n.isRange()) {
+                    return false;
+                }
+                for (Refinement r : n.getRefinements()) {
+                    RefinementValue rv = (RefinementValue) r;
+                    if (value.equals(rv.getValue())) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }

@@ -69,4 +69,12 @@
         <function-class>com.groupbyinc.api.tags.Functions</function-class>
         <function-signature>java.lang.String epochToIso(java.lang.String)</function-signature>
     </function>
+    <function>
+        <description>
+            Check if refinement value is selected
+        </description>
+        <name>isRefinementSelected</name>
+        <function-class>com.groupbyinc.api.tags.Functions</function-class>
+        <function-signature>boolean isRefinementSelected(com.groupbyinc.api.model.AbstractResults, java.lang.String, java.lang.String)</function-signature>
+    </function>
 </taglib>
