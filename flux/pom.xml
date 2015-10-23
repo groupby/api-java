@@ -42,9 +42,7 @@
               <shadedClassifierName>uber</shadedClassifierName>
               <createSourcesJar>true</createSourcesJar>
               <createDependencyReducedPom>true</createDependencyReducedPom>
-              <dependencyReducedPomLocation>
-                ${project.build.directory}/${project.build.finalName}.pom
-              </dependencyReducedPomLocation>
+              <dependencyReducedPomLocation>${project.build.directory}/${project.build.finalName}.pom</dependencyReducedPomLocation>
               <artifactSet>
                 <includes>
                   <include>${project.groupId}:*</include>
@@ -55,7 +53,7 @@
                   <artifact>${project.groupId}:${project.parent.artifactId}-common</artifact>
                   <includes>
                     <include>com/groupbyinc/**</include>
-                    <include>META-INF/**</include>
+                    <include>META-INF/commerce.tld</include>
                   </includes>
                 </filter>
               </filters>
