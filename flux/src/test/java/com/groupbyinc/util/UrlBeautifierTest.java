@@ -3,20 +3,21 @@ package com.groupbyinc.util;
 import com.groupbyinc.api.Query;
 import com.groupbyinc.api.model.Navigation;
 import com.groupbyinc.api.model.refinement.RefinementValue;
-import com.groupbyinc.common.util.lang3.StringUtils;
+import com.groupbyinc.common.util.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public class UrlBeautifierTest {
+
     private UrlBeautifier test;
 
     @Before
@@ -132,7 +133,7 @@ public class UrlBeautifierTest {
         try {
             assertEquals("/bob/t?refinements=%7Eprice%3A10..20", test.toUrl(null, "test=bob~price:10..20"));
             fail("Should throw exception if trying to map range");
-        }catch (AbstractUrlBeautifier.UrlBeautificationException e) {
+        } catch (AbstractUrlBeautifier.UrlBeautificationException e) {
             //expected
         }
     }
@@ -677,4 +678,5 @@ public class UrlBeautifierTest {
             assertEquals(refinements[i], ((RefinementValue) navigations.get(i).getRefinements().get(0)).getValue());
         }
     }
+
 }

@@ -1,7 +1,7 @@
 package com.groupbyinc.api.model;
 
 import com.groupbyinc.common.jackson.annotation.JsonIgnore;
-import com.groupbyinc.common.util.collections4.CollectionUtils;
+import com.groupbyinc.common.util.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +11,7 @@ import java.util.List;
  * @internal
  */
 public class MatchStrategy {
+
     private List<PartialMatchRule> rules = new ArrayList<PartialMatchRule>();
 
     public List<PartialMatchRule> getRules() {
@@ -27,4 +28,5 @@ public class MatchStrategy {
         CollectionUtils.addAll(this.rules, rules);
         return this;
     }
+
 }

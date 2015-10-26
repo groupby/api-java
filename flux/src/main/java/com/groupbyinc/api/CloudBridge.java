@@ -8,7 +8,7 @@ import com.groupbyinc.api.request.Request;
 import com.groupbyinc.common.jackson.core.Version;
 import com.groupbyinc.common.jackson.databind.Module;
 import com.groupbyinc.common.jackson.databind.module.SimpleModule;
-import com.groupbyinc.utils.Mappers;
+import com.groupbyinc.common.jackson.util.Mappers;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,11 +19,11 @@ import java.io.InputStream;
  * that the documentation server can handle more than two levels of inheritance
  * ==============================================================================
  *
- * Created by groupby on 24/11/14.
+ * @author Ben Teichman
  */
 public class CloudBridge extends AbstractBridge<Request, Query, Record, Results> {
-    public static Module RECORD_MAPPER = new SimpleModule("RecordModule", new Version(1, 0, 0, null, null, null))
-            .addAbstractTypeMapping(AbstractRecord.class, Record.class);
+
+    public static Module RECORD_MAPPER = new SimpleModule("RecordModule", new Version(1, 0, 0, null, null, null)).addAbstractTypeMapping(AbstractRecord.class, Record.class);
     private static final String DOT = ".";
     private static final String CLOUD_HOST = "groupbycloud.com";
     private static final int CLOUD_PORT = 443;
@@ -33,12 +33,9 @@ public class CloudBridge extends AbstractBridge<Request, Query, Record, Results>
     /**
      * <code>
      * Constructor to create a bridge object that connects to the search api.
-     *
      * JSON Reference:
-     *
      * The key as found in your key management page in the command center
-     *
-     *     {"clientKey": "--clientKey--"}
+     * {"clientKey": "--clientKey--"}
      * </code>
      *
      * @param clientKey
@@ -64,17 +61,21 @@ public class CloudBridge extends AbstractBridge<Request, Query, Record, Results>
     /**
      * <code>
      * Connects to the refinements service, parses the response into a model
-     *
      * Retrieves at most 10,000 refinements for the navigation specified.
      * </code>
      *
-     * @param query A query representing the search.
-     * @param navigationName The name of the navigation to get more refinements for.
+     * @param query
+     *         A query representing the search.
+     * @param navigationName
+     *         The name of the navigation to get more refinements for.
+     *
      * @return RefinementsResult object from the refinements service
+     *
      * @throws IOException
      */
     @Override
     public RefinementsResult refinements(Query query, String navigationName) throws IOException {
         return super.refinements(query, navigationName);
     }
+
 }

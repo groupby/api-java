@@ -8,14 +8,14 @@ import com.groupbyinc.api.request.Request;
 import com.groupbyinc.common.jackson.core.Version;
 import com.groupbyinc.common.jackson.databind.Module;
 import com.groupbyinc.common.jackson.databind.module.SimpleModule;
-import com.groupbyinc.utils.Mappers;
+import com.groupbyinc.common.jackson.util.Mappers;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 public class Bridge extends AbstractBridge<Request, Query, Record, Results> {
-    public static Module RECORD_MAPPER = new SimpleModule("RecordModule", new Version(1, 0, 0, null, null, null))
-            .addAbstractTypeMapping(AbstractRecord.class, Record.class);
+
+    public static Module RECORD_MAPPER = new SimpleModule("RecordModule", new Version(1, 0, 0, null, null, null)).addAbstractTypeMapping(AbstractRecord.class, Record.class);
 
     public Bridge(String clientKey, String bridgeHost, int bridgePort) {
         this(clientKey, bridgeHost, bridgePort, false);
@@ -45,8 +45,11 @@ public class Bridge extends AbstractBridge<Request, Query, Record, Results> {
      * into a model
      * </code>
      *
-     * @param query A query to send to the search service
+     * @param query
+     *         A query to send to the search service
+     *
      * @return Results object from the bridge
+     *
      * @throws IOException
      */
     public Results searchCluster(Query query) throws IOException {
@@ -54,4 +57,5 @@ public class Bridge extends AbstractBridge<Request, Query, Record, Results> {
                 getClusterBridgeUrl(), query.getBridgeJson(clientKey), query.isReturnBinary());
         return map(response, query.isReturnBinary());
     }
+
 }

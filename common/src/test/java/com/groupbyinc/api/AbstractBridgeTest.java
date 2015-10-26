@@ -11,7 +11,7 @@ import com.groupbyinc.common.http.impl.client.CloseableHttpClient;
 import com.groupbyinc.common.http.impl.execchain.ClientExecChain;
 import com.groupbyinc.common.http.impl.execchain.RetryExec;
 import com.groupbyinc.common.http.protocol.ImmutableHttpProcessor;
-import com.groupbyinc.utils.Mappers;
+import com.groupbyinc.common.jackson.util.Mappers;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -23,6 +23,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class AbstractBridgeTest {
+
     protected String clientKey = "clientKey";
 
     @Test
@@ -131,8 +132,8 @@ public class AbstractBridgeTest {
             bridge.handleErrorStatus(status, content.getBytes(), false);
         } catch (IOException e) {
             assertEquals("Exception from bridge: status\n" +
-                    "body:\n" +
-                    "non-json error message", e.getMessage());
+                         "body:\n" +
+                         "non-json error message", e.getMessage());
         }
 
         byte[] bytes = new byte[]{0x38, 0x29, 0x49};
@@ -140,8 +141,8 @@ public class AbstractBridgeTest {
             bridge.handleErrorStatus(status, bytes, false);
         } catch (IOException e) {
             assertEquals("Exception from bridge: status\n" +
-                    "body:\n" +
-                    "8)I", e.getMessage());
+                         "body:\n" +
+                         "8)I", e.getMessage());
         }
     }
 
@@ -202,4 +203,5 @@ public class AbstractBridgeTest {
         }
         return foundRequestAcceptEncoding;
     }
+
 }

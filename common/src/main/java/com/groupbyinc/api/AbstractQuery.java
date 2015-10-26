@@ -12,9 +12,9 @@ import com.groupbyinc.api.request.RestrictNavigation;
 import com.groupbyinc.api.request.SelectedRefinement;
 import com.groupbyinc.api.request.refinement.SelectedRefinementRange;
 import com.groupbyinc.api.request.refinement.SelectedRefinementValue;
-import com.groupbyinc.common.util.collections4.CollectionUtils;
-import com.groupbyinc.common.util.lang3.StringUtils;
-import com.groupbyinc.utils.Mappers;
+import com.groupbyinc.common.jackson.util.Mappers;
+import com.groupbyinc.common.util.apache.commons.collections4.CollectionUtils;
+import com.groupbyinc.common.util.apache.commons.lang3.StringUtils;
 import jregex.Pattern;
 import jregex.RETokenizer;
 
@@ -25,10 +25,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author will
+ * @author Will Warren
  * @internal
  */
 public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends AbstractQuery<R, Q>> {
+
     private static final String DOTS = "\\.\\.";
 
     // matches a tilde separated string
@@ -149,7 +150,9 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
      * Used internally by the bridge object to generate the JSON that is sent to the search service.
      * </code>
      *
-     * @param clientKey The client key used to authenticate this request.
+     * @param clientKey
+     *         The client key used to authenticate this request.
+     *
      * @return A JSON representation of this query object.
      */
     public String getBridgeJson(String clientKey) {
@@ -162,7 +165,9 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
      * Used internally by the bridge object to generate the JSON that is sent to the search service.
      * </code>
      *
-     * @param clientKey The client key used to authenticate this request.
+     * @param clientKey
+     *         The client key used to authenticate this request.
+     *
      * @return A JSON representation of this query object.
      */
     public String getBridgeRefinementsJson(String clientKey, String navigationName) {
@@ -191,14 +196,13 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
     /**
      * <code>
      * Set a search string. If query is blank all records are considered.
-     *
      * JSON Reference:
-     *
-     *     { "query": "gloves" }
-     *
+     * { "query": "gloves" }
      * </code>
      *
-     * @param query The search term to fire against the engine
+     * @param query
+     *         The search term to fire against the engine
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -208,18 +212,21 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
     }
 
     /**
-     * @deprecated since 2.0, use getCollection instead.
      * @return The data collection
+     *
+     * @deprecated since 2.0, use getCollection instead.
      */
     public String getSubCollection() {
         return collection;
     }
 
     /**
-     * @deprecated since 2.0, use setCollection instead.
+     * @param subCollection
+     *         The string representation of a collection query.
      *
-     * @param subCollection The string representation of a collection query.
      * @return
+     *
+     * @deprecated since 2.0, use setCollection instead.
      */
     @SuppressWarnings("unchecked")
     public Q setSubCollection(String subCollection) {
@@ -238,19 +245,16 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
      * <code>
      * The collection to use.  If you have uploaded additional data into collections apart from the default
      * collection using the stream tool, you can access them by specifying them here.
-     *
      * You can also search across multiple collections.  To search across FAQs and Manuals you would do
-     *
-     *     "FAQs|Manuals"
-     *
+     * "FAQs|Manuals"
      * JSON Reference:
-     *
-     *     { "collection": "FAQs" }
-     *     { "collection": "FAQs|Manuals" }
-     *
+     * { "collection": "FAQs" }
+     * { "collection": "FAQs|Manuals" }
      * </code>
      *
-     * @param collection The string representation of a collection query.
+     * @param collection
+     *         The string representation of a collection query.
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -270,13 +274,13 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
      * <code>
      * The area you wish to fire against, production, staging, etc...
      * If blank, the default production area will be used.
-     *
      * JSON Reference:
-     *
-     *     { "area": "Development" }
+     * { "area": "Development" }
      * </code>
      *
-     * @param area The area name.
+     * @param area
+     *         The area name.
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -326,8 +330,11 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
     }
 
     /**
-     * @param clientKey Your client key
+     * @param clientKey
+     *         Your client key
+     *
      * @return
+     *
      * @internal
      */
     protected String getBridgeJsonRefinementSearch(String clientKey) {
@@ -344,7 +351,7 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
             Pattern pattern = new Pattern(TILDE_REGEX);
             RETokenizer tokenizer = pattern.tokenizer(refinementString);
             return tokenizer.split();
-        }   
+        }
         return new String[]{};
     }
 
@@ -352,14 +359,13 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
      * <code>
      * A helper method to parse and set refinements.
      * If you pass in refinements of the format
-     *
-     *     Brand=Bose~price:20..80
-     *
+     * Brand=Bose~price:20..80
      * The query object will correctly parse out the refinements.
-     *
      * </code>
      *
-     * @param refinementString A tilde separated list of refinements
+     * @param refinementString
+     *         A tilde separated list of refinements
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -404,13 +410,13 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
 
     /**
      * <code>
-     *
      * Sets any additional parameters that can be used to trigger rules.
      * Takes a CustomUrlParam object.
-     *
      * </code>
      *
-     * @param customUrlParam The parameter to add
+     * @param customUrlParam
+     *         The parameter to add
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -421,21 +427,18 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
 
     /**
      * <code>
-     *
      * Sets any additional parameters that can be used to trigger rules.
      * Takes a name and a value.
-     *
      * JSON Reference:
-     *
      * Custom URL parameters separated by ~ in the form:
-     *
-     *     { "customUrlParams": [ { "key": "region", "value": "east" } ] }
-     *
-     *
+     * { "customUrlParams": [ { "key": "region", "value": "east" } ] }
      * </code>
      *
-     * @param key   The parameter key
-     * @param value The parameter value
+     * @param key
+     *         The parameter key
+     * @param value
+     *         The parameter value
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -446,13 +449,13 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
 
     /**
      * <code>
-     *
      * Helper method that takes a ~ separated string of additional parameters that can be
      * used to trigger rules. Takes ~ separated name/value list
-     *
      * </code>
      *
-     * @param values The list of name/values
+     * @param values
+     *         The list of name/values
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -494,14 +497,13 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
      * Specify which fields should be returned on each record that comes back from the engine. You may specify more
      * than one field, if you specify <b>*</b> all fields will be returned.
      * If this parameter is blank the search service will return no attributes with the records.
-     *
      * JSON Reference:
-     *
-     *     { "fields": [ "width", "brand", "height" ] }
-     *
+     * { "fields": [ "width", "brand", "height" ] }
      * </code>
      *
-     * @param name The case-sensitive name of the attribute to return
+     * @param name
+     *         The case-sensitive name of the attribute to return
+     *
      * @return
      */
     public Q addFields(String... name) {
@@ -518,21 +520,18 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
     /**
      * <code>
      * Specify which fields should be queried with 'OR' instead of the default 'AND'.
-     *
      * This behavior is typically defined in command center on a per navigation basis.  However,
      * you can set which fields should be treated as an OR field at the query level if desired.
-     *
      * As with normal refinement selections, once you have refined, the list of refinements for
      * that selected navigation will no longer be returned.
-     *
      * JSON Reference:
-     *
-     *     { "orFields": [ "field1", "field2" ] }
-     *
+     * { "orFields": [ "field1", "field2" ] }
      * </code>
      *
-     * @param name The field that should be treated as OR by the search service before
-     *              being executed.
+     * @param name
+     *         The field that should be treated as OR by the search service before
+     *         being executed.
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -543,12 +542,15 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
     /**
      * <code>
      * Add a range refinement.  Takes a refinement name, a lower and upper bounds.
-     *
      * </code>
      *
-     * @param navigationName The name of the refinement
-     * @param low  The low value
-     * @param high The high value
+     * @param navigationName
+     *         The name of the refinement
+     * @param low
+     *         The low value
+     * @param high
+     *         The high value
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -560,13 +562,17 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
      * <code>
      * Add a range refinement.  Takes a refinement name, a lower and upper bounds, and whether or not to exclude
      * this refinement.
-     *
      * </code>
      *
-     * @param navigationName The name of the refinement
-     * @param low  The low value
-     * @param high The high value
-     * @param exclude True if the results should exclude this range refinement, false otherwise
+     * @param navigationName
+     *         The name of the refinement
+     * @param low
+     *         The low value
+     * @param high
+     *         The high value
+     * @param exclude
+     *         True if the results should exclude this range refinement, false otherwise
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -577,11 +583,13 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
     /**
      * <code>
      * Add a value refinement.  Takes a refinement name and a value.
-     *
      * </code>
      *
-     * @param navigationName  The name of the navigation
-     * @param value The refinement value
+     * @param navigationName
+     *         The name of the navigation
+     * @param value
+     *         The refinement value
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -592,12 +600,15 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
     /**
      * <code>
      * Add a value refinement.  Takes a refinement name, a value, and whether or not to exclude this refinement.
-     *
      * </code>
      *
-     * @param navigationName  The name of the navigation
-     * @param value The refinement value
-     * @param exclude True if the results should exclude this value refinement, false otherwise
+     * @param navigationName
+     *         The name of the navigation
+     * @param value
+     *         The refinement value
+     * @param exclude
+     *         True if the results should exclude this value refinement, false otherwise
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -608,26 +619,22 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
     /**
      * <code>
      * Add a refinement.  Please note that refinements are case-sensitive
-     *
      * JSON Reference:
-     *
      * Value and range refinements are both appended to an array on the refinements field.
-     *
      * Note the 'type' field, which marks the refinement as either a value or range refinement.
-     *
-     *     { "refinements": [ {"type": "Range", "navigationName": "price", "low": "1.0", "high": "2.0"},
-     *                        {"type": "Value", "navigationName": "brand", "value": "Nike" } ] }
-     *
+     * { "refinements": [ {"type": "Range", "navigationName": "price", "low": "1.0", "high": "2.0"},
+     * {"type": "Value", "navigationName": "brand", "value": "Nike" } ] }
      * Refinements can be negated by setting the exclude property. An excluded refinement will return
      * results that do not match the value or fall into the range specified in the refinement.
-     *
-     *     { "refinements": [ {"type": "Range", "navigationName": "price", "low": "1.0", "high": "2.0", "exclude": true},
-     *                        {"type": "Value", "navigationName": "brand", "value": "Nike", "exclude": true } ] }
-     *
+     * { "refinements": [ {"type": "Range", "navigationName": "price", "low": "1.0", "high": "2.0", "exclude": true},
+     * {"type": "Value", "navigationName": "brand", "value": "Nike", "exclude": true } ] }
      * </code>
      *
-     * @param navigationName  The name of the refinement
-     * @param refinement The refinement to add
+     * @param navigationName
+     *         The name of the refinement
+     * @param refinement
+     *         The refinement to add
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -652,14 +659,13 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
     /**
      * <code>
      * Tell the search service to offset to the Nth record.
-     *
      * JSON Reference:
-     *
-     *     { "skip": 400 }
-     *
+     * { "skip": 400 }
      * </code>
      *
-     * @param skip The number of documents to skip
+     * @param skip
+     *         The number of documents to skip
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -678,14 +684,13 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
     /**
      * <code>
      * Page size.  Default is 10.
-     *
      * JSON Reference:
-     *
-     *     { "pageSize": 8 }
-     *
+     * { "pageSize": 8 }
      * </code>
      *
-     * @param pageSize The number of records to return with the query.
+     * @param pageSize
+     *         The number of records to return with the query.
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -712,16 +717,14 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
      * <code>
      * Tells the search service to return binary data. This is enabled by default in the APIs for more efficient transport.
      * To disable this in an API, set this to `false`.
-     *
      * JSON Reference:
-     *
      * If passed true, informs the search service to return binary data rather than JSON.
-     *
-     *     { "returnBinary": true }
-     *
+     * { "returnBinary": true }
      * </code>
      *
-     * @param returnBinary Whether to tell the search service to return binary data rather than JSON.
+     * @param returnBinary
+     *         Whether to tell the search service to return binary data rather than JSON.
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -741,15 +744,12 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
      * <code>
      * Override the biasing profile used for this query - takes precedence over any
      * biasing profile set in the command center.
-     *
      * JSON Reference:
-     *
-     *     { "biasingProfile": "PopularityBias" }
-     *
-     *
+     * { "biasingProfile": "PopularityBias" }
      * </code>
      *
      * @param biasingProfile
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -769,18 +769,15 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
      * <code>
      * Sets the language filter on the query and restricts the results to a certain language. If you do not specify a
      * language, english ("lang_en") will be considered the default. An unrecognized language will result in an error.
-     *
      * Currently supported languages are:
-     *
-     *     lang_en
-     *
+     * lang_en
      * JSON Reference:
-     *
-     *     { "language": "lang_en" }
-     *
+     * { "language": "lang_en" }
      * </code>
      *
-     * @param language The value for language restrict
+     * @param language
+     *         The value for language restrict
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -790,8 +787,9 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
     }
 
     /**
-     * @internal
      * @return Are refinements with zero counts being removed.
+     *
+     * @internal
      */
     public boolean isPruneRefinements() {
         return pruneRefinements;
@@ -802,18 +800,15 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
      * Specifies whether refinements should be pruned from
      * the available navigation.
      * A refinement is pruned if the number of results for that refinement is zero.
-     *
      * If all refinements from a navigation are pruned, that
      * navigation is also pruned.
      * Defaults to true
-     *
      * JSON Reference:
-     *
-     *     { pruneRefinements: false }
-     *
+     * { pruneRefinements: false }
      * </code>
      *
      * @param pruneRefinements
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -823,8 +818,9 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
     }
 
     /**
-     * @internal
      * @return Is the auto-correction behavior disabled
+     *
+     * @internal
      */
     public boolean isAutocorrectionDisabled() {
         return disableAutocorrection;
@@ -835,16 +831,13 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
      * Specifies whether the auto-correction behavior should be disabled. By default, when no results are returned
      * for the given query (and there is a did-you-mean available), the first did-you-mean is automatically queried
      * instead.
-     *
      * Defaults to false
-     *
      * JSON Reference:
-     *
-     *     { "disableAutocorrection": false }
-     *
+     * { "disableAutocorrection": false }
      * </code>
      *
      * @param disableAutocorrection
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -856,24 +849,18 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
     /**
      * <code>
      * <b>Warning</b>  This will count as two queries against your search index.
-     *
      * Typically, this feature is used when you have a large number of navigation items that will overwhelm the end
      * user. It works by using one of the existing navigation items to decide what the query is about and fires a second
      * query to restrict the navigation to the most relevant set of navigation items for this search term.
-     *
      * For example, if you pass in a search of `paper` and a restrict navigation of `category:2`
-     *
      * The bridge will find the category navigation refinements in the first query and fire a second query for the top 2
      * most populous categories.  Therefore, a search for something generic like "paper" will bring back top category
      * matches like copy paper (1,030), paper pads (567).  The bridge will fire off the second query with the search
      * term, plus an OR refinement with the most likely categories.  The navigation items in the first query are
      * entirely replaced with the navigation items in the second query, except for the navigation that was used for the
      * restriction so that users still have the ability to navigate by all category types.
-     *
      * JSON Reference:
-     *
-     *     { "restrictNavigation": { "name": "category", "count": 2 } }
-     *
+     * { "restrictNavigation": { "name": "category", "count": 2 } }
      * </code>
      *
      * @param restrictNavigation
@@ -889,13 +876,10 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
     /**
      * <code>
      * <b>Warning</b>  This will count as two queries against your search index.
-     *
      * Typically, this feature is used when you have a large number of navigation items that will overwhelm the end
      * user. It works by using one of the existing navigation items to decide what the query is about and fires a second
      * query to restrict the navigation to the most relevant set of navigation items for this search term.
-     *
      * For example, if you pass in a search of `paper` and a restrict navigation of `category:2`
-     *
      * The bridge will find the category navigation refinements in the first query and fire a second query for the top
      * 2 most populous categories.  Therefore, a search for something generic like "paper" will bring back top category
      * matches like copy paper (1,030), paper pads (567).  The bridge will fire off the second query with the search
@@ -904,12 +888,16 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
      * for the restriction so that users still have the ability to navigate by all category types.
      * </code>
      *
-     * @param name the name of the field should be used in the navigation restriction in the second query.
-     * @param count the number of fields matches
+     * @param name
+     *         the name of the field should be used in the navigation restriction in the second query.
+     * @param count
+     *         the number of fields matches
+     *
      * @return this query
      */
     public Q setRestrictNavigation(String name, int count) {
         this.restrictNavigation = new RestrictNavigation().setName(name).setCount(count);
         return (Q) this;
     }
+
 }

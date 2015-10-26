@@ -1,14 +1,11 @@
 package com.groupbyinc.util;
 
-import com.groupbyinc.common.util.lang3.StringUtils;
+import com.groupbyinc.common.util.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
 import static com.groupbyinc.util.UrlReplacement.OperationType;
 
-/**
- * Created by groupby on 9/12/14.
- */
 public class UrlReplacementRule {
 
     private String target;
@@ -46,4 +43,5 @@ public class UrlReplacementRule {
             }
         }
     }
+
 }

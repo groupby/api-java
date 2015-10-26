@@ -4,9 +4,10 @@ import com.groupbyinc.api.model.Sort;
 import com.groupbyinc.api.request.RefinementsRequest;
 import com.groupbyinc.api.request.Request;
 import com.groupbyinc.api.request.RestrictNavigation;
-import com.groupbyinc.common.util.lang3.StringUtils;
+import com.groupbyinc.common.util.apache.commons.lang3.StringUtils;
 
 public class Query extends AbstractQuery<Request, Query> {
+
     private boolean accurateCounts = false;
     private String partialFields;
     private String requiredFields;
@@ -31,6 +32,7 @@ public class Query extends AbstractQuery<Request, Query> {
 
     /**
      * @return True if accurate counts is set to true
+     *
      * @deprecated Deprecated Deemed unuseful and will be removed in the next version.
      */
     @Deprecated
@@ -43,9 +45,10 @@ public class Query extends AbstractQuery<Request, Query> {
      * !Warning! Tells the engine to more accurately count records and refinements.
      * This method will have severe impact on response time and throughput capacity.
      * This should only be used for debugging purposes.
-     *
      * </code>
+     *
      * @param accurateCounts
+     *
      * @deprecated Deprecated Deemed unuseful and will be removed in the next release.
      */
     @Deprecated
@@ -65,11 +68,8 @@ public class Query extends AbstractQuery<Request, Query> {
      * A direct pass through of the Partial Fields parameter for the GSA.  See the GSA documentation for further
      * details.
      * [GSA 7.2 Partial Fields Reference](http://www.google.com/support/enterprise/static/gsa/docs/admin/72/gsa_doc_set/xml_reference/request_format.html#1077773)
-     *
      * JSON Reference:
-     *
-     *     { "partialFields": "..." }
-     *
+     * { "partialFields": "..." }
      * </code>
      *
      * @param partialFields
@@ -96,11 +96,8 @@ public class Query extends AbstractQuery<Request, Query> {
      * A direct pass through of the Required Fields parameter for the GSA.  See the GSA documentation for further
      * details.
      * [GSA 7.2 Required Fields Reference](http://www.google.com/support/enterprise/static/gsa/docs/admin/72/gsa_doc_set/xml_reference/request_format.html#1077773)
-     *
      * JSON Reference:
-     *
-     *     { "requiredFields": "..." }
-     *
+     * { "requiredFields": "..." }
      * </code>
      *
      * @param requiredFields
@@ -115,6 +112,7 @@ public class Query extends AbstractQuery<Request, Query> {
 
     /**
      * @return The current language restrict value.
+     *
      * @deprecated 2.0.0
      */
     @Deprecated
@@ -129,14 +127,13 @@ public class Query extends AbstractQuery<Request, Query> {
      * documentation under [Language Filters](http://www.google.com/support/enterprise/static/gsa/docs/admin/72/gsa_doc_set/xml_reference/request_format.html#1077312)
      * for a detailed list of supported languages and filter options. If you do not specify a language
      * (or pass in an unrecognized language), the language filter will be ignored.
-     *
      * JSON Reference:
-     *
      * { lr: 'lang_fr' }
-     *
      * </code>
      *
-     * @param languageRestrict The value for language restrict
+     * @param languageRestrict
+     *         The value for language restrict
+     *
      * @return
      */
     @Deprecated
@@ -153,6 +150,7 @@ public class Query extends AbstractQuery<Request, Query> {
 
     /**
      * @return The current interface language setting.
+     *
      * @deprecated Deprecated Only need to use getLanguage()
      */
     @Deprecated
@@ -166,18 +164,15 @@ public class Query extends AbstractQuery<Request, Query> {
      * under [Interface Languages](https://developers.google.com/custom-search/docs/xml_results?hl=en&csw=1#wsInterfaceLanguages)
      * for a detailed list of supported interface languages. If you do not specify a language
      * (or pass in an unrecognized language), the interface language will be ignored.
-     *
      * JSON Reference:
-     *
-     *     { "interfaceLanguage": "fr"}
-     *
-     *
+     * { "interfaceLanguage": "fr"}
      * </code>
      *
      * @param interfaceLanguage
      *         The interface language
      *
      * @return
+     *
      * @deprecated Deprecated Only need to use setLanguage
      */
     @Deprecated
@@ -203,10 +198,11 @@ public class Query extends AbstractQuery<Request, Query> {
      * This is a direct pass through to the GSA and as such the GSA documents will provide the most
      * up to date information on this parameter, please see:
      * [GSA 7.2 Sort](http://www.google.com/support/enterprise/static/gsa/docs/admin/72/gsa_doc_set/xml_reference/request_format.html#1077686)
-     *
      * </code>
      *
-     * @param sort The sort criteria
+     * @param sort
+     *         The sort criteria
+     *
      * @return
      */
     public Query setSort(Sort sort) {
@@ -217,4 +213,5 @@ public class Query extends AbstractQuery<Request, Query> {
     public Query setPruneRefinements(boolean pruneRefinements) {
         return super.setPruneRefinements(pruneRefinements);
     }
+
 }

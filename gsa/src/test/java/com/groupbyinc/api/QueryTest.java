@@ -2,12 +2,13 @@ package com.groupbyinc.api;
 
 import com.groupbyinc.api.model.Sort;
 import com.groupbyinc.api.request.RestrictNavigation;
-import com.groupbyinc.test.util.AssertUtils;
+import com.groupbyinc.common.test.util.AssertUtils;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
 public class QueryTest {
+
     private Query test = new Query();
 
     private void assertQuery(Query pExpected, Query pActual) throws Exception {
@@ -262,4 +263,5 @@ public class QueryTest {
                           "accurateCounts':'1'}";
         assertQuery(expected, test);
     }
+
 }

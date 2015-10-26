@@ -1,7 +1,7 @@
 package com.groupbyinc.api.model;
 
 import com.groupbyinc.api.model.zone.RecordZone;
-import com.groupbyinc.utils.Mappers;
+import com.groupbyinc.common.jackson.util.Mappers;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -13,6 +13,7 @@ import static java.util.Arrays.asList;
 import static org.junit.Assert.fail;
 
 public class ZoneTest {
+
     @Test
     public void testRecordZone() throws Exception {
         try {
@@ -25,7 +26,7 @@ public class ZoneTest {
                                             1))));
 
             Record record = new Record().setId("abc").setUrl("abc").setTitle("abc").setSnippet("abc")
-                                        .setRefinementMatches(refinementMatches);
+                    .setRefinementMatches(refinementMatches);
             System.out.println("record:     " + Mappers.writeValueAsString(record));
 
             RecordZone<Record> zone = new RecordZone<Record>().setId("abc").setName("abc").setQuery("abc").setRecords(
@@ -43,4 +44,5 @@ public class ZoneTest {
             fail("should be able to serialize");
         }
     }
+
 }

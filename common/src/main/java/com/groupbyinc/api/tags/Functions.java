@@ -4,10 +4,10 @@ import com.groupbyinc.api.model.AbstractResults;
 import com.groupbyinc.api.model.Navigation;
 import com.groupbyinc.api.model.Refinement;
 import com.groupbyinc.api.model.refinement.RefinementValue;
-import com.groupbyinc.common.util.codec.digest.DigestUtils;
-import com.groupbyinc.common.util.collections4.CollectionUtils;
-import com.groupbyinc.common.util.lang3.StringEscapeUtils;
-import com.groupbyinc.common.util.lang3.StringUtils;
+import com.groupbyinc.common.util.apache.commons.codec.digest.DigestUtils;
+import com.groupbyinc.common.util.apache.commons.collections4.CollectionUtils;
+import com.groupbyinc.common.util.apache.commons.lang3.StringEscapeUtils;
+import com.groupbyinc.common.util.apache.commons.lang3.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,10 +17,9 @@ import java.util.Date;
 import java.util.List;
 
 public class Functions {
-    private static final SimpleDateFormat ISO_DATE = new SimpleDateFormat(
-            "yyyy-MM-dd");
-    private static final String[] acronyms = {
-            "Api", "Xml", "Gsa", "Asp", "Jstl", "Net", "Php", "Sayt", "Db", "Faq", "Sdk", "Seo"};
+
+    private static final SimpleDateFormat ISO_DATE = new SimpleDateFormat("yyyy-MM-dd");
+    private static final String[] acronyms = {"Api", "Xml", "Gsa", "Asp", "Jstl", "Net", "Php", "Sayt", "Db", "Faq", "Sdk", "Seo"};
 
     private Functions() {
         // hide utility constructor
@@ -116,4 +115,5 @@ public class Functions {
         }
         return false;
     }
+
 }

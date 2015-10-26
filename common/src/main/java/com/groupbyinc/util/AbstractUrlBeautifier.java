@@ -7,9 +7,9 @@ import com.groupbyinc.api.model.refinement.RefinementValue;
 import com.groupbyinc.api.parser.ParserException;
 import com.groupbyinc.api.request.AbstractRequest;
 import com.groupbyinc.common.http.client.utils.URIBuilder;
-import com.groupbyinc.common.util.collections4.MapUtils;
-import com.groupbyinc.common.util.lang3.ArrayUtils;
-import com.groupbyinc.common.util.lang3.StringUtils;
+import com.groupbyinc.common.util.apache.commons.collections4.MapUtils;
+import com.groupbyinc.common.util.apache.commons.lang3.ArrayUtils;
+import com.groupbyinc.common.util.apache.commons.lang3.StringUtils;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -29,6 +29,7 @@ import static java.util.Arrays.asList;
  * @internal
  */
 public abstract class AbstractUrlBeautifier<RQ extends AbstractRequest<RQ>, Q extends AbstractQuery<RQ, Q>> {
+
     public static final String PARAM_REPLACEMENT = "z";
 
     public static final String SEARCH_NAVIGATION_NAME = "search";
@@ -58,10 +59,14 @@ public abstract class AbstractUrlBeautifier<RQ extends AbstractRequest<RQ>, Q ex
      * placed into a URL path segment.
      * </code>
      *
-     * @param searchString        The current search state.
-     * @param existingRefinements The current refinement state
-     * @throws UrlBeautificationException
+     * @param searchString
+     *         The current search state.
+     * @param existingRefinements
+     *         The current refinement state
+     *
      * @return
+     *
+     * @throws UrlBeautificationException
      */
     public String toUrl(String searchString, String existingRefinements) throws UrlBeautificationException {
         StringBuilder pathSegmentLookup = new StringBuilder("/");
@@ -184,8 +189,11 @@ public abstract class AbstractUrlBeautifier<RQ extends AbstractRequest<RQ>, Q ex
      * correct search and refinement state.
      * </code>
      *
-     * @param uri The URI to parse into a query object
+     * @param uri
+     *         The URI to parse into a query object
+     *
      * @return
+     *
      * @throws UrlBeautificationException
      */
     public Q fromUrl(String uri) throws UrlBeautificationException {
@@ -202,9 +210,13 @@ public abstract class AbstractUrlBeautifier<RQ extends AbstractRequest<RQ>, Q ex
      * correct search and refinement state.
      * </code>
      *
-     * @param url     The URI to parse into a query object
-     * @param defaultQuery The default query to use if this URL does not correctly parse.
+     * @param url
+     *         The URI to parse into a query object
+     * @param defaultQuery
+     *         The default query to use if this URL does not correctly parse.
+     *
      * @return
+     *
      * @throws UrlBeautificationException
      */
     public Q fromUrl(String url, Q defaultQuery) throws UrlBeautificationException {
@@ -296,10 +308,10 @@ public abstract class AbstractUrlBeautifier<RQ extends AbstractRequest<RQ>, Q ex
      * Set the mapping from a search term to a path segment.
      * Note: you cannot use vowels for mapping tokens to prevent dictionary word creation.
      * The order in which this method is called determines where in the URL the search term will show up.
-     *
      * </code>
      *
-     * @param pToken The single letter to represent search in the lookup.
+     * @param pToken
+     *         The single letter to represent search in the lookup.
      */
     public void setSearchMapping(char pToken) {
         SEARCH_NAVIGATION.setName(SEARCH_NAVIGATION_NAME);
@@ -319,9 +331,11 @@ public abstract class AbstractUrlBeautifier<RQ extends AbstractRequest<RQ>, Q ex
      * The order in which this method is called determines where in the URL the refinements will show up.
      * </code>
      *
-     * @param pToken The single letter to represent this refinement in the lookup.
-     * @param pName  The name of the navigation that will be mapped using this
-     *               token.
+     * @param pToken
+     *         The single letter to represent this refinement in the lookup.
+     * @param pName
+     *         The name of the navigation that will be mapped using this
+     *         token.
      */
     public void addRefinementMapping(char pToken, String pName) {
         Navigation mapping = new Navigation();
@@ -375,12 +389,11 @@ public abstract class AbstractUrlBeautifier<RQ extends AbstractRequest<RQ>, Q ex
      * Quite often URLs need to end with specific extensions to map to the correct controller in the backend.
      * Here you can set this value.
      * For example:
-     *
      * /index.html
-     *
      * </code>
      *
-     * @param pAppend The value to append to each beautified URL.
+     * @param pAppend
+     *         The value to append to each beautified URL.
      */
     public void setAppend(String pAppend) {
         append = pAppend;
@@ -400,7 +413,8 @@ public abstract class AbstractUrlBeautifier<RQ extends AbstractRequest<RQ>, Q ex
      * This includes ranges which are never mapped to beautified URLs.
      * </code>
      *
-     * @param pRefinementsQueryParameterName The name of the query parameter to use.
+     * @param pRefinementsQueryParameterName
+     *         The name of the query parameter to use.
      */
     public void setRefinementsQueryParameterName(String pRefinementsQueryParameterName) {
         refinementsQueryParameterName = pRefinementsQueryParameterName;
@@ -413,18 +427,17 @@ public abstract class AbstractUrlBeautifier<RQ extends AbstractRequest<RQ>, Q ex
      * If pReplacement is null the target character will be removed.
      * Note: Replacements that are chained may still contain the original target character.
      * For example:
-     *
-     *     addReplacementRule('x','y');
-     *     addReplacementRule('z','x');
-     *
+     * addReplacementRule('x','y');
+     * addReplacementRule('z','x');
      * The result of this may contain x's in the final result.
-     *
      * www.example.com/xyz will become www.example.com/yyz after the first replacement and www.example.com/yyx
      * after the second replacement.
      * </code>
      *
-     * @param pTarget      The char values to be replaced
-     * @param pReplacement The replacement char value
+     * @param pTarget
+     *         The char values to be replaced
+     * @param pReplacement
+     *         The replacement char value
      */
     public void addReplacementRule(char pTarget, Character pReplacement) {
         addReplacementRule(pTarget, pReplacement, null);
@@ -437,19 +450,19 @@ public abstract class AbstractUrlBeautifier<RQ extends AbstractRequest<RQ>, Q ex
      * If pReplacement is null the target character will be removed.
      * Note: Replacements that are chained may still contain the original target character.
      * For example:
-     *
-     *     addReplacementRule('x', 'y', "brand");
-     *     addReplacementRule('z', 'x', "brand");
-     *
+     * addReplacementRule('x', 'y', "brand");
+     * addReplacementRule('z', 'x', "brand");
      * The result of this may contain x's in the final result.
-     *
      * www.example.com/xyz/b will become www.example.com/yyz/b after the first replacement and www.example.com/yyx/b
      * after the second replacement.
      * </code>
      *
-     * @param pTarget         The char values to be replaced
-     * @param pReplacement    The replacement char value
-     * @param pRefinementName The name of the refinement that this replacement should be applied to.
+     * @param pTarget
+     *         The char values to be replaced
+     * @param pReplacement
+     *         The replacement char value
+     * @param pRefinementName
+     *         The name of the refinement that this replacement should be applied to.
      */
     public void addReplacementRule(char pTarget, Character pReplacement, String pRefinementName) {
         if (!((Character) pTarget).equals(pReplacement)) {
@@ -503,4 +516,5 @@ public abstract class AbstractUrlBeautifier<RQ extends AbstractRequest<RQ>, Q ex
             super(message, cause);
         }
     }
+
 }

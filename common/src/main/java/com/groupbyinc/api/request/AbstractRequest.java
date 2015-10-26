@@ -5,7 +5,7 @@ import com.groupbyinc.common.jackson.annotation.JsonIgnore;
 import com.groupbyinc.common.jackson.annotation.JsonInclude;
 import com.groupbyinc.common.jackson.annotation.JsonInclude.Include;
 import com.groupbyinc.common.jackson.annotation.JsonProperty;
-import com.groupbyinc.common.util.collections4.CollectionUtils;
+import com.groupbyinc.common.util.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +13,11 @@ import java.util.List;
 /**
  * Request object for the api to send search service requests
  *
- * @author lonell
+ * @author Lonell Liburd
  * @internal
  */
 public class AbstractRequest<T extends AbstractRequest<T>> {
+
     private String clientKey;
     private String collection;
     private String area;
@@ -231,4 +232,5 @@ public class AbstractRequest<T extends AbstractRequest<T>> {
         this.restrictNavigation = restrictNavigation;
         return (T) this;
     }
+
 }

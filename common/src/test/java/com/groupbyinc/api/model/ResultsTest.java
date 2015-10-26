@@ -2,13 +2,14 @@ package com.groupbyinc.api.model;
 
 import com.groupbyinc.api.model.refinement.RefinementRange;
 import com.groupbyinc.api.model.refinement.RefinementValue;
-import com.groupbyinc.test.util.AssertUtils;
-import com.groupbyinc.utils.Mappers;
+import com.groupbyinc.common.jackson.util.Mappers;
+import com.groupbyinc.common.test.util.AssertUtils;
 import org.junit.Test;
 
 import static java.util.Arrays.asList;
 
 public class ResultsTest {
+
     private void assertNavigation(String pExpected, Navigation pNavigation) throws Exception {
         AssertUtils.assertJsonEquals(pExpected, Mappers.writeValueAsString(pNavigation));
     }
@@ -57,4 +58,5 @@ public class ResultsTest {
                 "'value':\"Ö'=\\\"\"}],'metadata':[],'or':false,'range':false}", //
                 new Navigation().setName("A").setRefinements(asList((Refinement) rr, rv)));
     }
+
 }

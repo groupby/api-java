@@ -3,7 +3,7 @@ package com.groupbyinc.util;
 import com.groupbyinc.api.Query;
 import com.groupbyinc.api.model.Navigation;
 import com.groupbyinc.api.model.refinement.RefinementValue;
-import com.groupbyinc.common.util.lang3.StringUtils;
+import com.groupbyinc.common.util.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,6 +17,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public class UrlBeautifierTest {
+
     private UrlBeautifier test;
 
     @Before
@@ -680,4 +681,5 @@ public class UrlBeautifierTest {
             assertEquals(refinements[i], ((RefinementValue) navigations.get(i).getRefinements().get(0)).getValue());
         }
     }
+
 }

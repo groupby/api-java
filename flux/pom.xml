@@ -50,6 +50,12 @@
               </artifactSet>
               <filters>
                 <filter>
+                  <artifact>*:*</artifact>
+                  <excludes>
+                    <exclude>META-INF/**</exclude>
+                  </excludes>
+                </filter>
+                <filter>
                   <artifact>${project.groupId}:${project.parent.artifactId}-common</artifact>
                   <includes>
                     <include>com/groupbyinc/**</include>
@@ -127,7 +133,7 @@
     </dependency>
     <dependency>
       <groupId>com.groupbyinc</groupId>
-      <artifactId>common-utils</artifactId>
+      <artifactId>common-util</artifactId>
       <version>${groupbyinc.common.version}</version>
       <optional>true</optional>
     </dependency>

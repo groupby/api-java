@@ -1,10 +1,11 @@
 package com.groupbyinc.api;
 
 import com.groupbyinc.api.model.Sort;
-import com.groupbyinc.test.util.AssertUtils;
+import com.groupbyinc.common.test.util.AssertUtils;
 import org.junit.Test;
 
 public class QueryTest {
+
     private Query test = new Query();
 
     private void assertQuery(String pExpected, Query pActual) throws Exception {
@@ -68,4 +69,5 @@ public class QueryTest {
                           "'query':'boston','pageSize':10,'returnBinary':true}";
         assertQuery(expected, test);
     }
+
 }

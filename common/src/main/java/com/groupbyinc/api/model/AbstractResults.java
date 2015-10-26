@@ -2,7 +2,7 @@ package com.groupbyinc.api.model;
 
 import com.groupbyinc.common.jackson.annotation.JsonIgnore;
 import com.groupbyinc.common.jackson.core.JsonProcessingException;
-import com.groupbyinc.utils.Mappers;
+import com.groupbyinc.common.jackson.util.Mappers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +16,7 @@ import java.util.List;
  * @internal
  */
 public abstract class AbstractResults<R extends AbstractRecord<R>, T extends AbstractResults<R, T>> {
+
     protected long totalRecordCount;
     protected String area;
     protected String biasingProfile;
@@ -45,7 +46,9 @@ public abstract class AbstractResults<R extends AbstractRecord<R>, T extends Abs
     }
 
     /**
-     * @param pArea Set the area to run the query against
+     * @param pArea
+     *         Set the area to run the query against
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -62,7 +65,9 @@ public abstract class AbstractResults<R extends AbstractRecord<R>, T extends Abs
     }
 
     /**
-     * @param didYouMean Set the list
+     * @param didYouMean
+     *         Set the list
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -81,7 +86,9 @@ public abstract class AbstractResults<R extends AbstractRecord<R>, T extends Abs
     }
 
     /**
-     * @param relatedQueries Set the related queries for a search term
+     * @param relatedQueries
+     *         Set the related queries for a search term
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -98,7 +105,9 @@ public abstract class AbstractResults<R extends AbstractRecord<R>, T extends Abs
     }
 
     /**
-     * @param records Set the records.
+     * @param records
+     *         Set the records.
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -116,7 +125,9 @@ public abstract class AbstractResults<R extends AbstractRecord<R>, T extends Abs
     }
 
     /**
-     * @param template Set the template
+     * @param template
+     *         Set the template
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -133,7 +144,9 @@ public abstract class AbstractResults<R extends AbstractRecord<R>, T extends Abs
     }
 
     /**
-     * @param pageInfo Set the page info
+     * @param pageInfo
+     *         Set the page info
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -151,7 +164,9 @@ public abstract class AbstractResults<R extends AbstractRecord<R>, T extends Abs
     }
 
     /**
-     * @param availableNavigation Set the available navigation.
+     * @param availableNavigation
+     *         Set the available navigation.
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -183,7 +198,9 @@ public abstract class AbstractResults<R extends AbstractRecord<R>, T extends Abs
     }
 
     /**
-     * @param selectedNavigation Set the selected refinements
+     * @param selectedNavigation
+     *         Set the selected refinements
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -204,7 +221,9 @@ public abstract class AbstractResults<R extends AbstractRecord<R>, T extends Abs
     }
 
     /**
-     * @param redirect Set the redirect
+     * @param redirect
+     *         Set the redirect
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -221,7 +240,9 @@ public abstract class AbstractResults<R extends AbstractRecord<R>, T extends Abs
     }
 
     /**
-     * @param errors Set errors.
+     * @param errors
+     *         Set errors.
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -239,7 +260,9 @@ public abstract class AbstractResults<R extends AbstractRecord<R>, T extends Abs
     }
 
     /**
-     * @param totalRecordCount Set the total record count.
+     * @param totalRecordCount
+     *         Set the total record count.
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -254,7 +277,6 @@ public abstract class AbstractResults<R extends AbstractRecord<R>, T extends Abs
      * related based on a search term. This object will only be populated if you
      * use the
      * bridge.searchCluster
-     *
      * </code>
      *
      * @return The list of clusters.
@@ -264,7 +286,9 @@ public abstract class AbstractResults<R extends AbstractRecord<R>, T extends Abs
     }
 
     /**
-     * @param clusters Set the search clusters.
+     * @param clusters
+     *         Set the search clusters.
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -282,7 +306,9 @@ public abstract class AbstractResults<R extends AbstractRecord<R>, T extends Abs
     }
 
     /**
-     * @param siteParams Set the site metadata
+     * @param siteParams
+     *         Set the site metadata
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -299,7 +325,9 @@ public abstract class AbstractResults<R extends AbstractRecord<R>, T extends Abs
     }
 
     /**
-     * @param originalQuery Sets the original query sent to the search service
+     * @param originalQuery
+     *         Sets the original query sent to the search service
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -316,7 +344,9 @@ public abstract class AbstractResults<R extends AbstractRecord<R>, T extends Abs
     }
 
     /**
-     * @param correctedQuery Sets the corrected query sent to the engine, if auto-correction is enabled
+     * @param correctedQuery
+     *         Sets the corrected query sent to the engine, if auto-correction is enabled
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -333,7 +363,9 @@ public abstract class AbstractResults<R extends AbstractRecord<R>, T extends Abs
     }
 
     /**
-     * @param query Sets the query sent to the engine, after query rewrites are applied
+     * @param query
+     *         Sets the query sent to the engine, after query rewrites are applied
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -350,7 +382,9 @@ public abstract class AbstractResults<R extends AbstractRecord<R>, T extends Abs
     }
 
     /**
-     * @param rewrites Set the rewrites that occurred
+     * @param rewrites
+     *         Set the rewrites that occurred
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -368,4 +402,5 @@ public abstract class AbstractResults<R extends AbstractRecord<R>, T extends Abs
         this.biasingProfile = biasingProfile;
         return (T) this;
     }
+
 }

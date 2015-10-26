@@ -5,12 +5,13 @@ import com.groupbyinc.api.model.MatchStrategy;
 import com.groupbyinc.api.model.Sort;
 import com.groupbyinc.api.request.RefinementsRequest;
 import com.groupbyinc.api.request.Request;
-import com.groupbyinc.common.util.collections4.CollectionUtils;
+import com.groupbyinc.common.util.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Query extends AbstractQuery<Request, Query> {
+
     private List<Sort> sort = new ArrayList<Sort>();
     private MatchStrategy matchStrategy;
     private boolean wildcardSearchEnabled;
@@ -174,4 +175,5 @@ public class Query extends AbstractQuery<Request, Query> {
         this.matchStrategy = matchStrategy;
         return this;
     }
+
 }

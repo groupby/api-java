@@ -1,11 +1,12 @@
 package com.groupbyinc.api;
 
-import com.groupbyinc.test.util.AssertUtils;
+import com.groupbyinc.common.test.util.AssertUtils;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
 public class BaseQueryTest {
+
     private BaseQuery test = new BaseQuery();
 
     private void assertQuery(BaseQuery pExpected, BaseQuery pActual) throws Exception {
@@ -177,4 +178,5 @@ public class BaseQueryTest {
                           "'returnBinary':true,'pageSize':10}";
         assertQuery(expected, test);
     }
+
 }

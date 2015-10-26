@@ -11,9 +11,9 @@ import com.groupbyinc.common.http.entity.StringEntity;
 import com.groupbyinc.common.http.impl.client.CloseableHttpClient;
 import com.groupbyinc.common.http.impl.client.HttpClientBuilder;
 import com.groupbyinc.common.http.impl.conn.PoolingHttpClientConnectionManager;
-import com.groupbyinc.common.util.io.Charsets;
-import com.groupbyinc.common.util.io.IOUtils;
-import com.groupbyinc.common.util.lang3.StringUtils;
+import com.groupbyinc.common.util.apache.commons.io.Charsets;
+import com.groupbyinc.common.util.apache.commons.io.IOUtils;
+import com.groupbyinc.common.util.apache.commons.lang3.StringUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -27,10 +27,8 @@ import java.util.logging.Logger;
 /**
  * <code>
  * The Bridge is the class responsible for marshalling a query to and from the search service.
- *
  * Because the bridge holds a connection pool that is expensive to create, it is highly recommended
  * that the bridge is held in the application memory scope and reused where appropriate.
- *
  * Do not create a new bridge object for each request as you will incur unnecessary overhead.
  * </code>
  *
@@ -40,6 +38,7 @@ public abstract class AbstractBridge<RQ extends AbstractRequest<RQ>, //
         Q extends AbstractQuery<RQ, Q>,//
         D extends AbstractRecord<D>, //
         R extends AbstractResults<D, R>> {
+
     public static final String CLUSTER = "/cluster";
     protected static final String COLON = ":";
     protected static final String HTTP = "http://";
@@ -50,9 +49,11 @@ public abstract class AbstractBridge<RQ extends AbstractRequest<RQ>, //
     private static final String REFINEMENT_SEARCH = "/refinement";
     private static final String BODY = "\nbody:\n";
     private static final String EXCEPTION_FROM_BRIDGE = "Exception from bridge: ";
-    private static final RequestConfig REQUEST_CONFIG = RequestConfig.custom().setConnectTimeout(15000)
-                                                                     .setConnectionRequestTimeout(15000)
-                                                                     .setSocketTimeout(30000).build();
+    private static final RequestConfig REQUEST_CONFIG = RequestConfig.custom()
+            .setConnectTimeout(15000)
+            .setConnectionRequestTimeout(15000)
+            .setSocketTimeout(30000)
+            .build();
     private final String bridgeUrl;
     private final String bridgeRefinementsUrl;
     private final String bridgeRefinementSearchUrl;
@@ -64,17 +65,16 @@ public abstract class AbstractBridge<RQ extends AbstractRequest<RQ>, //
     /**
      * <code>
      * Constructor to create a bridge object that connects to the search api.
-     *
      * JSON Reference:
-     *
      * The key as found in your key management page in the command center
-     *
      * {"clientKey": "<client key>"}
      * </code>
      *
-     * @param clientKey The key as found in your key management page in the command
-     *                  center.
-     * @param baseUrl   The base url the bridge is serving on.
+     * @param clientKey
+     *         The key as found in your key management page in the command
+     *         center.
+     * @param baseUrl
+     *         The base url the bridge is serving on.
      */
     public AbstractBridge(String clientKey, String baseUrl) {
         this(clientKey, baseUrl, true);
@@ -83,18 +83,18 @@ public abstract class AbstractBridge<RQ extends AbstractRequest<RQ>, //
     /**
      * <code>
      * Constructor to create a bridge object that connects to the search api.
-     *
      * JSON Reference:
-     *
      * The key as found in your key management page in the command center
-     *
      * {"clientKey": "<client key>"}
      * </code>
      *
-     * @param clientKey        The key as found in your key management page in the command
-     *                         center.
-     * @param baseUrl          The base url the bridge is serving on.
-     * @param compressResponse true to compress the response content, false to send uncompressed response.
+     * @param clientKey
+     *         The key as found in your key management page in the command
+     *         center.
+     * @param baseUrl
+     *         The base url the bridge is serving on.
+     * @param compressResponse
+     *         true to compress the response content, false to send uncompressed response.
      */
     public AbstractBridge(String clientKey, String baseUrl, boolean compressResponse) {
         try {
@@ -114,6 +114,7 @@ public abstract class AbstractBridge<RQ extends AbstractRequest<RQ>, //
 
     /**
      * @return
+     *
      * @internal
      */
     public String getBridgeUrl() {
@@ -122,6 +123,7 @@ public abstract class AbstractBridge<RQ extends AbstractRequest<RQ>, //
 
     /**
      * @return
+     *
      * @internal
      */
     public String getBridgeRefinementsUrl() {
@@ -130,6 +132,7 @@ public abstract class AbstractBridge<RQ extends AbstractRequest<RQ>, //
 
     /**
      * @return
+     *
      * @internal
      */
     public String getClusterBridgeUrl() {
@@ -157,8 +160,11 @@ public abstract class AbstractBridge<RQ extends AbstractRequest<RQ>, //
      * Connects to the search service, parses the response into a model
      * </code>
      *
-     * @param query A query representing the search.
+     * @param query
+     *         A query representing the search.
+     *
      * @return Results object from the search service
+     *
      * @throws IOException
      */
     public R search(Q query) throws IOException {
@@ -253,4 +259,5 @@ public abstract class AbstractBridge<RQ extends AbstractRequest<RQ>, //
     public void setRetryTimeout(long retryTimeout) {
         this.retryTimeout = retryTimeout;
     }
+
 }

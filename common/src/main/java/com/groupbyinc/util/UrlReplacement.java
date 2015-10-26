@@ -1,7 +1,7 @@
 package com.groupbyinc.util;
 
 import com.groupbyinc.api.parser.ParserException;
-import com.groupbyinc.common.util.lang3.StringUtils;
+import com.groupbyinc.common.util.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,10 +10,8 @@ import java.util.List;
 import static com.groupbyinc.util.UrlReplacementRule.INSERT_INDICATOR;
 import static com.groupbyinc.util.UrlReplacementRule.REPLACEMENT_DELIMITER;
 
-/**
- * Created by groupby on 9/13/14.
- */
 public class UrlReplacement {
+
     private int index;
     private String replacement;
     private OperationType type;
@@ -142,4 +140,5 @@ public class UrlReplacement {
         }
         return sb.toString();
     }
+
 }
