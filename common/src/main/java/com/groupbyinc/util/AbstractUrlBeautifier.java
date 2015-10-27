@@ -6,10 +6,10 @@ import com.groupbyinc.api.model.Refinement;
 import com.groupbyinc.api.model.refinement.RefinementValue;
 import com.groupbyinc.api.parser.ParserException;
 import com.groupbyinc.api.request.AbstractRequest;
-import com.groupbyinc.common.http.client.utils.URIBuilder;
 import com.groupbyinc.common.util.apache.commons.collections4.MapUtils;
 import com.groupbyinc.common.util.apache.commons.lang3.ArrayUtils;
 import com.groupbyinc.common.util.apache.commons.lang3.StringUtils;
+import com.groupbyinc.common.util.apache.http.client.utils.URIBuilder;
 
 import java.net.URI;
 import java.net.URISyntaxException;

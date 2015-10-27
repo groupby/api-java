@@ -4,16 +4,16 @@ import com.groupbyinc.api.model.AbstractRecord;
 import com.groupbyinc.api.model.AbstractResults;
 import com.groupbyinc.api.model.RefinementsResult;
 import com.groupbyinc.api.request.AbstractRequest;
-import com.groupbyinc.common.http.HttpResponse;
-import com.groupbyinc.common.http.client.config.RequestConfig;
-import com.groupbyinc.common.http.client.methods.HttpPost;
-import com.groupbyinc.common.http.entity.StringEntity;
-import com.groupbyinc.common.http.impl.client.CloseableHttpClient;
-import com.groupbyinc.common.http.impl.client.HttpClientBuilder;
-import com.groupbyinc.common.http.impl.conn.PoolingHttpClientConnectionManager;
 import com.groupbyinc.common.util.apache.commons.io.Charsets;
 import com.groupbyinc.common.util.apache.commons.io.IOUtils;
 import com.groupbyinc.common.util.apache.commons.lang3.StringUtils;
+import com.groupbyinc.common.util.apache.http.HttpResponse;
+import com.groupbyinc.common.util.apache.http.client.config.RequestConfig;
+import com.groupbyinc.common.util.apache.http.client.methods.HttpPost;
+import com.groupbyinc.common.util.apache.http.entity.StringEntity;
+import com.groupbyinc.common.util.apache.http.impl.client.CloseableHttpClient;
+import com.groupbyinc.common.util.apache.http.impl.client.HttpClientBuilder;
+import com.groupbyinc.common.util.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -32,18 +32,19 @@ import java.util.logging.Logger;
  * Do not create a new bridge object for each request as you will incur unnecessary overhead.
  * </code>
  *
- * @author will
+ * @author Will Warren
  */
 public abstract class AbstractBridge<RQ extends AbstractRequest<RQ>, //
         Q extends AbstractQuery<RQ, Q>,//
         D extends AbstractRecord<D>, //
         R extends AbstractResults<D, R>> {
 
+    private static final Logger LOG = Logger.getLogger(AbstractBridge.class.getName());
+
     public static final String CLUSTER = "/cluster";
     protected static final String COLON = ":";
     protected static final String HTTP = "http://";
     protected static final String HTTPS = "https://";
-    private static final Logger LOG = Logger.getLogger(AbstractBridge.class.getName());
     private static final String SEARCH = "/search";
     private static final String REFINEMENTS = "/refinements";
     private static final String REFINEMENT_SEARCH = "/refinement";
