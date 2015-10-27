@@ -31,6 +31,7 @@
   </scm>
 
   <properties>
+
     <project.build.jdkVersion>1.6</project.build.jdkVersion>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.build.locale>en_US</project.build.locale>
@@ -42,7 +43,7 @@
     <api.jsp.version>2.1</api.jsp.version>
     <junit.version>4.12</junit.version>
     <cloning.util.version>1.9.2</cloning.util.version>
-    <groupbyinc.common.version>31</groupbyinc.common.version>
+    <groupbyinc.common.version>33</groupbyinc.common.version>
     <jregex.version>1.2_01</jregex.version>
 
     <!-- ### Test -->
@@ -55,6 +56,7 @@
     <test.parallel>classesAndMethods</test.parallel>
 
     <test.unit.skipTests>true</test.unit.skipTests>
+
   </properties>
 
   <build>

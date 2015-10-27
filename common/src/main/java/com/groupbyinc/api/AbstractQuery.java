@@ -15,8 +15,8 @@ import com.groupbyinc.api.request.refinement.SelectedRefinementValue;
 import com.groupbyinc.common.jackson.util.Mappers;
 import com.groupbyinc.common.util.apache.commons.collections4.CollectionUtils;
 import com.groupbyinc.common.util.apache.commons.lang3.StringUtils;
-import jregex.Pattern;
-import jregex.RETokenizer;
+import com.groupbyinc.common.util.jregex.Pattern;
+import com.groupbyinc.common.util.jregex.RETokenizer;
 
 import java.util.ArrayList;
 import java.util.Collections;

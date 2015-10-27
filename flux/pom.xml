@@ -52,7 +52,8 @@
                 <filter>
                   <artifact>*:*</artifact>
                   <excludes>
-                    <exclude>META-INF/**</exclude>
+                    <!--<exclude>META-INF/**</exclude>-->
+                    <exclude>com/groupbyinc/common/util/apache/commons/logging/impl/Avalon*</exclude>
                   </excludes>
                 </filter>
                 <filter>
