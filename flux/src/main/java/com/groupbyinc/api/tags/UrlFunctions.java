@@ -3,9 +3,10 @@ package com.groupbyinc.api.tags;
 import com.groupbyinc.api.Query;
 import com.groupbyinc.api.model.Navigation;
 import com.groupbyinc.api.model.Refinement;
+import com.groupbyinc.common.jackson.core.type.TypeReference;
+import com.groupbyinc.common.jackson.util.Mappers;
 import com.groupbyinc.util.AbstractUrlBeautifier;
 import com.groupbyinc.util.UrlBeautifier;
-import com.rits.cloning.Cloner;
 
 import javax.servlet.jsp.JspException;
 import java.util.Iterator;
@@ -13,8 +14,11 @@ import java.util.List;
 import java.util.Map;
 
 public class UrlFunctions {
-    public static String toUrlAdd(String identifier, String searchString, List<Navigation> navigations,
-                                  String navigationName, Refinement refinement) throws JspException {
+
+    private static final TypeReference<List<Navigation>> NAVIGATIONS_TYPE = new TypeReference<List<Navigation>>() {
+    };
+
+    public static String toUrlAdd(String identifier, String searchString, List<Navigation> navigations, String navigationName, Refinement refinement) throws JspException {
         UrlBeautifier urlBeautifier = getBeautifier(identifier);
         Query refinements = addRefinements(navigations, navigationName, refinement);
         try {
@@ -24,8 +28,7 @@ public class UrlFunctions {
         }
     }
 
-    public static String toUrlRemove(String identifier, String searchString, List<Navigation> navigations,
-                                     String navigationName, Refinement refinement) throws JspException {
+    public static String toUrlRemove(String identifier, String searchString, List<Navigation> navigations, String navigationName, Refinement refinement) throws JspException {
         UrlBeautifier urlBeautifier = getBeautifier(identifier);
         Query refinements = removeRefinements(navigations, navigationName, refinement);
         try {
@@ -74,9 +77,10 @@ public class UrlFunctions {
         Query query = new Query();
         Map<String, Navigation> queryNavigations = query.getNavigations();
         if (navigations != null) {
-            List<Navigation> navs = new Cloner().deepClone(navigations);
-            for (Navigation n : navs) {
-                queryNavigations.put(n.getName(), n);
+            // copy navigations
+            List<Navigation> navigationsCopy = Mappers.readValue(Mappers.writeValueAsBytes(navigations, false), NAVIGATIONS_TYPE, false);
+            for (Navigation navigation : navigationsCopy) {
+                queryNavigations.put(navigation.getName(), navigation);
             }
         }
         if (queryNavigations.get(navigationName) == null) {
@@ -91,10 +95,9 @@ public class UrlFunctions {
     private static UrlBeautifier getBeautifier(String identifier) throws JspException {
         UrlBeautifier urlBeautifier = UrlBeautifier.getUrlBeautifiers().get(identifier);
         if (urlBeautifier == null) {
-            throw new JspException(
-                    "Could not find UrlBeautifier named: " + identifier +
-                    ". Please call UrlBeautifier.createUrlBeautifier(String) to instantiate");
+            throw new JspException("Could not find UrlBeautifier named: " + identifier + ". Please call UrlBeautifier.createUrlBeautifier(String) to instantiate");
         }
         return urlBeautifier;
     }
+
 }

@@ -412,11 +412,7 @@
       <version>${api.jsp.version}</version>
       <scope>provided</scope>
     </dependency>
-    <dependency>
-      <groupId>uk.com.robust-it</groupId>
-      <artifactId>cloning</artifactId>
-      <version>${cloning.util.version}</version>
-    </dependency>
+
   </dependencies>
 
   <profiles>
