@@ -68,7 +68,7 @@
       <plugins>
 
         <plugin>
-          <groupId>com.groupbyinc</groupId>
+          <groupId>${project.groupId}</groupId>
           <artifactId>common-lifecycle</artifactId>
           <version>${groupbyinc.common.version}</version>
         </plugin>
@@ -388,7 +388,7 @@
       </plugin>
 
       <plugin>
-        <groupId>com.groupbyinc</groupId>
+        <groupId>${project.groupId}</groupId>
         <artifactId>common-lifecycle</artifactId>
         <extensions>true</extensions>
       </plugin>

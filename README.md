@@ -30,7 +30,7 @@ The uber jar must be used to ensure shaded dependencies are included correctly.
 <dependency>
   <groupId>com.groupbyinc</groupId>
   <artifactId>api-java-flux</artifactId>
-  <version>2.0.166</version>
+  <version>2.0.218</version>
   <classifier>uber</classifier>
 </dependency>
 ```

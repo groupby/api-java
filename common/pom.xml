@@ -20,19 +20,19 @@
 
     <!-- ### GroupBy -->
     <dependency>
-      <groupId>com.groupbyinc</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>common-jackson</artifactId>
       <version>${groupbyinc.common.version}</version>
       <optional>true</optional>
     </dependency>
     <dependency>
-      <groupId>com.groupbyinc</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>common-http</artifactId>
       <version>${groupbyinc.common.version}</version>
       <optional>true</optional>
     </dependency>
     <dependency>
-      <groupId>com.groupbyinc</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>common-util</artifactId>
       <version>${groupbyinc.common.version}</version>
       <optional>true</optional>
@@ -40,7 +40,7 @@
 
     <!-- ### Test -->
     <dependency>
-      <groupId>com.groupbyinc</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>common-test</artifactId>
       <version>${groupbyinc.common.version}</version>
       <scope>test</scope>
