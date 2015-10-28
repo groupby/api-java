@@ -245,8 +245,9 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
      * <code>
      * The collection to use.  If you have uploaded additional data into collections apart from the default
      * collection using the stream tool, you can access them by specifying them here.
-     * You can also search across multiple collections.  To search across FAQs and Manuals you would do
-     * "FAQs|Manuals"
+     * You can also search across multiple collections. It is important to note that relevancy is affected across
+     * collections and it is recommended that collections be modeled so that cross-collection searching is not required.
+     * As an example, to search across FAQs and Manuals you would use "FAQs|Manuals".
      * JSON Reference:
      * { "collection": "FAQs" }
      * { "collection": "FAQs|Manuals" }
