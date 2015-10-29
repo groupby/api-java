@@ -5,7 +5,7 @@ import com.groupbyinc.api.model.MatchStrategy;
 import com.groupbyinc.api.model.Sort;
 import com.groupbyinc.api.request.RefinementsRequest;
 import com.groupbyinc.api.request.Request;
-import com.groupbyinc.common.util.apache.commons.collections4.CollectionUtils;
+import com.groupbyinc.common.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;

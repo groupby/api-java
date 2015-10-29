@@ -1,7 +1,7 @@
 package com.groupbyinc.util;
 
 import com.groupbyinc.api.parser.ParserException;
-import com.groupbyinc.common.util.apache.commons.lang3.StringUtils;
+import com.groupbyinc.common.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;

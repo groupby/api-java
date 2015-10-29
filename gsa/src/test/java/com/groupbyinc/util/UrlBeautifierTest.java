@@ -3,7 +3,7 @@ package com.groupbyinc.util;
 import com.groupbyinc.api.Query;
 import com.groupbyinc.api.model.Navigation;
 import com.groupbyinc.api.model.refinement.RefinementValue;
-import com.groupbyinc.common.util.apache.commons.lang3.StringUtils;
+import com.groupbyinc.common.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 

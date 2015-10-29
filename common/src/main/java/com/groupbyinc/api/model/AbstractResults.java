@@ -2,7 +2,7 @@ package com.groupbyinc.api.model;
 
 import com.groupbyinc.common.jackson.annotation.JsonIgnore;
 import com.groupbyinc.common.jackson.core.JsonProcessingException;
-import com.groupbyinc.common.jackson.util.Mappers;
+import com.groupbyinc.common.jackson.Mappers;
 
 import java.util.ArrayList;
 import java.util.List;

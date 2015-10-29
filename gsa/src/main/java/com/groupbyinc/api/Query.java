@@ -4,7 +4,7 @@ import com.groupbyinc.api.model.Sort;
 import com.groupbyinc.api.request.RefinementsRequest;
 import com.groupbyinc.api.request.Request;
 import com.groupbyinc.api.request.RestrictNavigation;
-import com.groupbyinc.common.util.apache.commons.lang3.StringUtils;
+import com.groupbyinc.common.apache.commons.lang3.StringUtils;
 
 public class Query extends AbstractQuery<Request, Query> {
 

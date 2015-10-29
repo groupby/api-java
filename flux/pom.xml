@@ -16,12 +16,44 @@
   <name>GroupBy - API - Java - Flux</name>
   <description>${project.name}</description>
 
-  <scm>
-    <url>https://github.com/groupby/api-java</url>
-    <connection>scm:git:git@github.com:groupby/api-java.git</connection>
-    <developerConnection>scm:git:git@github.com:groupby/api-java.git</developerConnection>
-    <tag>HEAD</tag>
-  </scm>
+  <dependencies>
+
+    <!-- ### GroupBy -->
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>common-jackson</artifactId>
+      <version>${groupbyinc.common.version}</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>common-http</artifactId>
+      <version>${groupbyinc.common.version}</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>common-util</artifactId>
+      <version>${groupbyinc.common.version}</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>api-java-common</artifactId>
+      <version>${project.version}</version>
+      <optional>true</optional>
+    </dependency>
+
+    <!-- ### Test -->
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>common-test</artifactId>
+      <version>${groupbyinc.common.version}</version>
+      <scope>test</scope>
+      <optional>true</optional>
+    </dependency>
+
+  </dependencies>
 
   <build>
 
@@ -116,44 +148,5 @@
     </plugins>
 
   </build>
-
-  <dependencies>
-
-    <!-- ### GroupBy -->
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>common-jackson</artifactId>
-      <version>${groupbyinc.common.version}</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>common-http</artifactId>
-      <version>${groupbyinc.common.version}</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>common-util</artifactId>
-      <version>${groupbyinc.common.version}</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>api-java-common</artifactId>
-      <version>${project.version}</version>
-      <optional>true</optional>
-    </dependency>
-
-    <!-- ### Test -->
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>common-test</artifactId>
-      <version>${groupbyinc.common.version}</version>
-      <scope>test</scope>
-      <optional>true</optional>
-    </dependency>
-
-  </dependencies>
 
 </project>

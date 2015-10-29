@@ -2,7 +2,7 @@ package com.groupbyinc.api.model;
 
 import com.groupbyinc.api.model.refinement.RefinementRange;
 import com.groupbyinc.api.model.refinement.RefinementValue;
-import com.groupbyinc.common.jackson.util.Mappers;
+import com.groupbyinc.common.jackson.Mappers;
 import com.groupbyinc.common.test.util.AssertUtils;
 import org.junit.Test;
 

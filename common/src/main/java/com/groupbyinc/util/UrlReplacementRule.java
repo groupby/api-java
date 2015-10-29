@@ -1,6 +1,6 @@
 package com.groupbyinc.util;
 
-import com.groupbyinc.common.util.apache.commons.lang3.StringUtils;
+import com.groupbyinc.common.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 

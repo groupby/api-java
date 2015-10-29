@@ -4,7 +4,7 @@ import com.groupbyinc.api.Query;
 import com.groupbyinc.api.model.Navigation;
 import com.groupbyinc.api.model.Refinement;
 import com.groupbyinc.common.jackson.core.type.TypeReference;
-import com.groupbyinc.common.jackson.util.Mappers;
+import com.groupbyinc.common.jackson.Mappers;
 import com.groupbyinc.util.AbstractUrlBeautifier;
 import com.groupbyinc.util.UrlBeautifier;
 

@@ -12,11 +12,11 @@ import com.groupbyinc.api.request.RestrictNavigation;
 import com.groupbyinc.api.request.SelectedRefinement;
 import com.groupbyinc.api.request.refinement.SelectedRefinementRange;
 import com.groupbyinc.api.request.refinement.SelectedRefinementValue;
-import com.groupbyinc.common.jackson.util.Mappers;
-import com.groupbyinc.common.util.apache.commons.collections4.CollectionUtils;
-import com.groupbyinc.common.util.apache.commons.lang3.StringUtils;
-import com.groupbyinc.common.util.jregex.Pattern;
-import com.groupbyinc.common.util.jregex.RETokenizer;
+import com.groupbyinc.common.apache.commons.collections4.CollectionUtils;
+import com.groupbyinc.common.apache.commons.lang3.StringUtils;
+import com.groupbyinc.common.jackson.Mappers;
+import com.groupbyinc.common.jregex.Pattern;
+import com.groupbyinc.common.jregex.RETokenizer;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -4,10 +4,10 @@ import com.groupbyinc.api.model.AbstractResults;
 import com.groupbyinc.api.model.Navigation;
 import com.groupbyinc.api.model.Refinement;
 import com.groupbyinc.api.model.refinement.RefinementValue;
-import com.groupbyinc.common.util.apache.commons.codec.digest.DigestUtils;
-import com.groupbyinc.common.util.apache.commons.collections4.CollectionUtils;
-import com.groupbyinc.common.util.apache.commons.lang3.StringEscapeUtils;
-import com.groupbyinc.common.util.apache.commons.lang3.StringUtils;
+import com.groupbyinc.common.apache.commons.codec.digest.DigestUtils;
+import com.groupbyinc.common.apache.commons.collections4.CollectionUtils;
+import com.groupbyinc.common.apache.commons.lang3.StringEscapeUtils;
+import com.groupbyinc.common.apache.commons.lang3.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

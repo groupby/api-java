@@ -1,7 +1,7 @@
 package com.groupbyinc.api.model;
 
 import com.groupbyinc.common.jackson.annotation.JsonIgnore;
-import com.groupbyinc.common.util.apache.commons.collections4.CollectionUtils;
+import com.groupbyinc.common.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -8,7 +8,7 @@ import com.groupbyinc.api.request.Request;
 import com.groupbyinc.common.jackson.core.Version;
 import com.groupbyinc.common.jackson.databind.Module;
 import com.groupbyinc.common.jackson.databind.module.SimpleModule;
-import com.groupbyinc.common.jackson.util.Mappers;
+import com.groupbyinc.common.jackson.Mappers;
 
 import java.io.IOException;
 import java.io.InputStream;
