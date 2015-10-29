@@ -16,6 +16,13 @@
   <name>GroupBy - API - Java - GSA</name>
   <description>${project.name}</description>
 
+  <scm>
+    <url>https://github.com/groupby/api-java</url>
+    <connection>scm:git:git@github.com:groupby/api-java.git</connection>
+    <developerConnection>scm:git:git@github.com:groupby/api-java.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+
   <dependencies>
 
     <!-- ### GroupBy -->
