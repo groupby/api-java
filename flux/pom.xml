@@ -16,6 +16,7 @@
   <name>GroupBy - API - Java - Flux</name>
   <description>${project.name}</description>
 
+  <!-- # required for Github plugin -->
   <scm>
     <url>https://github.com/groupby/api-java</url>
     <connection>scm:git:git@github.com:groupby/api-java.git</connection>
