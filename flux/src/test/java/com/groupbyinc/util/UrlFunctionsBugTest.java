@@ -15,7 +15,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Created by ferron on 4/22/15.
+ * @author Ferron Hanse
  */
 public class UrlFunctionsBugTest {
 
@@ -40,16 +40,12 @@ public class UrlFunctionsBugTest {
 
     @Test
     public void refinementAdditionWithMapping() throws JspException, AbstractUrlBeautifier.UrlBeautificationException {
-
         List<Navigation> navigations = new ArrayList<Navigation>();
 
         String refinementString = "Category Root~Athletics~Men's~Sneakers";
 
-        String url = UrlFunctions.toUrlAdd(
-                DEFAULT_BEAUTIFIER, "", navigations, "category_leaf_expanded", new RefinementValue().setValue(
-                        refinementString).setCount(5483));
-        assertEquals(
-                "/index.html?refinements=%7Ecategory_leaf_expanded%3DCategory+Root%7EAthletics%7EMen%27s%7ESneakers",
-                url);
+        String url = UrlFunctions.toUrlAdd(DEFAULT_BEAUTIFIER, "", navigations, "category_leaf_expanded", new RefinementValue().setValue(refinementString).setCount(5483));
+        assertEquals("/index.html?refinements=%7Ecategory_leaf_expanded%3DCategory+Root%7EAthletics%7EMen%27s%7ESneakers", url);
     }
+
 }
