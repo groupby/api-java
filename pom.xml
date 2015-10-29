@@ -39,11 +39,11 @@
     <log4j.properties />
 
     <!-- ### Versions -->
+    <groupbyinc.common.version>35</groupbyinc.common.version>
     <api.servlet.version>2.5</api.servlet.version>
     <api.jsp.version>2.1</api.jsp.version>
     <junit.version>4.12</junit.version>
     <cloning.util.version>1.9.2</cloning.util.version>
-    <groupbyinc.common.version>34</groupbyinc.common.version>
     <jregex.version>1.2_01</jregex.version>
 
     <!-- ### Test -->

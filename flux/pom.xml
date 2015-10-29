@@ -91,9 +91,11 @@
               <filters>
                 <filter>
                   <artifact>*:*</artifact>
+                  <!-- excludes for preventing OSGi bundles from complaining -->
                   <excludes>
-                    <!--<exclude>META-INF/**</exclude>-->
-                    <exclude>com/groupbyinc/common/util/apache/commons/logging/impl/Avalon*</exclude>
+                    <exclude>com/groupbyinc/common/apache/commons/logging/impl/Avalon*</exclude>
+                    <exclude>com/groupbyinc/common/apache/commons/logging/impl/LogKit*</exclude>
+                    <exclude>com/groupbyinc/common/apache/commons/logging/impl/Log4J*</exclude>
                   </excludes>
                 </filter>
                 <filter>
