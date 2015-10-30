@@ -181,8 +181,7 @@ public abstract class AbstractBridge<RQ extends AbstractRequest<RQ>, //
     }
 
     protected InputStream fireRequest(String url, String body, boolean returnBinary) throws IOException {
-        HttpPost httpPost = new HttpPost(url);
-        HttpResponse response = postToBridge(httpPost, body);
+        HttpResponse response = postToBridge(url, body);
         InputStream data = response.getEntity().getContent();
         if (response.getStatusLine().getStatusCode() != 200) {
             String status = response.getStatusLine().toString();
@@ -210,10 +209,9 @@ public abstract class AbstractBridge<RQ extends AbstractRequest<RQ>, //
         throw new IOException(EXCEPTION_FROM_BRIDGE + status + msg.toString());
     }
 
-    private HttpResponse postToBridge(HttpPost httpPost, String bridgeJson) throws IOException {
+    private HttpResponse postToBridge(String url, String bridgeJson) throws IOException {
         StringEntity entity = new StringEntity(bridgeJson, Charset.forName("UTF-8"));
         entity.setContentType("application/json");
-        httpPost.setEntity(entity);
 
         HttpResponse response = null;
         boolean successful = false;
@@ -221,6 +219,8 @@ public abstract class AbstractBridge<RQ extends AbstractRequest<RQ>, //
         SocketException lastError = null;
         while (!successful && tries < 3) {
             try {
+                HttpPost httpPost = new HttpPost(url + "?retry=" + tries);
+                httpPost.setEntity(entity);
                 response = httpClient.execute(httpPost);
                 successful = true;
             } catch (SocketException e) {
@@ -232,13 +232,12 @@ public abstract class AbstractBridge<RQ extends AbstractRequest<RQ>, //
                 LOG.warning("Connection failed, retrying");
                 lastError = e;
                 tries++;
-                httpPost.reset();
             }
         }
         if (tries < 3) {
             return response;
         }
-        throw new IOException("Tried to connect three times to: " + httpPost.getURI(), lastError);
+        throw new IOException("Tried to connect three times to: " + url, lastError);
     }
 
     /**

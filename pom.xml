@@ -39,7 +39,7 @@
     <log4j.properties />
 
     <!-- ### Versions -->
-    <groupbyinc.common.version>35</groupbyinc.common.version>
+    <groupbyinc.common.version>36</groupbyinc.common.version>
     <api.servlet.version>2.5</api.servlet.version>
     <api.jsp.version>2.1</api.jsp.version>
     <junit.version>4.12</junit.version>
