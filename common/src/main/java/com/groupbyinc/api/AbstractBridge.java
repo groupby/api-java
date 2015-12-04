@@ -29,7 +29,8 @@ import java.util.logging.Logger;
  * The Bridge is the class responsible for marshalling a query to and from the search service.
  * Because the bridge holds a connection pool that is expensive to create, it is highly recommended
  * that the bridge is held in the application memory scope and reused where appropriate.
- * Do not create a new bridge object for each request as you will incur unnecessary overhead.
+ * <b>Do not create a new bridge object for each request as you will incur overhead that will
+ * bring down your UI servers when under heavy load!</b>
  * </code>
  *
  * @author Will Warren
