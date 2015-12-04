@@ -6,6 +6,7 @@ import com.groupbyinc.api.model.zone.RecordZone;
 import com.groupbyinc.api.model.zone.RichContentZone;
 import com.groupbyinc.common.jackson.annotation.JsonProperty;
 import com.groupbyinc.common.jackson.annotation.JsonSubTypes;
+import com.groupbyinc.common.jackson.annotation.JsonTypeId;
 import com.groupbyinc.common.jackson.annotation.JsonTypeInfo;
 
 /**
@@ -46,6 +47,7 @@ public abstract class Zone<Z extends Zone<Z>> {
      *
      * @return The type of zone.
      */
+    @JsonTypeId
     public abstract Type getType();
 
     /**

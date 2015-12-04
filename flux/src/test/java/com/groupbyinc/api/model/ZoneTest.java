@@ -8,41 +8,58 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public class ZoneTest {
+    public static final String TYPE_RECORD = "\"type\" : \"Record\",";
+
+    private void assertCountMatches(int expectedCount, String search, String actual, String type) {
+        Matcher m = Pattern.compile(search).matcher(actual);
+
+        int count = 0;
+        while (m.find()) {
+            count++;
+        }
+
+        System.out.println(type + ": " + actual);
+        assertEquals(expectedCount, count);
+    }
 
     @Test
     public void testRecordZone() throws Exception {
         try {
             List<RefinementMatch> refinementMatches = new ArrayList<RefinementMatch>();
-            refinementMatches.add(
-                    new RefinementMatch().setName("a").setValues(
-                            asList(
-                                    new RefinementMatch.Value().setValue("c").setCount(
-                                            2), new RefinementMatch.Value().setValue("b").setCount(
-                                            1))));
+            refinementMatches.add(new RefinementMatch().setName("a").setValues(asList(
+                    new RefinementMatch.Value().setValue("c").setCount(2),
+                    new RefinementMatch.Value().setValue("b").setCount(1))));
 
             Record record = new Record().setId("abc").setUrl("abc").setTitle("abc").setSnippet("abc")
-                    .setRefinementMatches(refinementMatches);
-            System.out.println("record:     " + Mappers.writeValueAsString(record));
+                                        .setRefinementMatches(refinementMatches);
+            String actual = Mappers.writeValueAsString(record, true);
+            System.out.println(actual);
 
             RecordZone<Record> zone = new RecordZone<Record>().setId("abc").setName("abc").setQuery("abc").setRecords(
-                    asList(record));
-            System.out.println("zone:       " + Mappers.writeValueAsString(zone));
+                    singletonList(record));
+            actual = Mappers.writeValueAsString(zone, true);
+            assertCountMatches(1, TYPE_RECORD, actual, "zone");
 
             Map<String, Zone> zones = new HashMap<String, Zone>();
             zones.put("abc", zone);
             Template template = new Template().setName("abc").setZones(zones);
-            System.out.println("template:   " + Mappers.writeValueAsString(template));
+            actual = Mappers.writeValueAsString(template, true);
+            assertCountMatches(1, TYPE_RECORD, actual, "template");
 
             Results results = new Results().setTemplate(template);
-            System.out.println("results:    " + Mappers.writeValueAsString(results));
+            actual = Mappers.writeValueAsString(results, true);
+            assertCountMatches(1, TYPE_RECORD, actual, "results");
         } catch (StackOverflowError e) {
             fail("should be able to serialize");
         }
     }
-
 }
