@@ -116,7 +116,7 @@ public abstract class AbstractUrlBeautifier<RQ extends AbstractRequest<RQ>, Q ex
         if (MapUtils.isNotEmpty(navigations)) {
             for (Navigation n : navigations.values()) {
                 for (Refinement r : n.getRefinements()) {
-                    if (n.isRange()) {
+                    if (r instanceof RefinementRange) {
                         RefinementRange rr = (RefinementRange) r;
                         query.addRangeRefinement(n.getName(), rr.getLow(), rr.getHigh());
                     } else {
