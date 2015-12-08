@@ -16,7 +16,6 @@ import com.groupbyinc.common.apache.commons.collections4.CollectionUtils;
 import com.groupbyinc.common.apache.commons.lang3.StringUtils;
 import com.groupbyinc.common.jackson.Mappers;
 import com.groupbyinc.common.jregex.Pattern;
-import com.groupbyinc.common.jregex.RETokenizer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,11 +28,10 @@ import java.util.Map;
  * @internal
  */
 public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends AbstractQuery<R, Q>> {
-
     private static final String DOTS = "\\.\\.";
 
-    // matches a tilde separated string
-    public static final String TILDE_REGEX = "~((?=[\\w.]*[=:]))";
+    public static final Pattern REFINEMENTS_SPLITTER_PATTERN = new Pattern("~((?=[\\w.]*[=:]))");
+    public static final String[] EMPTY_REFINEMENTS = new String[]{};
 
     private static <R extends AbstractRequest<R>> String requestToJson(R request) {
         try {
@@ -94,16 +92,14 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
                 switch (r.getType()) {
                 case Range: {
                     RefinementRange rr = (RefinementRange) r;
-                    refinements.add(
-                            new SelectedRefinementRange().setNavigationName(n.getName()).setLow(
-                                    rr.getLow()).setHigh(rr.getHigh()).setExclude(rr.getExclude()));
+                    refinements.add(new SelectedRefinementRange().setNavigationName(n.getName()).setLow(rr.getLow())
+                                                                 .setHigh(rr.getHigh()).setExclude(rr.getExclude()));
                     break;
                 }
                 case Value: {
                     RefinementValue rv = (RefinementValue) r;
-                    refinements.add(
-                            new SelectedRefinementValue().setNavigationName(n.getName()).setValue(
-                                    rv.getValue()).setExclude(rv.getExclude()));
+                    refinements.add(new SelectedRefinementValue().setNavigationName(n.getName()).setValue(rv.getValue())
+                                                                 .setExclude(rv.getExclude()));
                     break;
                 }
                 }
@@ -348,12 +344,8 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
     }
 
     protected String[] splitRefinements(String refinementString) {
-        if (StringUtils.isNotBlank(refinementString)) {
-            Pattern pattern = new Pattern(TILDE_REGEX);
-            RETokenizer tokenizer = pattern.tokenizer(refinementString);
-            return tokenizer.split();
-        }
-        return new String[]{};
+        return StringUtils.isBlank(refinementString) //
+               ? EMPTY_REFINEMENTS : REFINEMENTS_SPLITTER_PATTERN.tokenizer(refinementString).split();
     }
 
     /**
@@ -900,5 +892,4 @@ public abstract class AbstractQuery<R extends AbstractRequest<R>, Q extends Abst
         this.restrictNavigation = new RestrictNavigation().setName(name).setCount(count);
         return (Q) this;
     }
-
 }

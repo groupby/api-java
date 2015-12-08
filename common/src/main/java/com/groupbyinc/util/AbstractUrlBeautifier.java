@@ -3,6 +3,7 @@ package com.groupbyinc.util;
 import com.groupbyinc.api.AbstractQuery;
 import com.groupbyinc.api.model.Navigation;
 import com.groupbyinc.api.model.Refinement;
+import com.groupbyinc.api.model.refinement.RefinementRange;
 import com.groupbyinc.api.model.refinement.RefinementValue;
 import com.groupbyinc.api.parser.ParserException;
 import com.groupbyinc.api.request.AbstractRequest;
@@ -29,7 +30,6 @@ import static java.util.Arrays.asList;
  * @internal
  */
 public abstract class AbstractUrlBeautifier<RQ extends AbstractRequest<RQ>, Q extends AbstractQuery<RQ, Q>> {
-
     public static final String PARAM_REPLACEMENT = "z";
 
     public static final String SEARCH_NAVIGATION_NAME = "search";
@@ -59,6 +59,7 @@ public abstract class AbstractUrlBeautifier<RQ extends AbstractRequest<RQ>, Q ex
      * placed into a URL path segment.
      * </code>
      *
+     * @deprecated Use {@link #toUrl(String, Map<String, Navigation>)} ()}
      * @param searchString
      *         The current search state.
      * @param existingRefinements
@@ -68,6 +69,7 @@ public abstract class AbstractUrlBeautifier<RQ extends AbstractRequest<RQ>, Q ex
      *
      * @throws UrlBeautificationException
      */
+    @Deprecated
     public String toUrl(String searchString, String existingRefinements) throws UrlBeautificationException {
         StringBuilder pathSegmentLookup = new StringBuilder("/");
         Q query = createQuery();
@@ -82,6 +84,52 @@ public abstract class AbstractUrlBeautifier<RQ extends AbstractRequest<RQ>, Q ex
         addReferenceBlock(pathSegmentLookup, uri);
         addAppend(uri);
         addUnmappedRefinements(navigations, uri);
+        String uriString = uri.toString();
+        return uriString.startsWith("null") ? uriString.substring(4) : uriString;
+    }
+
+    /**
+     * <code>
+     * Convert a search term and a list of refinements into a beautified URL.
+     * Each refinement that has a mapping will be turned into a path segment.
+     * If a mapping has been created for search, the search term will also be
+     * placed into a URL path segment.
+     * </code>
+     *
+     * @param searchString
+     *         The current search state.
+     * @param navigations
+     *         The current refinement state
+     *
+     * @return
+     *
+     * @throws UrlBeautificationException
+     */
+    public String toUrl(String searchString, Map<String, Navigation> navigations) throws UrlBeautificationException {
+        StringBuilder pathSegmentLookup = new StringBuilder("/");
+        Q query = createQuery();
+        if (StringUtils.isNotBlank(searchString)) {
+            query.setQuery(searchString);
+        }
+        URIBuilder uri = new URIBuilder();
+        uri.setPath("");
+        if (MapUtils.isNotEmpty(navigations)) {
+            for (Navigation n : navigations.values()) {
+                for (Refinement r : n.getRefinements()) {
+                    if (n.isRange()) {
+                        RefinementRange rr = (RefinementRange) r;
+                        query.addRangeRefinement(n.getName(), rr.getLow(), rr.getHigh());
+                    } else {
+                        query.addValueRefinement(n.getName(), ((RefinementValue) r).getValue());
+                    }
+                }
+            }
+        }
+        Map<String, Navigation> groupedRefinements = getDistinctRefinements(query);
+        addRefinements(query.getQuery(), groupedRefinements, pathSegmentLookup, uri);
+        addReferenceBlock(pathSegmentLookup, uri);
+        addAppend(uri);
+        addUnmappedRefinements(groupedRefinements, uri);
         String uriString = uri.toString();
         return uriString.startsWith("null") ? uriString.substring(4) : uriString;
     }
@@ -142,16 +190,16 @@ public abstract class AbstractUrlBeautifier<RQ extends AbstractRequest<RQ>, Q ex
         }
     }
 
-    private void addRefinements(String pSearchString, Map<String, Navigation> navigations,
+    private void addRefinements(String searchString, Map<String, Navigation> navigations,
                                 StringBuilder pathSegmentLookup, URIBuilder uri) throws UrlBeautificationException {
         int indexOffSet = StringUtils.length(uri.getPath()) + 1;
         List<UrlReplacement> replacements = new ArrayList<UrlReplacement>();
 
         for (Navigation m : remainingMappings) {
-            if (m == SEARCH_NAVIGATION && StringUtils.isNotBlank(pSearchString)) {
-                pSearchString = applyReplacementRule(m, pSearchString, indexOffSet, replacements);
-                indexOffSet += pSearchString.length() + 1;
-                addSearchString(pSearchString, pathSegmentLookup, uri);
+            if (m == SEARCH_NAVIGATION && StringUtils.isNotBlank(searchString)) {
+                searchString = applyReplacementRule(m, searchString, indexOffSet, replacements);
+                indexOffSet += searchString.length() + 1;
+                addSearchString(searchString, pathSegmentLookup, uri);
                 continue;
             }
             Navigation n = navigations.get(m.getName());
@@ -248,8 +296,8 @@ public abstract class AbstractUrlBeautifier<RQ extends AbstractRequest<RQ>, Q ex
                 return defaultQuery;
             }
             try {
-                pathSegments = applyReplacementToPathSegment(
-                        pathSegments, UrlReplacement.parseQueryString(replacementUrlQueryString));
+                pathSegments = applyReplacementToPathSegment(pathSegments, UrlReplacement
+                        .parseQueryString(replacementUrlQueryString));
             } catch (ParserException e) {
                 throw new UrlBeautificationException("Replacement Query is malformed, returning default query", e);
             }
@@ -516,5 +564,4 @@ public abstract class AbstractUrlBeautifier<RQ extends AbstractRequest<RQ>, Q ex
             super(message, cause);
         }
     }
-
 }

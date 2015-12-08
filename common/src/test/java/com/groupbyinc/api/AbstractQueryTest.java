@@ -1,9 +1,9 @@
 package com.groupbyinc.api;
 
+import com.groupbyinc.common.apache.commons.lang3.ArrayUtils;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.assertArrayEquals;
 
 /**
  * Created by ferron on 4/22/15.
@@ -17,15 +17,19 @@ public class AbstractQueryTest {
         query = new BaseQuery();
     }
 
+    private void assertArrayEquals(String[] expected, String[] actual) {
+        Assert.assertArrayEquals(ArrayUtils.toString(actual), expected, actual);
+    }
+
     @Test
     public void splitTestRange() {
-        String [] split = query.splitRefinements("test=bob~price:10..20");
+        String[] split = query.splitRefinements("test=bob~price:10..20");
         assertArrayEquals(new String[]{"test=bob", "price:10..20"}, split);
     }
 
     @Test
-    public void splitTestNoCategory () {
-        String [] split = query.splitRefinements("~gender=Women~simpleColorDesc=Pink~product=Clothing");
+    public void splitTestNoCategory() {
+        String[] split = query.splitRefinements("~gender=Women~simpleColorDesc=Pink~product=Clothing");
         assertArrayEquals(new String[]{"gender=Women", "simpleColorDesc=Pink", "product=Clothing"}, split);
     }
 
@@ -33,26 +37,26 @@ public class AbstractQueryTest {
     public void splitTestCategory() {
         String[] split = query.splitRefinements("~category_leaf_expanded=Category Root~Athletics~Men's~Sneakers");
 
-        assertArrayEquals(
-                new String[]{"category_leaf_expanded=Category Root~Athletics~Men's~Sneakers"}, split);
+        assertArrayEquals(new String[]{"category_leaf_expanded=Category Root~Athletics~Men's~Sneakers"}, split);
     }
 
     @Test
     public void splitTestMultipleCategory() {
-        String[] split = query.splitRefinements("~category_leaf_expanded=Category Root~Athletics~Men's~Sneakers~category_leaf_id=580003");
+        String[] split = query.splitRefinements(
+                "~category_leaf_expanded=Category Root~Athletics~Men's~Sneakers~category_leaf_id=580003");
 
-        assertArrayEquals(
-                new String[]{"category_leaf_expanded=Category Root~Athletics~Men's~Sneakers", "category_leaf_id=580003"}, split);
+        assertArrayEquals(new String[]{
+                "category_leaf_expanded=Category Root~Athletics~Men's~Sneakers", "category_leaf_id=580003"}, split);
     }
 
     @Test
-    public void splitTestRangeAndMultipleCategory () {
+    public void splitTestRangeAndMultipleCategory() {
         String[] split = query.splitRefinements(
                 "test=bob~price:10..20~category_leaf_expanded=Category Root~Athletics~Men's" +
                 "~Sneakers~category_leaf_id=580003~color=BLUE~color=YELLOW~color=GREY");
-        assertArrayEquals(new String[]{"test=bob", "price:10..20",
-                                       "category_leaf_expanded=Category Root~Athletics~Men's~Sneakers", "category_leaf_id=580003",
-                                       "color=BLUE", "color=YELLOW", "color=GREY"}, split);
+        assertArrayEquals(new String[]{
+                "test=bob", "price:10..20", "category_leaf_expanded=Category Root~Athletics~Men's~Sneakers",
+                "category_leaf_id=580003", "color=BLUE", "color=YELLOW", "color=GREY"}, split);
     }
 
     @Test
@@ -61,31 +65,29 @@ public class AbstractQueryTest {
                 "~category_leaf_expanded=Category Root~Athletics~Men's~Sneakers~category_leaf_id=580003~" +
                 "color=BLUE~color=YELLOW~color=GREY~feature=Lace Up~feature=Light Weight~brand=Nike";
 
-        String [] split = query.splitRefinements(reallyLongString);
+        String[] split = query.splitRefinements(reallyLongString);
 
-        assertArrayEquals(
-                new String[]{"category_leaf_expanded=Category Root~Athletics~Men's~Sneakers", "category_leaf_id=580003",
-                        "color=BLUE", "color=YELLOW", "color=GREY", "feature=Lace Up", "feature=Light Weight",
-                        "brand=Nike"
-                },
-                split);
+        assertArrayEquals(new String[]{
+                                  "category_leaf_expanded=Category Root~Athletics~Men's~Sneakers", "category_leaf_id=580003",
+                                  "color=BLUE", "color=YELLOW", "color=GREY", "feature=Lace Up", "feature=Light Weight", "brand=Nike"},
+                          split);
     }
 
     @Test
-    public void testNull () {
+    public void testNull() {
         String[] split = query.splitRefinements(null);
         assertArrayEquals(new String[]{}, split);
     }
 
     @Test
-    public void testEmpty () {
+    public void testEmpty() {
         String[] split = query.splitRefinements("");
         assertArrayEquals(new String[]{}, split);
     }
 
     @Test
-    public void testUtf8 () {
-        String [] split = query.splitRefinements("tëst=bäb~price:10..20");
+    public void testUtf8() {
+        String[] split = query.splitRefinements("tëst=bäb~price:10..20");
         assertArrayEquals(new String[]{"tëst=bäb", "price:10..20"}, split);
     }
 }

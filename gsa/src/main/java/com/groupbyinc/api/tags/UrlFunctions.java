@@ -17,7 +17,7 @@ public class UrlFunctions {
         UrlBeautifier urlBeautifier = getBeautifier(identifier);
         Query refinements = addRefinements(navigations, pNavigationName, pRefinement);
         try {
-            return urlBeautifier.toUrl(searchString, refinements.getRefinementString());
+            return urlBeautifier.toUrl(searchString, refinements.getNavigations());
         } catch (AbstractUrlBeautifier.UrlBeautificationException e) {
             throw new JspException("Unable to add to url", e);
         }
@@ -28,7 +28,7 @@ public class UrlFunctions {
         UrlBeautifier urlBeautifier = getBeautifier(identifier);
         Query refinements = removeRefinements(navigations, navigationName, refinement);
         try {
-            return urlBeautifier.toUrl(searchString, refinements.getRefinementString());
+            return urlBeautifier.toUrl(searchString, refinements.getNavigations());
         } catch (AbstractUrlBeautifier.UrlBeautificationException e) {
             throw new JspException("Unable to remove from url", e);
         }
@@ -86,9 +86,8 @@ public class UrlFunctions {
     private static UrlBeautifier getBeautifier(String identifier) throws JspException {
         UrlBeautifier urlBeautifier = UrlBeautifier.getUrlBeautifiers().get(identifier);
         if (urlBeautifier == null) {
-            throw new JspException(
-                    "Could not find UrlBeautifier named: " + identifier +
-                    ". Please call UrlBeautifier.createUrlBeautifier(String) to instantiate");
+            throw new JspException("Could not find UrlBeautifier named: " + identifier +
+                                   ". Please call UrlBeautifier.createUrlBeautifier(String) to instantiate");
         }
         return urlBeautifier;
     }
