@@ -17,7 +17,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class FunctionsTest {
-
     @Test
     public void testUncamel() throws Exception {
         assertEquals(
