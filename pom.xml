@@ -12,17 +12,12 @@
   <artifactId>api-java</artifactId>
   <version>2.0.251-SNAPSHOT</version>
 
-  <packaging>pom</packaging>
+  <packaging>jar</packaging>
 
   <name>GroupBy - API - Java</name>
   <description>${project.name}</description>
 
-  <modules>
-    <module>common</module>
-    <module>flux</module>
-    <module>gsa</module>
-  </modules>
-
+  <!-- # required for Github plugin -->
   <scm>
     <url>https://github.com/groupby/api-java</url>
     <connection>scm:git:git@github.com:groupby/api-java.git</connection>
@@ -39,7 +34,7 @@
     <log4j.properties />
 
     <!-- ### Versions -->
-    <groupbyinc.common.version>40</groupbyinc.common.version>
+    <groupbyinc.common.version>41</groupbyinc.common.version>
     <api.servlet.version>2.5</api.servlet.version>
     <api.jsp.version>2.1</api.jsp.version>
     <junit.version>4.12</junit.version>
@@ -61,6 +56,26 @@
 
   <dependencies>
 
+    <!-- ### GroupBy -->
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>common-jackson</artifactId>
+      <version>${groupbyinc.common.version}</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>common-http</artifactId>
+      <version>${groupbyinc.common.version}</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>common-util</artifactId>
+      <version>${groupbyinc.common.version}</version>
+      <optional>true</optional>
+    </dependency>
+
     <!-- ### Servlet/JSP/JSTL -->
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -73,6 +88,20 @@
       <artifactId>jsp-api</artifactId>
       <version>${api.jsp.version}</version>
       <scope>provided</scope>
+    </dependency>
+
+    <!-- ### Test -->
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>common-test</artifactId>
+      <version>${groupbyinc.common.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
     </dependency>
 
   </dependencies>
@@ -414,6 +443,94 @@
         <groupId>${project.groupId}</groupId>
         <artifactId>common-lifecycle</artifactId>
         <extensions>true</extensions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <shadeTestJar>true</shadeTestJar>
+              <shadedArtifactAttached>true</shadedArtifactAttached>
+              <shadedClassifierName>uber</shadedClassifierName>
+              <createSourcesJar>true</createSourcesJar>
+              <createDependencyReducedPom>true</createDependencyReducedPom>
+              <dependencyReducedPomLocation>${project.build.directory}/${project.build.finalName}.pom</dependencyReducedPomLocation>
+              <artifactSet>
+                <includes>
+                  <include>${project.groupId}:*</include>
+                </includes>
+              </artifactSet>
+              <filters>
+                <filter>
+                  <artifact>*:*</artifact>
+                  <!-- excludes for preventing OSGi bundles from complaining -->
+                  <excludes>
+                    <exclude>com/groupbyinc/common/apache/commons/logging/impl/Avalon*</exclude>
+                    <exclude>com/groupbyinc/common/apache/commons/logging/impl/LogKit*</exclude>
+                    <exclude>com/groupbyinc/common/apache/commons/logging/impl/Log4J*</exclude>
+                  </excludes>
+                </filter>
+                <filter>
+                  <artifact>${project.groupId}:${project.parent.artifactId}-common</artifact>
+                  <includes>
+                    <include>com/groupbyinc/**</include>
+                    <include>META-INF/commerce.tld</include>
+                  </includes>
+                </filter>
+              </filters>
+              <transformers>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <manifestEntries>
+                    <Archive-Type>Uber JAR</Archive-Type>
+                  </manifestEntries>
+                </transformer>
+              </transformers>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <finalName>api-java-${project.version}</finalName>
+          <descriptors>
+            <descriptor>${project.basedir}/bin.xml</descriptor>
+          </descriptors>
+        </configuration>
+        <executions>
+          <execution>
+            <id>create-compressed-packages</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>de.jutzig</groupId>
+        <artifactId>github-release-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>github-deploy</id>
+            <phase>deploy</phase>
+            <goals>
+              <goal>release</goal>
+            </goals>
+            <configuration>
+              <artifact>${project.build.directory}/${project.artifactId}-${project.version}-uber.jar</artifact>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
 
     </plugins>
