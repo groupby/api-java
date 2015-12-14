@@ -9,7 +9,7 @@
     <relativePath />
   </parent>
 
-  <artifactId>api-java</artifactId>
+  <artifactId>api-java-flux</artifactId>
   <version>2.0.252-SNAPSHOT</version>
 
   <packaging>jar</packaging>
@@ -500,7 +500,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration>
-          <finalName>api-java-${project.version}</finalName>
+          <finalName>api-java-flux-${project.version}</finalName>
           <descriptors>
             <descriptor>${project.basedir}/bin.xml</descriptor>
           </descriptors>
