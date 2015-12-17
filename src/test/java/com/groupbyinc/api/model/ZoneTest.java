@@ -44,7 +44,7 @@ public class ZoneTest {
             String actual = Mappers.writeValueAsString(record, true);
             System.out.println(actual);
 
-            RecordZone<Record> zone = new RecordZone<Record>().setId("abc").setName("abc").setQuery("abc").setRecords(
+            RecordZone zone = new RecordZone().setId("abc").setName("abc").setQuery("abc").setRecords(
                     singletonList(record));
             actual = Mappers.writeValueAsString(zone, true);
             assertCountMatches(1, TYPE_RECORD, actual, "zone");

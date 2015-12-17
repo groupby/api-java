@@ -6,24 +6,24 @@ package com.groupbyinc.api.request;
  * @author lonell
  * @internal
  */
-public class RefinementsRequest<R extends AbstractRequest<R>> {
-    private R originalQuery;
+public class RefinementsRequest {
+    private Request originalQuery;
     private String navigationName;
 
     public String getNavigationName() {
         return navigationName;
     }
 
-    public RefinementsRequest<R> setNavigationName(String navigationName) {
+    public RefinementsRequest setNavigationName(String navigationName) {
         this.navigationName = navigationName;
         return this;
     }
 
-    public R getOriginalQuery() {
+    public Request getOriginalQuery() {
         return originalQuery;
     }
 
-    public RefinementsRequest<R> setOriginalQuery(R originalQuery) {
+    public RefinementsRequest setOriginalQuery(Request originalQuery) {
         this.originalQuery = originalQuery;
         return this;
     }

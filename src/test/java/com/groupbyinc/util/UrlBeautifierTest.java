@@ -81,7 +81,7 @@ public class UrlBeautifierTest {
     }
 
     @Test
-    public void testFullSearchUrl() throws AbstractUrlBeautifier.UrlBeautificationException {
+    public void testFullSearchUrl() throws UrlBeautifier.UrlBeautificationException {
         test.setSearchMapping('q');
         test.addRefinementMapping('t', "test");
         String url = test.toUrl("this is a test", new Query().addValueRefinement("test", "value").getNavigations());
@@ -140,7 +140,7 @@ public class UrlBeautifierTest {
                     test.toUrl(null, new Query().addValueRefinement("test", "bob")
                                                 .addRangeRefinement("price", "10", "20").getNavigations()));
             fail("Should throw exception if trying to map range");
-        } catch (AbstractUrlBeautifier.UrlBeautificationException e) {
+        } catch (UrlBeautifier.UrlBeautificationException e) {
             //expected
         }
     }
@@ -691,7 +691,7 @@ public class UrlBeautifierTest {
 
     private void toAndFromUrl(String searchString, Map<String, Navigation> navigations,
                               String... expectedRefinementsValues)
-            throws URISyntaxException, AbstractUrlBeautifier.UrlBeautificationException {
+            throws URISyntaxException, UrlBeautifier.UrlBeautificationException {
         String url = test.toUrl(searchString, navigations);
         Query query = test.fromUrl(url);
         assertEquals(searchString, query.getQuery());
@@ -720,7 +720,7 @@ public class UrlBeautifierTest {
         try {
             test.fromUrl(pUri);
             fail("Expected an exception");
-        } catch (AbstractUrlBeautifier.UrlBeautificationException e) {
+        } catch (UrlBeautifier.UrlBeautificationException e) {
             //expected
         }
     }

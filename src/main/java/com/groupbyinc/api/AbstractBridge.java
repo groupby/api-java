@@ -1,9 +1,7 @@
 package com.groupbyinc.api;
 
-import com.groupbyinc.api.model.AbstractRecord;
-import com.groupbyinc.api.model.AbstractResults;
 import com.groupbyinc.api.model.RefinementsResult;
-import com.groupbyinc.api.request.AbstractRequest;
+import com.groupbyinc.api.model.Results;
 import com.groupbyinc.common.apache.commons.io.Charsets;
 import com.groupbyinc.common.apache.commons.io.IOUtils;
 import com.groupbyinc.common.apache.commons.lang3.StringUtils;
@@ -14,6 +12,7 @@ import com.groupbyinc.common.apache.http.entity.StringEntity;
 import com.groupbyinc.common.apache.http.impl.client.CloseableHttpClient;
 import com.groupbyinc.common.apache.http.impl.client.HttpClientBuilder;
 import com.groupbyinc.common.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import com.groupbyinc.common.jackson.Mappers;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -35,11 +34,7 @@ import java.util.logging.Logger;
  *
  * @author Will Warren
  */
-public abstract class AbstractBridge<RQ extends AbstractRequest<RQ>, //
-        Q extends AbstractQuery<RQ, Q>,//
-        D extends AbstractRecord<D>, //
-        R extends AbstractResults<D, R>> {
-
+public abstract class AbstractBridge {
     private static final Logger LOG = Logger.getLogger(AbstractBridge.class.getName());
 
     public static final String CLUSTER = "/cluster";
@@ -51,11 +46,9 @@ public abstract class AbstractBridge<RQ extends AbstractRequest<RQ>, //
     private static final String REFINEMENT_SEARCH = "/refinement";
     private static final String BODY = "\nbody:\n";
     private static final String EXCEPTION_FROM_BRIDGE = "Exception from bridge: ";
-    private static final RequestConfig REQUEST_CONFIG = RequestConfig.custom()
-            .setConnectTimeout(15000)
-            .setConnectionRequestTimeout(15000)
-            .setSocketTimeout(30000)
-            .build();
+    private static final RequestConfig REQUEST_CONFIG = RequestConfig.custom().setConnectTimeout(15000)
+                                                                     .setConnectionRequestTimeout(15000)
+                                                                     .setSocketTimeout(30000).build();
     private final String bridgeUrl;
     private final String bridgeRefinementsUrl;
     private final String bridgeRefinementSearchUrl;
@@ -153,9 +146,13 @@ public abstract class AbstractBridge<RQ extends AbstractRequest<RQ>, //
         httpClient = b.setConnectionManager(cm).setDefaultRequestConfig(REQUEST_CONFIG).build();
     }
 
-    protected abstract R map(InputStream data, boolean returnBinary);
+    protected Results map(InputStream data, boolean returnBinary) {
+        return Mappers.readValue(data, Results.class, returnBinary);
+    }
 
-    protected abstract RefinementsResult mapRefinements(InputStream data, boolean returnBinary);
+    protected RefinementsResult mapRefinements(InputStream data, boolean returnBinary) {
+        return Mappers.readValue(data, RefinementsResult.class, returnBinary);
+    }
 
     /**
      * <code>
@@ -169,15 +166,30 @@ public abstract class AbstractBridge<RQ extends AbstractRequest<RQ>, //
      *
      * @throws IOException
      */
-    public R search(Q query) throws IOException {
+    public Results search(Query query) throws IOException {
         InputStream data = fireRequest(getBridgeUrl(), query.getBridgeJson(clientKey), query.isReturnBinary());
         return map(data, query.isReturnBinary());
     }
 
-    protected RefinementsResult refinements(Q query, String navigationName) throws IOException {
-        InputStream data = fireRequest(
-                getBridgeRefinementsUrl(), query.getBridgeRefinementsJson(clientKey, navigationName),
-                query.isReturnBinary());
+    /**
+     * <code>
+     * Connects to the refinements service, parses the response into a model
+     * Retrieves at most 10,000 refinements for the navigation specified.
+     * </code>
+     *
+     * @param query
+     *         A query representing the search.
+     * @param navigationName
+     *         The name of the navigation to get more refinements for.
+     *
+     * @return RefinementsResult object from the refinements service
+     *
+     * @throws IOException
+     */
+    public RefinementsResult refinements(Query query, String navigationName) throws IOException {
+        InputStream data = fireRequest(getBridgeRefinementsUrl(),
+                                       query.getBridgeRefinementsJson(clientKey, navigationName),
+                                       query.isReturnBinary());
         return mapRefinements(data, query.isReturnBinary());
     }
 
@@ -260,5 +272,4 @@ public abstract class AbstractBridge<RQ extends AbstractRequest<RQ>, //
     public void setRetryTimeout(long retryTimeout) {
         this.retryTimeout = retryTimeout;
     }
-
 }

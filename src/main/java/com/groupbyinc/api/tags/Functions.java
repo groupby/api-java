@@ -1,8 +1,8 @@
 package com.groupbyinc.api.tags;
 
-import com.groupbyinc.api.model.AbstractResults;
 import com.groupbyinc.api.model.Navigation;
 import com.groupbyinc.api.model.Refinement;
+import com.groupbyinc.api.model.Results;
 import com.groupbyinc.api.model.refinement.RefinementValue;
 import com.groupbyinc.common.apache.commons.codec.digest.DigestUtils;
 import com.groupbyinc.common.apache.commons.collections4.CollectionUtils;
@@ -19,7 +19,8 @@ import java.util.List;
 public class Functions {
 
     private static final SimpleDateFormat ISO_DATE = new SimpleDateFormat("yyyy-MM-dd");
-    private static final String[] acronyms = {"Api", "Xml", "Gsa", "Asp", "Jstl", "Net", "Php", "Sayt", "Db", "Faq", "Sdk", "Seo"};
+    private static final String[] acronyms =
+            {"Api", "Xml", "Gsa", "Asp", "Jstl", "Net", "Php", "Sayt", "Db", "Faq", "Sdk", "Seo"};
 
     private Functions() {
         // hide utility constructor
@@ -93,7 +94,7 @@ public class Functions {
         return copy;
     }
 
-    public static boolean isRefinementSelected(AbstractResults<?, ?> results, String navigationName, String value) {
+    public static boolean isRefinementSelected(Results results, String navigationName, String value) {
         if (StringUtils.isEmpty(navigationName) || StringUtils.isEmpty(value)) {
             return false;
         } else if (CollectionUtils.isEmpty(results.getSelectedNavigation())) {
@@ -115,5 +116,4 @@ public class Functions {
         }
         return false;
     }
-
 }

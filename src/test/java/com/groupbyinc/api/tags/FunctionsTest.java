@@ -1,9 +1,8 @@
 package com.groupbyinc.api.tags;
 
-import com.groupbyinc.api.model.AbstractRecord;
-import com.groupbyinc.api.model.AbstractResults;
 import com.groupbyinc.api.model.Navigation;
 import com.groupbyinc.api.model.Refinement;
+import com.groupbyinc.api.model.Results;
 import com.groupbyinc.api.model.refinement.RefinementRange;
 import com.groupbyinc.api.model.refinement.RefinementValue;
 import org.junit.Test;
@@ -17,19 +16,19 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class FunctionsTest {
+    public void assertUncamel(String expected, String test) {
+        assertEquals(expected, Functions.uncamel(test));
+    }
+
     @Test
     public void testUncamel() throws Exception {
-        assertEquals(
-                "Java API Reference", Functions.uncamel("javaApiReference"));
-        assertEquals(
-                "Java API Reference", Functions.uncamel("javaAPIReference"));
-        assertEquals("GSA Configuration", Functions.uncamel("gsaConfiguration"));
-        assertEquals(
-                "Pier 1 Load Balancing", Functions.uncamel("Pier1LoadBalancing"));
-        assertEquals(".NET API", Functions.uncamel(".NetApi"));
-        assertEquals("Network Settings", Functions.uncamel("NetworkSettings"));
-        assertEquals("FAQ", Functions.uncamel("faq"));
-        // assertEquals("FAQs", Functions.uncamel("faqS"));
+        assertUncamel("Java API Reference", "javaApiReference");
+        assertUncamel("Java API Reference", "javaAPIReference");
+        assertUncamel("GSA Configuration", "gsaConfiguration");
+        assertUncamel("Pier 1 Load Balancing", "Pier1LoadBalancing");
+        assertUncamel(".NET API", ".NetApi");
+        assertUncamel("Network Settings", "NetworkSettings");
+        assertUncamel("FAQ", "faq");
     }
 
     @Test
@@ -38,30 +37,19 @@ public class FunctionsTest {
         assertEquals("[3, 2, 1]", reverse.toString());
     }
 
-    private static class RecordMock extends AbstractRecord<RecordMock> {
-
-    }
-
-    private static class ResultsMock extends AbstractResults<RecordMock, ResultsMock> {
-
-    }
-
     @Test
     public void testRefinementSelected() {
-        ResultsMock r = new ResultsMock();
-        r.setSelectedNavigation(
-                asList(
-                        new Navigation().setName("a").setOr(true).setRefinements(
-                                asList(
-                                        new RefinementValue().setValue("1"), //
-                                        new RefinementValue().setValue("2"))), //
-                        new Navigation().setName("b").setRange(true).setRefinements(
-                                singletonList((Refinement) new RefinementRange().setLow("0").setHigh("1"))), //
-                        new Navigation().setName("c").setOr(false).setRefinements(
-                                asList(
-                                        new RefinementValue().setValue("1"), //
-                                        new RefinementValue().setValue("2"))) //
-                ));
+        Results r = new Results();
+        r.setSelectedNavigation(asList(
+                new Navigation().setName("a").setOr(true).setRefinements(asList(
+                        new RefinementValue().setValue("1"), //
+                        new RefinementValue().setValue("2"))), //
+                new Navigation().setName("b").setRange(true).setRefinements(
+                        singletonList((Refinement) new RefinementRange().setLow("0").setHigh("1"))), //
+                new Navigation().setName("c").setOr(false).setRefinements(asList(
+                        new RefinementValue().setValue("1"), //
+                        new RefinementValue().setValue("2"))) //
+        ));
 
         assertFalse(Functions.isRefinementSelected(r, null, "1"));
         assertFalse(Functions.isRefinementSelected(r, "", "1"));

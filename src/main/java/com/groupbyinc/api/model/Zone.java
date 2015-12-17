@@ -19,7 +19,7 @@ import com.groupbyinc.common.jackson.annotation.JsonTypeInfo;
         @JsonSubTypes.Type(value = BannerZone.class, name = "Banner"),
         @JsonSubTypes.Type(value = RichContentZone.class, name = "Rich_Content")})
 public abstract class Zone<Z extends Zone<Z>> {
-    public static enum Type {
+    public enum Type {
         Content, Record, Banner, Rich_Content
     }
 

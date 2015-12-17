@@ -1,6 +1,6 @@
 package com.groupbyinc.util;
 
-import com.groupbyinc.api.BaseQuery;
+import com.groupbyinc.api.Query;
 import com.groupbyinc.api.model.Navigation;
 import com.groupbyinc.api.model.refinement.RefinementValue;
 import com.groupbyinc.api.tags.UrlFunctions;
@@ -18,16 +18,15 @@ import static org.junit.Assert.assertEquals;
  * @author Ferron Hanse
  */
 public class UrlFunctionsBugTest {
-
     private final String DEFAULT_BEAUTIFIER = "default";
 
     UrlBeautifier urlBeautifier;
 
-    BaseQuery query;
+    Query query;
 
     @Before
     public void setUp() {
-        query = new BaseQuery();
+        query = new Query();
         UrlBeautifier.INJECTOR.set(new HashMap<String, UrlBeautifier>());
         UrlBeautifier.createUrlBeautifier(DEFAULT_BEAUTIFIER);
         urlBeautifier = UrlBeautifier.getUrlBeautifiers().get(DEFAULT_BEAUTIFIER);

@@ -1,9 +1,7 @@
 package com.groupbyinc.api;
 
-import com.groupbyinc.api.model.AbstractResults;
-import com.groupbyinc.api.model.BaseResults;
 import com.groupbyinc.api.model.RefinementsResult;
-import com.groupbyinc.common.jackson.Mappers;
+import com.groupbyinc.api.model.Results;
 import com.groupbyinc.common.apache.http.HttpRequestInterceptor;
 import com.groupbyinc.common.apache.http.HttpResponseInterceptor;
 import com.groupbyinc.common.apache.http.client.protocol.RequestAcceptEncoding;
@@ -23,7 +21,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class AbstractBridgeTest {
-
     protected String clientKey = "clientKey";
 
     @Test
@@ -31,7 +28,7 @@ public class AbstractBridgeTest {
         String bridgeUrl = "bridgeUrl";
         AbstractBridge bridge = new AbstractBridge(clientKey, bridgeUrl) {
             @Override
-            protected AbstractResults map(InputStream data, boolean returnBinary) {
+            protected Results map(InputStream data, boolean returnBinary) {
                 return null;
             }
 
@@ -56,15 +53,6 @@ public class AbstractBridgeTest {
     public void testTurnOffCompressedResponse() throws Exception {
         String bridgeUrl = "bridgeUrl";
         AbstractBridge bridge = new AbstractBridge(clientKey, bridgeUrl, false) {
-            @Override
-            protected AbstractResults map(InputStream data, boolean returnBinary) {
-                return null;
-            }
-
-            @Override
-            protected RefinementsResult mapRefinements(InputStream data, boolean returnBinary) {
-                return null;
-            }
         };
 
         ImmutableHttpProcessor httpProcessor = getImmutableHttpProcessor(bridge);
@@ -83,7 +71,7 @@ public class AbstractBridgeTest {
         String bridgeUrl = "bridgeUrl";
         AbstractBridge bridge = new AbstractBridge(clientKey, bridgeUrl, true) {
             @Override
-            protected AbstractResults map(InputStream data, boolean returnBinary) {
+            protected Results map(InputStream data, boolean returnBinary) {
                 return null;
             }
 
@@ -108,15 +96,6 @@ public class AbstractBridgeTest {
     public void testHandleErrorStatus() {
         String bridgeUrl = "bridgeUrl";
         AbstractBridge bridge = new AbstractBridge(clientKey, bridgeUrl, true) {
-            @Override
-            protected AbstractResults map(InputStream data, boolean returnBinary) {
-                return Mappers.readValue(data, BaseResults.class, returnBinary);
-            }
-
-            @Override
-            protected RefinementsResult mapRefinements(InputStream data, boolean returnBinary) {
-                return null;
-            }
         };
         String jsonContent = "{\"errors\":\"error message\"}";
         String status = "status";
@@ -203,5 +182,4 @@ public class AbstractBridgeTest {
         }
         return foundRequestAcceptEncoding;
     }
-
 }

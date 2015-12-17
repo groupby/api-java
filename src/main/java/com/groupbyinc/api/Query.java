@@ -1,20 +1,896 @@
 package com.groupbyinc.api;
 
-import com.groupbyinc.api.model.PartialMatchRule;
+import com.groupbyinc.api.model.CustomUrlParam;
 import com.groupbyinc.api.model.MatchStrategy;
+import com.groupbyinc.api.model.Navigation;
+import com.groupbyinc.api.model.PartialMatchRule;
+import com.groupbyinc.api.model.Refinement;
 import com.groupbyinc.api.model.Sort;
+import com.groupbyinc.api.model.refinement.RefinementRange;
+import com.groupbyinc.api.model.refinement.RefinementValue;
 import com.groupbyinc.api.request.RefinementsRequest;
 import com.groupbyinc.api.request.Request;
+import com.groupbyinc.api.request.RestrictNavigation;
+import com.groupbyinc.api.request.SelectedRefinement;
+import com.groupbyinc.api.request.refinement.SelectedRefinementRange;
+import com.groupbyinc.api.request.refinement.SelectedRefinementValue;
 import com.groupbyinc.common.apache.commons.collections4.CollectionUtils;
+import com.groupbyinc.common.apache.commons.lang3.StringUtils;
+import com.groupbyinc.common.jackson.Mappers;
+import com.groupbyinc.common.jregex.Pattern;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
-public class Query extends AbstractQuery<Request, Query> {
+public class Query {
+    public static final Pattern REFINEMENTS_SPLITTER_PATTERN = new Pattern("~((?=[\\w.]*[=:]))");
+    public static final String[] EMPTY_REFINEMENTS = new String[]{};
+    private static final String DOTS = "\\.\\.";
 
     private List<Sort> sort = new ArrayList<Sort>();
     private MatchStrategy matchStrategy;
     private boolean wildcardSearchEnabled;
+
+    private static String requestToJson(Request request) {
+        try {
+            return Mappers.writeValueAsString(request);
+        } catch (IllegalArgumentException e) {
+            return "{}";
+        }
+    }
+
+    private static String requestToJson(RefinementsRequest request) {
+        try {
+            return Mappers.writeValueAsString(request);
+        } catch (IllegalArgumentException e) {
+            return "{}";
+        }
+    }
+
+    private String query;
+    private int skip = 0;
+    private int pageSize = 10;
+    private String collection;
+    private String area;
+    private String biasingProfile;
+    private String language;
+    private List<CustomUrlParam> customUrlParams = new ArrayList<CustomUrlParam>();
+    private LinkedHashMap<String, Navigation> navigations = new LinkedHashMap<String, Navigation>();
+    private List<String> fields = new ArrayList<String>();
+    private List<String> orFields = new ArrayList<String>();
+    private boolean pruneRefinements = true;
+    private boolean returnBinary = true;
+    private boolean disableAutocorrection = false;
+    protected RestrictNavigation restrictNavigation;
+
+    protected static com.groupbyinc.api.request.Sort convertSort(Sort sort) {
+        com.groupbyinc.api.request.Sort convertedSort = null;
+        if (sort != null) {
+            convertedSort = new com.groupbyinc.api.request.Sort().setField(sort.getField());
+            switch (sort.getOrder()) {
+            case Ascending:
+                convertedSort.setOrder(com.groupbyinc.api.request.Sort.Order.Ascending);
+                break;
+            case Descending:
+                convertedSort.setOrder(com.groupbyinc.api.request.Sort.Order.Descending);
+                break;
+            }
+        }
+        return convertedSort;
+    }
+
+    private List<SelectedRefinement> generateSelectedRefinements(LinkedHashMap<String, Navigation> navigations) {
+        List<SelectedRefinement> refinements = new ArrayList<SelectedRefinement>();
+        for (Navigation n : navigations.values()) {
+            for (Refinement r : n.getRefinements()) {
+                switch (r.getType()) {
+                case Range: {
+                    RefinementRange rr = (RefinementRange) r;
+                    refinements.add(new SelectedRefinementRange().setNavigationName(n.getName()).setLow(rr.getLow())
+                                                                 .setHigh(rr.getHigh()).setExclude(rr.getExclude()));
+                    break;
+                }
+                case Value: {
+                    RefinementValue rv = (RefinementValue) r;
+                    refinements.add(new SelectedRefinementValue().setNavigationName(n.getName()).setValue(rv.getValue())
+                                                                 .setExclude(rv.getExclude()));
+                    break;
+                }
+                }
+            }
+        }
+        return refinements;
+    }
+
+    protected static com.groupbyinc.api.request.PartialMatchRule convertPartialMatchRule(PartialMatchRule rule) {
+        return rule == null ? //
+               null : new com.groupbyinc.api.request.PartialMatchRule().setTerms(rule.getTerms()).setTermsGreaterThan(
+                rule.getTermsGreaterThan()).setMustMatch(rule.getMustMatch()).setPercentage(rule.getPercentage());
+    }
+
+    private Request populateRequest(String clientKey) {
+        Request request = new Request();
+
+        request.setClientKey(clientKey);
+        request.setArea(area);
+        request.setCollection(collection);
+        request.setQuery(query);
+        request.setFields(fields);
+        request.setOrFields(orFields);
+        request.setLanguage(language);
+        request.setBiasingProfile(biasingProfile);
+        request.setPageSize(pageSize);
+        request.setSkip(skip);
+        request.setCustomUrlParams(getCustomUrlParams());
+        request.setRefinements(generateSelectedRefinements(navigations));
+        request.setRestrictNavigation(convertRestrictNavigation());
+        request.setWildcardSearchEnabled(isWildcardSearchEnabled());
+        if (CollectionUtils.isNotEmpty(sort)) {
+            for (Sort s : sort) {
+                request.setSort(convertSort(s));
+            }
+        }
+        request.setMatchStrategy(convertPartialMatchStrategy(matchStrategy));
+
+        if (!pruneRefinements) {
+            request.setPruneRefinements(false);
+        }
+        if (returnBinary) {
+            request.setReturnBinary(true);
+        }
+        if (disableAutocorrection) {
+            request.setDisableAutocorrection(true);
+        }
+        return request;
+    }
+
+    protected RefinementsRequest populateRefinementRequest() {
+        Request request = new Request();
+        request.setWildcardSearchEnabled(isWildcardSearchEnabled());
+        if (CollectionUtils.isNotEmpty(sort)) {
+            for (Sort s : sort) {
+                request.setSort(convertSort(s));
+            }
+        }
+        request.setMatchStrategy(convertPartialMatchStrategy(matchStrategy));
+
+        return new RefinementsRequest().setOriginalQuery(request);
+    }
+
+    private com.groupbyinc.api.request.RestrictNavigation convertRestrictNavigation() {
+        return restrictNavigation == null ? null : new com.groupbyinc.api.request.RestrictNavigation().setName(
+                restrictNavigation.getName()).setCount(restrictNavigation.getCount());
+    }
+
+    /**
+     * <code>
+     * Used internally by the bridge object to generate the JSON that is sent to the search service.
+     * </code>
+     *
+     * @param clientKey
+     *         The client key used to authenticate this request.
+     *
+     * @return A JSON representation of this query object.
+     */
+    public String getBridgeJson(String clientKey) {
+        return requestToJson(populateRequest(clientKey));
+    }
+
+    /**
+     * <code>
+     * Used internally by the bridge object to generate the JSON that is sent to the search service.
+     * </code>
+     *
+     * @param clientKey
+     *         The client key used to authenticate this request.
+     *
+     * @return A JSON representation of this query object.
+     */
+    public String getBridgeRefinementsJson(String clientKey, String navigationName) {
+        RefinementsRequest request = populateRefinementRequest();
+        request.setOriginalQuery(populateRequest(clientKey));
+        request.setNavigationName(navigationName);
+        return requestToJson(request);
+    }
+
+    /**
+     * @return The current search string.
+     */
+    public String getQuery() {
+        return query;
+    }
+
+    /**
+     * <code>
+     * Set a search string. If query is blank all records are considered.
+     * JSON Reference:
+     * { "query": "gloves" }
+     * </code>
+     *
+     * @param query
+     *         The search term to fire against the engine
+     *
+     * @return
+     */
+    public Query setQuery(String query) {
+        this.query = query;
+        return this;
+    }
+
+    /**
+     * @return The data collection
+     *
+     * @deprecated since 2.0, use getCollection instead.
+     */
+    public String getSubCollection() {
+        return collection;
+    }
+
+    /**
+     * @param subCollection
+     *         The string representation of a collection query.
+     *
+     * @return
+     *
+     * @deprecated since 2.0, use setCollection instead.
+     */
+    public Query setSubCollection(String subCollection) {
+        collection = subCollection;
+        return this;
+    }
+
+    /**
+     * @return The data collection
+     */
+    public String getCollection() {
+        return collection;
+    }
+
+    /**
+     * <code>
+     * The collection to use.  If you have uploaded additional data into collections apart from the default
+     * collection using the stream tool, you can access them by specifying them here.
+     * You can also search across multiple collections. It is important to note that relevancy is affected across
+     * collections and it is recommended that collections be modeled so that cross-collection searching is not required.
+     * As an example, to search across FAQs and Manuals you would use "FAQs|Manuals".
+     * JSON Reference:
+     * { "collection": "FAQs" }
+     * { "collection": "FAQs|Manuals" }
+     * </code>
+     *
+     * @param collection
+     *         The string representation of a collection query.
+     *
+     * @return
+     */
+    public Query setCollection(String collection) {
+        this.collection = collection;
+        return this;
+    }
+
+    /**
+     * @return The area name
+     */
+    public String getArea() {
+        return area;
+    }
+
+    /**
+     * <code>
+     * The area you wish to fire against, production, staging, etc...
+     * If blank, the default production area will be used.
+     * JSON Reference:
+     * { "area": "Development" }
+     * </code>
+     *
+     * @param area
+     *         The area name.
+     *
+     * @return
+     */
+    public Query setArea(String area) {
+        this.area = area;
+        return this;
+    }
+
+    /**
+     * @return A string representation of all of the currently set refinements
+     */
+    public String getRefinementString() {
+        if (CollectionUtils.isNotEmpty(navigations.values())) {
+            StringBuilder result = new StringBuilder();
+            for (Navigation n : navigations.values()) {
+                for (Refinement r : n.getRefinements()) {
+                    result.append("~").append(n.getName()).append(r.toTildeString());
+                }
+            }
+            if (result.length() > 0) {
+                return result.toString();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @return A string representation of all of the currently set custom url
+     * parameters
+     */
+    public String getCustomUrlParamsString() {
+        if (CollectionUtils.isEmpty(customUrlParams)) {
+            return null;
+        }
+        StringBuilder result = new StringBuilder();
+        for (CustomUrlParam customUrlParam : customUrlParams) {
+            result.append("~").append(customUrlParam.getKey()).append("=").append(customUrlParam.getValue());
+        }
+        return result.toString();
+    }
+
+    /**
+     * @return A list of custom url params
+     */
+    public List<CustomUrlParam> getCustomUrlParams() {
+        return customUrlParams;
+    }
+
+    /**
+     * @param clientKey
+     *         Your client key
+     *
+     * @return
+     *
+     * @internal
+     */
+    protected String getBridgeJsonRefinementSearch(String clientKey) {
+        Request request = new Request();
+        request.setClientKey(clientKey);
+        request.setCollection(collection);
+        request.setArea(area);
+        request.setRefinementQuery(query);
+        request.setWildcardSearchEnabled(isWildcardSearchEnabled());
+        if (CollectionUtils.isNotEmpty(sort)) {
+            for (Sort s : sort) {
+                request.setSort(convertSort(s));
+            }
+        }
+        request.setMatchStrategy(convertPartialMatchStrategy(matchStrategy));
+        return requestToJson(request);
+    }
+
+    protected String[] splitRefinements(String refinementString) {
+        return StringUtils.isBlank(refinementString) //
+               ? EMPTY_REFINEMENTS : REFINEMENTS_SPLITTER_PATTERN.tokenizer(refinementString).split();
+    }
+
+    /**
+     * <code>
+     * A helper method to parse and set refinements.
+     * If you pass in refinements of the format
+     * Brand=Bose~price:20..80
+     * The query object will correctly parse out the refinements.
+     * </code>
+     *
+     * @param refinementString
+     *         A tilde separated list of refinements
+     *
+     * @return
+     */
+    public Query addRefinementsByString(String refinementString) {
+        if (refinementString == null) {
+            return this;
+        }
+        String[] filterStrings = splitRefinements(refinementString);
+        for (String filterString : filterStrings) {
+            if (StringUtils.isBlank(filterString) || "=".equals(filterString)) {
+                continue;
+            }
+            int colon = filterString.indexOf(":");
+            int equals = filterString.indexOf("=");
+            boolean isRange = colon != -1 && equals == -1;
+            String[] nameValue = filterString.split("[:=]", 2);
+            Refinement refinement;
+            if (isRange) {
+                RefinementRange rr = new RefinementRange();
+                if (nameValue[1].endsWith("..")) {
+                    rr.setLow(nameValue[1].split(DOTS)[0]);
+                    rr.setHigh("");
+                } else if (nameValue[1].startsWith("..")) {
+                    rr.setLow("");
+                    rr.setHigh(nameValue[1].split(DOTS)[1]);
+                } else {
+                    String[] lowHigh = nameValue[1].split(DOTS);
+                    rr.setLow(lowHigh[0]);
+                    rr.setHigh(lowHigh[1]);
+                }
+                refinement = rr;
+            } else {
+                refinement = new RefinementValue();
+                ((RefinementValue) refinement).setValue(nameValue[1]);
+            }
+            if (StringUtils.isNotBlank(nameValue[0])) {
+                addRefinement(nameValue[0], refinement);
+            }
+        }
+        return this;
+    }
+
+    /**
+     * <code>
+     * Sets any additional parameters that can be used to trigger rules.
+     * Takes a CustomUrlParam object.
+     * </code>
+     *
+     * @param customUrlParam
+     *         The parameter to add
+     *
+     * @return
+     */
+    public Query addCustomUrlParam(CustomUrlParam customUrlParam) {
+        customUrlParams.add(customUrlParam);
+        return this;
+    }
+
+    /**
+     * <code>
+     * Sets any additional parameters that can be used to trigger rules.
+     * Takes a name and a value.
+     * JSON Reference:
+     * Custom URL parameters separated by ~ in the form:
+     * { "customUrlParams": [ { "key": "region", "value": "east" } ] }
+     * </code>
+     *
+     * @param key
+     *         The parameter key
+     * @param value
+     *         The parameter value
+     *
+     * @return
+     */
+    public Query addCustomUrlParam(String key, String value) {
+        customUrlParams.add(new CustomUrlParam().setKey(key).setValue(value));
+        return this;
+    }
+
+    /**
+     * <code>
+     * Helper method that takes a ~ separated string of additional parameters that can be
+     * used to trigger rules. Takes ~ separated name/value list
+     * </code>
+     *
+     * @param values
+     *         The list of name/values
+     *
+     * @return
+     */
+    public Query addCustomUrlParamsByString(String values) {
+        if (values == null) {
+            return this;
+        }
+        String[] params = values.split("&");
+        for (String value : params) {
+            if (StringUtils.isNotBlank(value)) {
+                String[] keyValue = value.split("=");
+                if (keyValue.length == 2 && StringUtils.isNotBlank(keyValue[0]) && StringUtils.isNotBlank(
+                        keyValue[1])) {
+                    customUrlParams.add(new CustomUrlParam().setKey(keyValue[0]).setValue(keyValue[1]));
+                }
+            }
+        }
+        return this;
+    }
+
+    /**
+     * @return A list of fields that will be returned by the engine.
+     */
+    public List<String> getFields() {
+        return fields;
+    }
+
+    protected Query addField(List<String> fields, String... name) {
+        if (name == null) {
+            return this;
+        }
+        Collections.addAll(fields, name);
+        return this;
+    }
+
+    /**
+     * <code>
+     * Specify which fields should be returned on each record that comes back from the engine. You may specify more
+     * than one field, if you specify <b>*</b> all fields will be returned.
+     * If this parameter is blank the search service will return no attributes with the records.
+     * JSON Reference:
+     * { "fields": [ "width", "brand", "height" ] }
+     * </code>
+     *
+     * @param name
+     *         The case-sensitive name of the attribute to return
+     *
+     * @return
+     */
+    public Query addFields(String... name) {
+        return addField(fields, name);
+    }
+
+    /**
+     * @return A list of the fields that the search service will treat as OR-able.
+     */
+    public List<String> getOrFields() {
+        return orFields;
+    }
+
+    /**
+     * <code>
+     * Specify which fields should be queried with 'OR' instead of the default 'AND'.
+     * This behavior is typically defined in command center on a per navigation basis.  However,
+     * you can set which fields should be treated as an OR field at the query level if desired.
+     * As with normal refinement selections, once you have refined, the list of refinements for
+     * that selected navigation will no longer be returned.
+     * JSON Reference:
+     * { "orFields": [ "field1", "field2" ] }
+     * </code>
+     *
+     * @param name
+     *         The field that should be treated as OR by the search service before
+     *         being executed.
+     *
+     * @return
+     */
+    public Query addOrField(String... name) {
+        return addField(orFields, name);
+    }
+
+    /**
+     * <code>
+     * Add a range refinement.  Takes a refinement name, a lower and upper bounds.
+     * </code>
+     *
+     * @param navigationName
+     *         The name of the refinement
+     * @param low
+     *         The low value
+     * @param high
+     *         The high value
+     *
+     * @return
+     */
+    public Query addRangeRefinement(String navigationName, String low, String high) {
+        return addRangeRefinement(navigationName, low, high, false);
+    }
+
+    /**
+     * <code>
+     * Add a range refinement.  Takes a refinement name, a lower and upper bounds, and whether or not to exclude
+     * this refinement.
+     * </code>
+     *
+     * @param navigationName
+     *         The name of the refinement
+     * @param low
+     *         The low value
+     * @param high
+     *         The high value
+     * @param exclude
+     *         True if the results should exclude this range refinement, false otherwise
+     *
+     * @return
+     */
+    public Query addRangeRefinement(String navigationName, String low, String high, boolean exclude) {
+        return addRefinement(navigationName, new RefinementRange().setLow(low).setHigh(high).setExclude(exclude));
+    }
+
+    /**
+     * <code>
+     * Add a value refinement.  Takes a refinement name and a value.
+     * </code>
+     *
+     * @param navigationName
+     *         The name of the navigation
+     * @param value
+     *         The refinement value
+     *
+     * @return
+     */
+    public Query addValueRefinement(String navigationName, String value) {
+        return addValueRefinement(navigationName, value, false);
+    }
+
+    /**
+     * <code>
+     * Add a value refinement.  Takes a refinement name, a value, and whether or not to exclude this refinement.
+     * </code>
+     *
+     * @param navigationName
+     *         The name of the navigation
+     * @param value
+     *         The refinement value
+     * @param exclude
+     *         True if the results should exclude this value refinement, false otherwise
+     *
+     * @return
+     */
+    public Query addValueRefinement(String navigationName, String value, boolean exclude) {
+        return addRefinement(navigationName, new RefinementValue().setValue(value).setExclude(exclude));
+    }
+
+    /**
+     * <code>
+     * Add a refinement.  Please note that refinements are case-sensitive
+     * JSON Reference:
+     * Value and range refinements are both appended to an array on the refinements field.
+     * Note the 'type' field, which marks the refinement as either a value or range refinement.
+     * { "refinements": [ {"type": "Range", "navigationName": "price", "low": "1.0", "high": "2.0"},
+     * {"type": "Value", "navigationName": "brand", "value": "Nike" } ] }
+     * Refinements can be negated by setting the exclude property. An excluded refinement will return
+     * results that do not match the value or fall into the range specified in the refinement.
+     * { "refinements": [ {"type": "Range", "navigationName": "price", "low": "1.0", "high": "2.0", "exclude": true},
+     * {"type": "Value", "navigationName": "brand", "value": "Nike", "exclude": true } ] }
+     * </code>
+     *
+     * @param navigationName
+     *         The name of the refinement
+     * @param refinement
+     *         The refinement to add
+     *
+     * @return
+     */
+    private Query addRefinement(String navigationName, Refinement refinement) {
+        Navigation navigation = navigations.get(navigationName);
+        if (navigation == null) {
+            navigation = new Navigation().setName(navigationName);
+            navigation.setRange(refinement instanceof RefinementRange);
+            navigations.put(navigationName, navigation);
+        }
+        navigation.getRefinements().add(refinement);
+        return this;
+    }
+
+    /**
+     * @return The number of documents to skip
+     */
+    public long getSkip() {
+        return skip;
+    }
+
+    /**
+     * <code>
+     * Tell the search service to offset to the Nth record.
+     * JSON Reference:
+     * { "skip": 400 }
+     * </code>
+     *
+     * @param skip
+     *         The number of documents to skip
+     *
+     * @return
+     */
+    public Query setSkip(int skip) {
+        this.skip = skip;
+        return this;
+    }
+
+    /**
+     * @return The current page size
+     */
+    public long getPageSize() {
+        return pageSize;
+    }
+
+    /**
+     * <code>
+     * Page size.  Default is 10.
+     * JSON Reference:
+     * { "pageSize": 8 }
+     * </code>
+     *
+     * @param pageSize
+     *         The number of records to return with the query.
+     *
+     * @return
+     */
+    public Query setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+        return this;
+    }
+
+    /**
+     * @return A map of the currently set refinements
+     */
+    public Map<String, Navigation> getNavigations() {
+        return navigations;
+    }
+
+    /**
+     * @return Is return JSON set to true.
+     */
+    public boolean isReturnBinary() {
+        return returnBinary;
+    }
+
+    /**
+     * <code>
+     * Tells the search service to return binary data. This is enabled by default in the APIs for more efficient transport.
+     * To disable this in an API, set this to `false`.
+     * JSON Reference:
+     * If passed true, informs the search service to return binary data rather than JSON.
+     * { "returnBinary": true }
+     * </code>
+     *
+     * @param returnBinary
+     *         Whether to tell the search service to return binary data rather than JSON.
+     *
+     * @return
+     */
+    public Query setReturnBinary(boolean returnBinary) {
+        this.returnBinary = returnBinary;
+        return this;
+    }
+
+    /**
+     * @return The current biasing profile name.
+     */
+    public String getBiasingProfile() {
+        return biasingProfile;
+    }
+
+    /**
+     * <code>
+     * Override the biasing profile used for this query - takes precedence over any
+     * biasing profile set in the command center.
+     * JSON Reference:
+     * { "biasingProfile": "PopularityBias" }
+     * </code>
+     *
+     * @param biasingProfile The name of the biasing profile
+     *
+     * @return
+     */
+    public Query setBiasingProfile(String biasingProfile) {
+        this.biasingProfile = biasingProfile;
+        return this;
+    }
+
+    /**
+     * @return The current language filter on the query.
+     */
+    public String getLanguage() {
+        return language;
+    }
+
+    /**
+     * <code>
+     * Sets the language filter on the query and restricts the results to a certain language. If you do not specify a
+     * language, english ("lang_en") will be considered the default. An unrecognized language will result in an error.
+     * Currently supported languages are:
+     * lang_en
+     * JSON Reference:
+     * { "language": "lang_en" }
+     * </code>
+     *
+     * @param language
+     *         The value for language restrict
+     *
+     * @return
+     */
+    public Query setLanguage(String language) {
+        this.language = language;
+        return this;
+    }
+
+    /**
+     * @return Are refinements with zero counts being removed.
+     *
+     * @internal
+     */
+    public boolean isPruneRefinements() {
+        return pruneRefinements;
+    }
+
+    /**
+     * <code>
+     * Specifies whether refinements should be pruned from
+     * the available navigation.
+     * A refinement is pruned if the number of results for that refinement is zero.
+     * If all refinements from a navigation are pruned, that
+     * navigation is also pruned.
+     * Defaults to true
+     * JSON Reference:
+     * { pruneRefinements: false }
+     * </code>
+     *
+     * @param pruneRefinements true to prune refinements, false other
+     *
+     * @return
+     */
+    public Query setPruneRefinements(boolean pruneRefinements) {
+        this.pruneRefinements = pruneRefinements;
+        return this;
+    }
+
+    /**
+     * @return Is the auto-correction behavior disabled
+     *
+     * @internal
+     */
+    public boolean isAutocorrectionDisabled() {
+        return disableAutocorrection;
+    }
+
+    /**
+     * <code>
+     * Specifies whether the auto-correction behavior should be disabled. By default, when no results are returned
+     * for the given query (and there is a did-you-mean available), the first did-you-mean is automatically queried
+     * instead.
+     * Defaults to false
+     * JSON Reference:
+     * { "disableAutocorrection": false }
+     * </code>
+     *
+     * @param disableAutocorrection true to disable autocorrection, false otherwise
+     *
+     * @return
+     */
+    public Query setDisableAutocorrection(boolean disableAutocorrection) {
+        this.disableAutocorrection = disableAutocorrection;
+        return this;
+    }
+
+    /**
+     * <code>
+     * <b>Warning</b>  This will count as two queries against your search index.
+     * Typically, this feature is used when you have a large number of navigation items that will overwhelm the end
+     * user. It works by using one of the existing navigation items to decide what the query is about and fires a second
+     * query to restrict the navigation to the most relevant set of navigation items for this search term.
+     * For example, if you pass in a search of `paper` and a restrict navigation of `category:2`
+     * The bridge will find the category navigation refinements in the first query and fire a second query for the top 2
+     * most populous categories.  Therefore, a search for something generic like "paper" will bring back top category
+     * matches like copy paper (1,030), paper pads (567).  The bridge will fire off the second query with the search
+     * term, plus an OR refinement with the most likely categories.  The navigation items in the first query are
+     * entirely replaced with the navigation items in the second query, except for the navigation that was used for the
+     * restriction so that users still have the ability to navigate by all category types.
+     * JSON Reference:
+     * { "restrictNavigation": { "name": "category", "count": 2 } }
+     * </code>
+     *
+     * @param restrictNavigation
+     *         Restriction criteria
+     *
+     * @return this query
+     */
+    public Query setRestrictNavigation(RestrictNavigation restrictNavigation) {
+        this.restrictNavigation = restrictNavigation;
+        return this;
+    }
+
+    /**
+     * <code>
+     * <b>Warning</b>  This will count as two queries against your search index.
+     * Typically, this feature is used when you have a large number of navigation items that will overwhelm the end
+     * user. It works by using one of the existing navigation items to decide what the query is about and fires a second
+     * query to restrict the navigation to the most relevant set of navigation items for this search term.
+     * For example, if you pass in a search of `paper` and a restrict navigation of `category:2`
+     * The bridge will find the category navigation refinements in the first query and fire a second query for the top
+     * 2 most populous categories.  Therefore, a search for something generic like "paper" will bring back top category
+     * matches like copy paper (1,030), paper pads (567).  The bridge will fire off the second query with the search
+     * term, plus an OR refinement with the most likely categories.  The navigation items in the first query are
+     * entirely replaced with the navigation items in the second query, except for the navigation that was used
+     * for the restriction so that users still have the ability to navigate by all category types.
+     * </code>
+     *
+     * @param name
+     *         the name of the field should be used in the navigation restriction in the second query.
+     * @param count
+     *         the number of fields matches
+     *
+     * @return this query
+     */
+    public Query setRestrictNavigation(String name, int count) {
+        this.restrictNavigation = new RestrictNavigation().setName(name).setCount(count);
+        return this;
+    }
 
     protected static com.groupbyinc.api.request.MatchStrategy convertPartialMatchStrategy(MatchStrategy strategy) {
         com.groupbyinc.api.request.MatchStrategy convertedStrategy = null;
@@ -27,33 +903,6 @@ public class Query extends AbstractQuery<Request, Query> {
             }
         }
         return convertedStrategy;
-    }
-
-    protected static com.groupbyinc.api.request.PartialMatchRule convertPartialMatchRule(PartialMatchRule rule) {
-        return rule == null ? null : new com.groupbyinc.api.request.PartialMatchRule().setTerms(rule.getTerms())
-                                                                                      .setTermsGreaterThan(
-                                                                                              rule.getTermsGreaterThan())
-                                                                                      .setMustMatch(rule.getMustMatch())
-                                                                                      .setPercentage(
-                                                                                              rule.getPercentage());
-    }
-
-    @Override
-    protected Request generateRequest() {
-        Request request = new Request();
-        request.setWildcardSearchEnabled(isWildcardSearchEnabled());
-        if (CollectionUtils.isNotEmpty(sort)) {
-            for (Sort s : sort) {
-                request.setSort(convertSort(s));
-            }
-        }
-        request.setMatchStrategy(convertPartialMatchStrategy(matchStrategy));
-        return request;
-    }
-
-    @Override
-    protected RefinementsRequest<Request> populateRefinementRequest() {
-        return new RefinementsRequest<Request>().setOriginalQuery(generateRequest());
     }
 
     public boolean isWildcardSearchEnabled() {
@@ -113,7 +962,6 @@ public class Query extends AbstractQuery<Request, Query> {
      * @param sort Any number of sort criteria.
      * @return
      */
-    @SuppressWarnings("unchecked")
     public Query setSort(Sort... sort) {
         CollectionUtils.addAll(this.sort, sort);
         return this;
@@ -170,10 +1018,8 @@ public class Query extends AbstractQuery<Request, Query> {
      * @param matchStrategy A match strategy composed of partial matching rules.
      * @return
      */
-    @SuppressWarnings("unchecked")
     public Query setMatchStrategy(MatchStrategy matchStrategy) {
         this.matchStrategy = matchStrategy;
         return this;
     }
-
 }

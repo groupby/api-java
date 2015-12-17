@@ -1,6 +1,6 @@
 package com.groupbyinc.api.model.zone;
 
-import com.groupbyinc.api.model.AbstractRecord;
+import com.groupbyinc.api.model.Record;
 import com.groupbyinc.api.model.Zone;
 
 import java.util.List;
@@ -19,9 +19,9 @@ import java.util.List;
  * </code>
  * @author will
  */
-public class RecordZone<D extends AbstractRecord<D>> extends Zone<RecordZone<D>> {
+public class RecordZone extends Zone<RecordZone> {
     private String query;
-    private List<D> records;
+    private List<Record> records;
 
     /**
      * <code>
@@ -56,7 +56,7 @@ public class RecordZone<D extends AbstractRecord<D>> extends Zone<RecordZone<D>>
      * @param query Set the query
      * @return
      */
-    public RecordZone<D> setQuery(String query) {
+    public RecordZone setQuery(String query) {
         this.query = query;
         return this;
     }
@@ -68,7 +68,7 @@ public class RecordZone<D extends AbstractRecord<D>> extends Zone<RecordZone<D>>
      *
      * @return A list of records returned from the search service.
      */
-    public List<D> getRecords() {
+    public List<Record> getRecords() {
         return records;
     }
 
@@ -76,7 +76,7 @@ public class RecordZone<D extends AbstractRecord<D>> extends Zone<RecordZone<D>>
      * @param records Set the records
      * @return
      */
-    public RecordZone<D> setRecords(List<D> records) {
+    public RecordZone setRecords(List<Record> records) {
         this.records = records;
         return this;
     }

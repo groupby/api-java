@@ -5,7 +5,6 @@ import com.groupbyinc.api.model.Navigation;
 import com.groupbyinc.api.model.Refinement;
 import com.groupbyinc.common.jackson.Mappers;
 import com.groupbyinc.common.jackson.core.type.TypeReference;
-import com.groupbyinc.util.AbstractUrlBeautifier;
 import com.groupbyinc.util.UrlBeautifier;
 
 import javax.servlet.jsp.JspException;
@@ -23,7 +22,7 @@ public class UrlFunctions {
         Query refinements = addRefinements(navigations, navigationName, refinement);
         try {
             return urlBeautifier.toUrl(searchString, refinements.getNavigations());
-        } catch (AbstractUrlBeautifier.UrlBeautificationException e) {
+        } catch (UrlBeautifier.UrlBeautificationException e) {
             throw new JspException("Unable to add to url", e);
         }
     }
@@ -34,7 +33,7 @@ public class UrlFunctions {
         Query refinements = removeRefinements(navigations, navigationName, refinement);
         try {
             return urlBeautifier.toUrl(searchString, refinements.getNavigations());
-        } catch (AbstractUrlBeautifier.UrlBeautificationException e) {
+        } catch (UrlBeautifier.UrlBeautificationException e) {
             throw new JspException("Unable to remove from url", e);
         }
     }

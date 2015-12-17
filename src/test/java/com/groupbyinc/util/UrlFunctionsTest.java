@@ -34,7 +34,8 @@ public class UrlFunctionsTest {
     }
 
     @Test
-    public void testNestedRefinementAdditionWithMapping() throws JspException, AbstractUrlBeautifier.UrlBeautificationException {
+    public void testNestedRefinementAdditionWithMapping() throws JspException,
+                                                                 UrlBeautifier.UrlBeautificationException {
         urlBeautifier.addRefinementMapping('t', "product.title");
 
         String url = UrlFunctions.toUrlAdd(DEFAULT_BEAUTIFIER, "", new ArrayList<Navigation>(), "product.title", new RefinementValue().setValue("Civil War").setCount(87));
@@ -42,13 +43,14 @@ public class UrlFunctionsTest {
     }
 
     @Test
-    public void testNestedRefinementAdditionWithoutMapping() throws JspException, AbstractUrlBeautifier.UrlBeautificationException {
+    public void testNestedRefinementAdditionWithoutMapping() throws JspException,
+                                                                    UrlBeautifier.UrlBeautificationException {
         String url = UrlFunctions.toUrlAdd(DEFAULT_BEAUTIFIER, "", new ArrayList<Navigation>(), "product.title", new RefinementValue().setValue("Civil War").setCount(87));
         assertEquals("/index.html?refinements=%7Eproduct.title%3DCivil+War", url);
     }
 
     @Test
-    public void testRefinementAdditionWithMapping() throws JspException, AbstractUrlBeautifier.UrlBeautificationException {
+    public void testRefinementAdditionWithMapping() throws JspException, UrlBeautifier.UrlBeautificationException {
         // http://localhost:8888/nikepoc/Women/Pink/gc/index.html?refinements=~product=Clothing&language=
         // http://localhost:8888/nikepoc/Women/Clothing/Pink/gtc/index.html
 
@@ -69,7 +71,7 @@ public class UrlFunctionsTest {
     }
 
     @Test
-    public void testRefinementAdditionWithMappingMulti() throws JspException, AbstractUrlBeautifier.UrlBeautificationException {
+    public void testRefinementAdditionWithMappingMulti() throws JspException, UrlBeautifier.UrlBeautificationException {
         // http://localhost:8888/nikepoc/Women/Pink/gc/index.html?refinements=~product=Clothing&language=
         // http://localhost:8888/nikepoc/Women/Clothing/Pink/gtc/index.html
 
