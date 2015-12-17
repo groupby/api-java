@@ -42,6 +42,10 @@ public class Request {
     private List<CustomUrlParam> customUrlParams = new ArrayList<CustomUrlParam>();
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private Boolean wildcardSearchEnabled = false;
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private List<String> includedNavigations = new ArrayList<String>();
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private List<String> excludedNavigations = new ArrayList<String>();
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private Boolean pruneRefinements = true;
 
@@ -228,6 +232,24 @@ public class Request {
 
     public Request setMatchStrategy(MatchStrategy matchStrategy) {
         this.matchStrategy = matchStrategy;
+        return this;
+    }
+
+    public List<String> getIncludedNavigations() {
+        return includedNavigations;
+    }
+
+    public Request setIncludedNavigations(List<String> includedNavigations) {
+        this.includedNavigations = includedNavigations;
+        return this;
+    }
+
+    public List<String> getExcludedNavigations() {
+        return excludedNavigations;
+    }
+
+    public Request setExcludedNavigations(List<String> excludedNavigations) {
+        this.excludedNavigations = excludedNavigations;
         return this;
     }
 }

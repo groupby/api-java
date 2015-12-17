@@ -33,6 +33,8 @@ public class Query {
     private List<Sort> sort = new ArrayList<Sort>();
     private MatchStrategy matchStrategy;
     private boolean wildcardSearchEnabled;
+    private List<String> includedNavigations = new ArrayList<String>();
+    private List<String> excludedNavigations = new ArrayList<String>();
 
     private static String requestToJson(Request request) {
         try {
@@ -114,6 +116,8 @@ public class Query {
     private Request populateRequest(String clientKey) {
         Request request = new Request();
 
+        request.setIncludedNavigations(includedNavigations);
+        request.setExcludedNavigations(excludedNavigations);
         request.setClientKey(clientKey);
         request.setArea(area);
         request.setCollection(collection);
@@ -147,19 +151,6 @@ public class Query {
         return request;
     }
 
-    protected RefinementsRequest populateRefinementRequest() {
-        Request request = new Request();
-        request.setWildcardSearchEnabled(isWildcardSearchEnabled());
-        if (CollectionUtils.isNotEmpty(sort)) {
-            for (Sort s : sort) {
-                request.setSort(convertSort(s));
-            }
-        }
-        request.setMatchStrategy(convertPartialMatchStrategy(matchStrategy));
-
-        return new RefinementsRequest().setOriginalQuery(request);
-    }
-
     private com.groupbyinc.api.request.RestrictNavigation convertRestrictNavigation() {
         return restrictNavigation == null ? null : new com.groupbyinc.api.request.RestrictNavigation().setName(
                 restrictNavigation.getName()).setCount(restrictNavigation.getCount());
@@ -190,7 +181,7 @@ public class Query {
      * @return A JSON representation of this query object.
      */
     public String getBridgeRefinementsJson(String clientKey, String navigationName) {
-        RefinementsRequest request = populateRefinementRequest();
+        RefinementsRequest request = new RefinementsRequest();
         request.setOriginalQuery(populateRequest(clientKey));
         request.setNavigationName(navigationName);
         return requestToJson(request);
@@ -354,6 +345,8 @@ public class Query {
      */
     protected String getBridgeJsonRefinementSearch(String clientKey) {
         Request request = new Request();
+        request.setIncludedNavigations(includedNavigations);
+        request.setExcludedNavigations(excludedNavigations);
         request.setClientKey(clientKey);
         request.setCollection(collection);
         request.setArea(area);
@@ -1074,5 +1067,64 @@ public class Query {
     public Query setMatchStrategy(MatchStrategy matchStrategy) {
         this.matchStrategy = matchStrategy;
         return this;
+    }
+
+    /**
+     * @return A list of navigations that will be included with the response.
+     */
+    public List<String> getIncludeNavigations() {
+        return includedNavigations;
+    }
+
+    /**
+     * <code>
+     * Specify which navigations should be returned. If set, this overrides the navigations defined
+     * in Command Center and only returns the navigations specified. If this parameter is blank the
+     * navigations in Command Center are returned. If a navigation is specified that does not exist,
+     * it will be ignored. The field name supports two types of wildcards, '?' and '*'. The '?' wildcard
+     * will match one wildcard character. For example "????_price" will match "sale_price", but not
+     * "sales_price". The wildcard '*' will match any number of characters. For example, a name of "*_price"
+     * will match both "sale_price and "sales_price", but not "sale_prices".
+     *
+     * JSON Reference:
+     * { "includedNavigations": [ "width", "brand", "categories.categories.value" ] }
+     * </code>
+     *
+     * @param navigationName
+     *         The case-sensitive name of the navigation to return
+     *
+     * @return
+     */
+    public Query addIncludedNavigations(String... navigationName) {
+        return addField(includedNavigations, navigationName);
+    }
+
+    /**
+     * @return A list of navigations that will be excluded from the response.
+     */
+    public List<String> getExcludeNavigations() {
+        return excludedNavigations;
+    }
+
+    /**
+     * <code>
+     * Specify which navigations should not be returned. If set, this forces the response to
+     * exclude certain navigations defined in Command Center. If this parameter is blank all
+     * navigations in Command Center are returned. If a navigation name is specified that does
+     * not exist, it will be ignored. If "includedNavigations" are specified, then all
+     * "excludedNavigations" are ignored. Please see the documentation on "includedNavigations"
+     * for details on wildcards in the field name.
+     *
+     * JSON Reference:
+     * { "excludedNavigations": [ "width", "brand", "categories.categories.value" ] }
+     * </code>
+     *
+     * @param navigationName
+     *         The case-sensitive name of the navigation to exclude
+     *
+     * @return
+     */
+    public Query addExcludedNavigations(String... navigationName) {
+        return addField(excludedNavigations, navigationName);
     }
 }

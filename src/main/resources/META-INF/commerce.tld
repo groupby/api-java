@@ -153,6 +153,6 @@
         </description>
         <name>isRefinementSelected</name>
         <function-class>com.groupbyinc.api.tags.Functions</function-class>
-        <function-signature>boolean isRefinementSelected(com.groupbyinc.api.model.AbstractResults, java.lang.String, java.lang.String)</function-signature>
+        <function-signature>boolean isRefinementSelected(com.groupbyinc.api.model.Results, java.lang.String, java.lang.String)</function-signature>
     </function>
 </taglib>

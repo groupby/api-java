@@ -31,7 +31,6 @@ public class Results {
     protected List<Record> records = new ArrayList<Record>();
     protected List<String> didYouMean = new ArrayList<String>();
     protected List<Metadata> siteParams = new ArrayList<Metadata>();
-    protected List<Cluster> clusters;
     private List<String> relatedQueries = new ArrayList<String>();
     private List<String> rewrites = new ArrayList<String>();
 
