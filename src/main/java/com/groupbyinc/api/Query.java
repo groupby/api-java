@@ -206,8 +206,11 @@ public class Query {
     /**
      * <code>
      * Set a search string. If query is blank all records are considered.
+     *
      * JSON Reference:
-     * { "query": "gloves" }
+     *
+     *     { "query": "gloves" }
+     *
      * </code>
      *
      * @param query
@@ -256,9 +259,11 @@ public class Query {
      * You can also search across multiple collections. It is important to note that relevancy is affected across
      * collections and it is recommended that collections be modeled so that cross-collection searching is not required.
      * As an example, to search across FAQs and Manuals you would use "FAQs|Manuals".
+     *
      * JSON Reference:
-     * { "collection": "FAQs" }
-     * { "collection": "FAQs|Manuals" }
+     *
+     *     { "collection": "FAQs" }
+     *     { "collection": "FAQs|Manuals" }
      * </code>
      *
      * @param collection
@@ -282,8 +287,11 @@ public class Query {
      * <code>
      * The area you wish to fire against, production, staging, etc...
      * If blank, the default production area will be used.
+     *
      * JSON Reference:
-     * { "area": "Development" }
+     *
+     *     { "area": "Development" }
+     *
      * </code>
      *
      * @param area
@@ -369,7 +377,9 @@ public class Query {
      * <code>
      * A helper method to parse and set refinements.
      * If you pass in refinements of the format
-     * Brand=Bose~price:20..80
+     *
+     *     Brand=Bose~price:20..80
+     *
      * The query object will correctly parse out the refinements.
      * </code>
      *
@@ -437,9 +447,13 @@ public class Query {
      * <code>
      * Sets any additional parameters that can be used to trigger rules.
      * Takes a name and a value.
+     *
      * JSON Reference:
+     *
      * Custom URL parameters separated by ~ in the form:
-     * { "customUrlParams": [ { "key": "region", "value": "east" } ] }
+     *
+     *     { "customUrlParams": [ { "key": "region", "value": "east" } ] }
+     *
      * </code>
      *
      * @param key
@@ -502,8 +516,11 @@ public class Query {
      * Specify which fields should be returned on each record that comes back from the engine. You may specify more
      * than one field, if you specify <b>*</b> all fields will be returned.
      * If this parameter is blank the search service will return no attributes with the records.
+     *
      * JSON Reference:
-     * { "fields": [ "width", "brand", "height" ] }
+     *
+     *     { "fields": [ "width", "brand", "height" ] }
+     *
      * </code>
      *
      * @param name
@@ -529,8 +546,11 @@ public class Query {
      * you can set which fields should be treated as an OR field at the query level if desired.
      * As with normal refinement selections, once you have refined, the list of refinements for
      * that selected navigation will no longer be returned.
+     *
      * JSON Reference:
-     * { "orFields": [ "field1", "field2" ] }
+     *
+     *     { "orFields": [ "field1", "field2" ] }
+     *
      * </code>
      *
      * @param name
@@ -619,15 +639,21 @@ public class Query {
     /**
      * <code>
      * Add a refinement.  Please note that refinements are case-sensitive
+     *
      * JSON Reference:
+     *
      * Value and range refinements are both appended to an array on the refinements field.
      * Note the 'type' field, which marks the refinement as either a value or range refinement.
-     * { "refinements": [ {"type": "Range", "navigationName": "price", "low": "1.0", "high": "2.0"},
-     * {"type": "Value", "navigationName": "brand", "value": "Nike" } ] }
+     *
+     *     { "refinements": [ {"type": "Range", "navigationName": "price", "low": "1.0", "high": "2.0"},
+     *     {"type": "Value", "navigationName": "brand", "value": "Nike" } ] }
+     *
      * Refinements can be negated by setting the exclude property. An excluded refinement will return
      * results that do not match the value or fall into the range specified in the refinement.
-     * { "refinements": [ {"type": "Range", "navigationName": "price", "low": "1.0", "high": "2.0", "exclude": true},
-     * {"type": "Value", "navigationName": "brand", "value": "Nike", "exclude": true } ] }
+     *
+     *     { "refinements": [ {"type": "Range", "navigationName": "price", "low": "1.0", "high": "2.0", "exclude": true},
+     *     {"type": "Value", "navigationName": "brand", "value": "Nike", "exclude": true } ] }
+     *
      * </code>
      *
      * @param navigationName
@@ -658,8 +684,11 @@ public class Query {
     /**
      * <code>
      * Tell the search service to offset to the Nth record.
+     *
      * JSON Reference:
-     * { "skip": 400 }
+     *
+     *     { "skip": 400 }
+     *
      * </code>
      *
      * @param skip
@@ -682,8 +711,11 @@ public class Query {
     /**
      * <code>
      * Page size.  Default is 10.
+     *
      * JSON Reference:
-     * { "pageSize": 8 }
+     *
+     *     { "pageSize": 8 }
+     *
      * </code>
      *
      * @param pageSize
@@ -714,9 +746,13 @@ public class Query {
      * <code>
      * Tells the search service to return binary data. This is enabled by default in the APIs for more efficient transport.
      * To disable this in an API, set this to `false`.
+     *
      * JSON Reference:
+     *
      * If passed true, informs the search service to return binary data rather than JSON.
-     * { "returnBinary": true }
+     *
+     *     { "returnBinary": true }
+     *
      * </code>
      *
      * @param returnBinary
@@ -740,8 +776,11 @@ public class Query {
      * <code>
      * Override the biasing profile used for this query - takes precedence over any
      * biasing profile set in the command center.
+     *
      * JSON Reference:
-     * { "biasingProfile": "PopularityBias" }
+     *
+     *     { "biasingProfile": "PopularityBias" }
+     *
      * </code>
      *
      * @param biasingProfile The name of the biasing profile
@@ -764,10 +803,15 @@ public class Query {
      * <code>
      * Sets the language filter on the query and restricts the results to a certain language. If you do not specify a
      * language, english ("lang_en") will be considered the default. An unrecognized language will result in an error.
+     *
      * Currently supported languages are:
-     * lang_en
+     *
+     *     lang_en
+     *
      * JSON Reference:
-     * { "language": "lang_en" }
+     *
+     *     { "language": "lang_en" }
+     *
      * </code>
      *
      * @param language
@@ -797,8 +841,11 @@ public class Query {
      * If all refinements from a navigation are pruned, that
      * navigation is also pruned.
      * Defaults to true
+     *
      * JSON Reference:
-     * { pruneRefinements: false }
+     *
+     *     { pruneRefinements: false }
+     *
      * </code>
      *
      * @param pruneRefinements true to prune refinements, false other
@@ -825,8 +872,11 @@ public class Query {
      * for the given query (and there is a did-you-mean available), the first did-you-mean is automatically queried
      * instead.
      * Defaults to false
+     *
      * JSON Reference:
-     * { "disableAutocorrection": false }
+     *
+     *     { "disableAutocorrection": false }
+     *
      * </code>
      *
      * @param disableAutocorrection true to disable autocorrection, false otherwise
@@ -851,8 +901,11 @@ public class Query {
      * term, plus an OR refinement with the most likely categories.  The navigation items in the first query are
      * entirely replaced with the navigation items in the second query, except for the navigation that was used for the
      * restriction so that users still have the ability to navigate by all category types.
+     *
      * JSON Reference:
-     * { "restrictNavigation": { "name": "category", "count": 2 } }
+     *
+     *     { "restrictNavigation": { "name": "category", "count": 2 } }
+     *
      * </code>
      *
      * @param restrictNavigation
