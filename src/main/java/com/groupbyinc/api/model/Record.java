@@ -20,7 +20,6 @@ import java.util.Map;
  * </code>
  *
  * @author will
- * @internal
  */
 public class Record {
     private List<RefinementMatch> refinementMatches;

@@ -14,7 +14,6 @@ import java.util.List;
  * </code>
  *
  * @author will
- * @internal
  */
 public class Results {
     protected long totalRecordCount;
