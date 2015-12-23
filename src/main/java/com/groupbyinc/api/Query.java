@@ -1081,9 +1081,9 @@ public class Query {
      * Specify which navigations should be returned. If set, this overrides the navigations defined
      * in Command Center and only returns the navigations specified. If this parameter is blank the
      * navigations in Command Center are returned. If a navigation is specified that does not exist,
-     * it will be ignored. The field name supports two types of wildcard values, '?' and '*'. The '?' wildcard
-     * will match one wildcard character. For example "????_price" will match "sale_price", but not
-     * "sales_price". The wildcard '*' will match any number of characters. For example, a name of "*_price"
+     * it will be ignored. The field name supports two types of wildcard characters: '?' and '*'. The '?' wildcard
+     * will match one character. For example "????_price" will match "sale_price", but not
+     * "sales_price". The '*' wildcard will match any number of characters. For example, a name of "*_price"
      * will match both "sale_price and "sales_price", but not "sale_prices".
      *
      * JSON Reference:
@@ -1113,7 +1113,7 @@ public class Query {
      * navigations in Command Center are returned. If a navigation name is specified that does
      * not exist, it will be ignored. If "includedNavigations" are specified, then all
      * "excludedNavigations" are ignored. Please see the documentation on "includedNavigations"
-     * for details on wildcard values in the field name.
+     * for details on wildcard characters in the field name.
      *
      * JSON Reference:
      * { "excludedNavigations": [ "width", "brand", "categories.categories.value" ] }
