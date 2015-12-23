@@ -1,3 +1,5 @@
+- GB-1546
+
 No more reindexing
 
 - <a href="https://github.com/groupby/issues/issues/920">iss7</a> Category expansion breaks Beautifier
