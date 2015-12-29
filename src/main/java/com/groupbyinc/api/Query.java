@@ -1045,7 +1045,7 @@ public class Query {
      * and a relative `mustMatch` as that guarantees that the number of matches required grows with the number of terms
      * passed into the query.
      *
-     * JSON Reference
+     * JSON Reference:
      *
      *     { "matchStrategy": { "rules":[{ "terms": 2, "mustMatch": 2 },
      *                                   { "terms": 3, "mustMatch": 2 },
@@ -1087,7 +1087,8 @@ public class Query {
      * will match both "sale_price and "sales_price", but not "sale_prices".
      *
      * JSON Reference:
-     * { "includedNavigations": [ "width", "brand", "categories.categories.value" ] }
+     *
+     *     { "includedNavigations": [ "width", "brand", "categories.categories.value" ] }
      * </code>
      *
      * @param navigationName
@@ -1116,7 +1117,9 @@ public class Query {
      * for details on wildcard characters in the field name.
      *
      * JSON Reference:
-     * { "excludedNavigations": [ "width", "brand", "categories.categories.value" ] }
+     *
+     *     { "excludedNavigations": [ "width", "brand", "categories.categories.value" ] }
+     *
      * </code>
      *
      * @param navigationName
