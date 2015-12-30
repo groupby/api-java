@@ -507,7 +507,7 @@ public class Query {
     /**
      * <code>
      * Specify which fields should be returned on each record that comes back from the engine. You may specify more
-     * than one field, if you specify <b>*</b> all fields will be returned.
+     * than one field, if you specify <b>\\*</b> all fields will be returned.
      * If this parameter is blank the search service will return no attributes with the records.
      *
      * JSON Reference:
@@ -1081,10 +1081,10 @@ public class Query {
      * Specify which navigations should be returned. If set, this overrides the navigations defined
      * in Command Center and only returns the navigations specified. If this parameter is blank the
      * navigations in Command Center are returned. If a navigation is specified that does not exist,
-     * it will be ignored. The field name supports two types of wildcard characters: '?' and '*'. The '?' wildcard
-     * will match one character. For example "????_price" will match "sale_price", but not
-     * "sales_price". The '*' wildcard will match any number of characters. For example, a name of "*_price"
-     * will match both "sale_price and "sales_price", but not "sale_prices".
+     * it will be ignored. The field name supports two types of wildcard characters: '?' and '\*'.
+     * The '?' wildcard will match one character. For example "????_price" will match "sale_price",
+     * but not "sales_price". The '\*' wildcard will match any number of characters. For example, a
+     * name of "\*_price" will match both "sale_price and "sales_price", but not "sale_prices".
      *
      * JSON Reference:
      *
