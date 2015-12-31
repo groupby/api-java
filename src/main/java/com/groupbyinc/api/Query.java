@@ -21,6 +21,7 @@ import com.groupbyinc.common.jregex.Pattern;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +60,7 @@ public class Query {
     private String area;
     private String biasingProfile;
     private String language;
+    private Map<String, String> queryUrlParams = new HashMap<String, String>();
     private List<CustomUrlParam> customUrlParams = new ArrayList<CustomUrlParam>();
     private LinkedHashMap<String, Navigation> navigations = new LinkedHashMap<String, Navigation>();
     private List<String> fields = new ArrayList<String>();
@@ -1129,5 +1131,66 @@ public class Query {
      */
     public Query addExcludedNavigations(String... navigationName) {
         return addField(excludedNavigations, navigationName);
+    }
+
+    /**
+     * @return The query level url-parameters.
+     */
+    public Map<String, String> getQueryUrlParams() {
+        return queryUrlParams;
+    }
+
+    /**
+     * <code>
+     *
+     * Sets the query level url parameters. These will be used in the future to enable and disable
+     * features, such as disabling Navigations in the response.
+     *
+     * </code>
+     *
+     * @param queryUrlParams
+     *         The map of query level url parameters
+     *
+     * @return
+     */
+    public Query setQueryUrlParams(Map<String, String> queryUrlParams) {
+        this.queryUrlParams = queryUrlParams;
+        return this;
+    }
+
+    /**
+     * <code>
+     *
+     * @see Query#setQueryUrlParams(Map). This is a convenience method for when you have no
+     * value for the url parameter.
+     *
+     * </code>
+     *
+     * @param key
+     *         The key of the url parameter
+     *
+     * @return
+     */
+    public Query addQueryUrlParams(String key) {
+        return addQueryUrlParams(key, null);
+    }
+
+    /**
+     * <code>
+     *
+     * @see Query#setQueryUrlParams(Map).
+     *
+     * </code>
+     *
+     * @param key
+     *         The key of the url parameter
+     * @param value
+     *         The value of the url parameter
+     *
+     * @return
+     */
+    public Query addQueryUrlParams(String key, String value) {
+        this.queryUrlParams.put(key, value);
+        return this;
     }
 }

@@ -2,17 +2,20 @@ package com.groupbyinc.api;
 
 import com.groupbyinc.api.model.RefinementsResult;
 import com.groupbyinc.api.model.Results;
+import com.groupbyinc.common.apache.commons.collections4.MapUtils;
 import com.groupbyinc.common.apache.commons.io.Charsets;
 import com.groupbyinc.common.apache.commons.io.IOUtils;
 import com.groupbyinc.common.apache.commons.lang3.StringUtils;
 import com.groupbyinc.common.apache.http.HttpResponse;
 import com.groupbyinc.common.apache.http.client.config.RequestConfig;
 import com.groupbyinc.common.apache.http.client.methods.HttpPost;
+import com.groupbyinc.common.apache.http.client.utils.URIBuilder;
 import com.groupbyinc.common.apache.http.entity.StringEntity;
 import com.groupbyinc.common.apache.http.impl.client.CloseableHttpClient;
 import com.groupbyinc.common.apache.http.impl.client.HttpClientBuilder;
 import com.groupbyinc.common.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import com.groupbyinc.common.jackson.Mappers;
+import com.groupbyinc.common.util.ThreadUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -21,6 +24,7 @@ import java.net.SocketException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
+import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -167,7 +171,8 @@ public abstract class AbstractBridge {
      * @throws IOException
      */
     public Results search(Query query) throws IOException {
-        InputStream data = fireRequest(getBridgeUrl(), query.getBridgeJson(clientKey), query.isReturnBinary());
+        InputStream data = fireRequest(
+                getBridgeUrl(), query.getQueryUrlParams(), query.getBridgeJson(clientKey), query.isReturnBinary());
         return map(data, query.isReturnBinary());
     }
 
@@ -187,14 +192,15 @@ public abstract class AbstractBridge {
      * @throws IOException
      */
     public RefinementsResult refinements(Query query, String navigationName) throws IOException {
-        InputStream data = fireRequest(getBridgeRefinementsUrl(),
+        InputStream data = fireRequest(getBridgeRefinementsUrl(), query.getQueryUrlParams(),
                                        query.getBridgeRefinementsJson(clientKey, navigationName),
                                        query.isReturnBinary());
         return mapRefinements(data, query.isReturnBinary());
     }
 
-    protected InputStream fireRequest(String url, String body, boolean returnBinary) throws IOException {
-        HttpResponse response = postToBridge(url, body);
+    protected InputStream fireRequest(String url, Map<String, String> urlParams, String body, boolean returnBinary)
+            throws IOException {
+        HttpResponse response = postToBridge(url, urlParams, body);
         InputStream data = response.getEntity().getContent();
         if (response.getStatusLine().getStatusCode() != 200) {
             String status = response.getStatusLine().toString();
@@ -216,13 +222,24 @@ public abstract class AbstractBridge {
             LOG.warning("unable to parse error from response.");
         } finally {
             if (StringUtils.isBlank(msg)) {
-                msg.append(BODY).append(StringUtils.toString(bytes, Charsets.UTF_8.name()));
+                msg.append(BODY).append(StringUtils.toEncodedString(bytes, Charsets.UTF_8));
             }
         }
         throw new IOException(EXCEPTION_FROM_BRIDGE + status + msg.toString());
     }
 
-    private HttpResponse postToBridge(String url, String bridgeJson) throws IOException {
+    protected URI generateURI(String url, Map<String, String> params, int tries) throws URISyntaxException {
+        URIBuilder u = new URIBuilder(url);
+        if (MapUtils.isNotEmpty(params)) {
+            for (Map.Entry<String, String> e : params.entrySet()) {
+                u.addParameter(e.getKey(), e.getValue());
+            }
+        }
+        u.addParameter("retry", Integer.toString(tries));
+        return u.build();
+    }
+
+    private HttpResponse postToBridge(String url, Map<String, String> urlParams, String bridgeJson) throws IOException {
         StringEntity entity = new StringEntity(bridgeJson, Charset.forName("UTF-8"));
         entity.setContentType("application/json");
 
@@ -232,16 +249,15 @@ public abstract class AbstractBridge {
         SocketException lastError = null;
         while (!successful && tries < 3) {
             try {
-                HttpPost httpPost = new HttpPost(url + "?retry=" + tries);
+                HttpPost httpPost = new HttpPost(generateURI(url, urlParams, tries));
                 httpPost.setEntity(entity);
                 response = httpClient.execute(httpPost);
                 successful = true;
+            } catch (URISyntaxException e) {
+                LOG.severe("Invalid request, failing");
+                break;
             } catch (SocketException e) {
-                try {
-                    Thread.sleep(retryTimeout);
-                } catch (InterruptedException e1) {
-                    // do nothing.
-                }
+                ThreadUtils.sleep(retryTimeout);
                 LOG.warning("Connection failed, retrying");
                 lastError = e;
                 tries++;
@@ -267,7 +283,7 @@ public abstract class AbstractBridge {
      * Sets the retry timeout for a failed request.
      * </code>
      *
-     * @param retryTimeout
+     * @param retryTimeout the retry timeout
      */
     public void setRetryTimeout(long retryTimeout) {
         this.retryTimeout = retryTimeout;

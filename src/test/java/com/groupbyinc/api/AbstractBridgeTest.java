@@ -15,6 +15,8 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -70,15 +72,6 @@ public class AbstractBridgeTest {
     public void testTurnOnCompressedResponse() throws Exception {
         String bridgeUrl = "bridgeUrl";
         AbstractBridge bridge = new AbstractBridge(clientKey, bridgeUrl, true) {
-            @Override
-            protected Results map(InputStream data, boolean returnBinary) {
-                return null;
-            }
-
-            @Override
-            protected RefinementsResult mapRefinements(InputStream data, boolean returnBinary) {
-                return null;
-            }
         };
 
         ImmutableHttpProcessor httpProcessor = getImmutableHttpProcessor(bridge);
@@ -90,6 +83,28 @@ public class AbstractBridgeTest {
         HttpResponseInterceptor[] responseInterceptors = getHttpResponseInterceptors(httpProcessor);
         boolean foundResponseContentEncoding = findResponseContentEncoding(responseInterceptors);
         assertTrue("By default the bridge should accept gzip response.", foundResponseContentEncoding);
+    }
+
+    private void assertURI(String expectedUri, Map<String, String> params, int tries) throws Exception {
+        String bridgeUrl = "https://bridgeUrl:5000";
+        AbstractBridge bridge = new AbstractBridge(clientKey, bridgeUrl, true) {
+        };
+        assertEquals(expectedUri, bridge.generateURI(bridge.getBridgeUrl(), params, tries).toASCIIString());
+    }
+
+    @Test
+    public void testGenerateURI() throws Exception {
+        Map<String, String> params = new HashMap<String, String>();
+        assertURI("https://bridgeUrl:5000/search?retry=1", params, 1);
+
+        params.put("novalue", null);
+        assertURI("https://bridgeUrl:5000/search?novalue&retry=2", params, 2);
+
+        params.put("key1", "value1");
+        assertURI("https://bridgeUrl:5000/search?key1=value1&novalue&retry=3", params, 3);
+
+        params.put("key2", "value2");
+        assertURI("https://bridgeUrl:5000/search?key1=value1&key2=value2&novalue&retry=4", params, 4);
     }
 
     @Test
