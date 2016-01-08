@@ -1,5 +1,6 @@
 package com.groupbyinc.api;
 
+import com.groupbyinc.api.model.Bias;
 import com.groupbyinc.api.model.Biasing;
 import com.groupbyinc.api.model.CustomUrlParam;
 import com.groupbyinc.api.model.MatchStrategy;
@@ -69,7 +70,7 @@ public class Query {
     private boolean pruneRefinements = true;
     private boolean returnBinary = true;
     private boolean disableAutocorrection = false;
-    protected RestrictNavigation restrictNavigation;
+    private RestrictNavigation restrictNavigation;
     private Biasing biasing = new Biasing();
 
     protected static com.groupbyinc.api.request.Sort convertSort(Sort sort) {
@@ -1205,11 +1206,20 @@ public class Query {
      *  - `bringToTop`: A list of product IDs to bring to the top of the result set. This list
      *  will ensure that the products are included in the result set and appear in the order
      *  defined.
+     *  - A list of biases, which either override or augment biasing profiles defined
+     *  in Command Center. By default, biases defined here will augment the ones defined
+     *  in Command Center.
      *
      * JSON Reference:
      *
      *     { "biasing": {
      *         "bringToTop": ["productId1","productId3","productId2"]
+     *         "overrideBiases": false,
+     *         "biases": [
+     *              {"navigationName":"brand", "value":"Brand A", "strength":"Medium_Increase"},
+     *              {"navigationName":"brand", "value":"Brand B", "strength":"Strong_Increase"},
+     *              {"navigationName":"material", "value":"Material A", "strength":"Strong_Decrease"}
+     *         ]
      *     }}
      *
      *
@@ -1241,6 +1251,44 @@ public class Query {
      */
     public Query setBringToTop(String... bringToTop) {
         CollectionUtils.addAll(this.biasing.getBringToTop(), bringToTop);
+        return this;
+    }
+
+    /**
+     * <code>
+     *
+     * @see Query#setBiasing(Biasing). This is a convenience method to set the biasing override.
+     *
+     * </code>
+     *
+     * @param override
+     *         True to replace the biases defined in Command Center, false to augment.
+     *
+     * @return
+     */
+    public Query setBiasingOverride(boolean override) {
+        biasing.setAugmentBiases(override);
+        return this;
+    }
+
+    /**
+     * <code>
+     *
+     * @see Query#setBiasing(Biasing). This is a convenience method to add an individual bias.
+     *
+     * </code>
+     *
+     * @param name
+     *         The name of the field to bias on
+     * @param value
+     *         The value to bias
+     * @param strength
+     *         The strength of the bias
+     *
+     * @return
+     */
+    public Query addBias(String name, String value, Bias.Strength strength) {
+        biasing.getBiases().add(new Bias().setName(name).setContent(value).setStrength(strength));
         return this;
     }
 }

@@ -22,6 +22,20 @@ public class Biasing {
         return bringToTop;
     }
 
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    private boolean augmentBiases = false;
+
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private List<Bias> biases = new ArrayList<Bias>();
+
+    /**
+     * @return True if this biasing profile should augment the biases defined
+     * in Command Center, false otherwise.
+     */
+    public boolean isAugmentBiases() {
+        return augmentBiases;
+    }
+
     /**
      * <code>
      * A list of product IDs to bring to the top of the result set. This list
@@ -35,6 +49,44 @@ public class Biasing {
      */
     public Biasing setBringToTop(List<String> bringToTop) {
         this.bringToTop = bringToTop;
+        return this;
+    }
+    /**
+     * <code>
+     * Set whether the biases defined should override or augment the biases
+     * defined in Command Center
+     *
+     * </code>
+     *
+     * @param augmentBiases
+     *         True to augment biases, false otherwise
+     *
+     * @return
+     */
+    public Biasing setAugmentBiases(boolean augmentBiases) {
+        this.augmentBiases = augmentBiases;
+        return this;
+    }
+
+    /**
+     * @return The list of biases
+     */
+    public List<Bias> getBiases() {
+        return biases;
+    }
+
+    /**
+     * <code>
+     * Set the list of biases
+     * </code>
+     *
+     * @param biases
+     *         The biases
+     *
+     * @return
+     */
+    public Biasing setBiases(List<Bias> biases) {
+        this.biases = biases;
         return this;
     }
 }

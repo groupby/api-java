@@ -7,11 +7,17 @@ import java.util.List;
 
 /**
  *
- * Created by groupby on 1/12/16.
+ * @author osman
  */
 public class Biasing {
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<String> bringToTop = new ArrayList<String>();
+
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    private boolean augmentBiases = false;
+
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private List<Bias> biases = new ArrayList<Bias>();
 
     public List<String> getBringToTop() {
         return bringToTop;
@@ -19,6 +25,23 @@ public class Biasing {
 
     public Biasing setBringToTop(List<String> bringToTop) {
         this.bringToTop = bringToTop;
+        return this;
+    }
+    public boolean isAugmentBiases() {
+        return augmentBiases;
+    }
+
+    public Biasing setAugmentBiases(boolean augmentBiases) {
+        this.augmentBiases = augmentBiases;
+        return this;
+    }
+
+    public List<Bias> getBiases() {
+        return biases;
+    }
+
+    public Biasing setBiases(List<Bias> biases) {
+        this.biases = biases;
         return this;
     }
 }
