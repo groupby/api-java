@@ -261,7 +261,7 @@
             <allowTimestampedSnapshots>false</allowTimestampedSnapshots>
             <tagNameFormat>v@{project.version}</tagNameFormat>
             <pomFileName>pom.xml</pomFileName>
-            <goals>deploy-gb</goals>
+            <goals>deploy</goals>
             <releaseProfiles>attach-and-sign</releaseProfiles>
           </configuration>
         </plugin>
