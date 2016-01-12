@@ -4,8 +4,7 @@ GroupBy Search API
 ![release](https://img.shields.io/maven-central/v/com.groupbyinc/api-java.svg)
 ![license](https://img.shields.io/github/license/groupby/api-java.svg)
 
-This project uses a custom version of the maven lifecycle, please follow the steps carefully to ensure a
-successful build.
+Please follow the steps carefully to ensure a successful build.
 
 ### To install:
 

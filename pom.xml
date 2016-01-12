@@ -107,17 +107,11 @@
 
   <build>
 
-    <defaultGoal>clean install-gb</defaultGoal>
+    <defaultGoal>clean install</defaultGoal>
 
     <pluginManagement>
 
       <plugins>
-
-        <plugin>
-          <groupId>${project.groupId}</groupId>
-          <artifactId>common-lifecycle</artifactId>
-          <version>${groupbyinc.common.version}</version>
-        </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -442,12 +436,6 @@
           <nexusUrl>https://oss.sonatype.org</nexusUrl>
           <autoReleaseAfterClose>true</autoReleaseAfterClose>
         </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>${project.groupId}</groupId>
-        <artifactId>common-lifecycle</artifactId>
-        <extensions>true</extensions>
       </plugin>
 
       <plugin>
