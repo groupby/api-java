@@ -1207,19 +1207,19 @@ public class Query {
      *  will ensure that the products are included in the result set and appear in the order
      *  defined.
      *  - A list of biases, which either override or augment biasing profiles defined
-     *  in Command Center. By default, biases defined here will augment the ones defined
+     *  in Command Center. By default, biases defined here will override the ones defined
      *  in Command Center.
      *
      * JSON Reference:
      *
      *     { "biasing": {
      *         "bringToTop": ["productId1","productId3","productId2"]
-     *         "overrideBiases": false,
-     *         "biases": [
-     *              {"navigationName":"brand", "value":"Brand A", "strength":"Medium_Increase"},
-     *              {"navigationName":"brand", "value":"Brand B", "strength":"Strong_Increase"},
-     *              {"navigationName":"material", "value":"Material A", "strength":"Strong_Decrease"}
-     *         ]
+     *          "augmentBiases": false,
+     *          "biases": [
+     *               {"navigationName":"brand", "value":"Brand A", "strength":"Medium_Increase"},
+     *               {"navigationName":"brand", "value":"Brand B", "strength":"Strong_Increase"},
+     *               {"navigationName":"material", "value":"Material A", "strength":"Strong_Decrease"}
+     *          ]
      *     }}
      *
      *
@@ -1257,17 +1257,17 @@ public class Query {
     /**
      * <code>
      *
-     * @see Query#setBiasing(Biasing). This is a convenience method to set the biasing override.
+     * @see Query#setBiasing(Biasing). This is a convenience method to set the biasing augment status.
      *
      * </code>
      *
-     * @param override
+     * @param augment
      *         True to replace the biases defined in Command Center, false to augment.
      *
      * @return
      */
-    public Query setBiasingOverride(boolean override) {
-        biasing.setAugmentBiases(override);
+    public Query setBiasingAugment(boolean augment) {
+        biasing.setAugmentBiases(augment);
         return this;
     }
 
