@@ -132,6 +132,7 @@ public class Query {
         request.setBiasingProfile(biasingProfile);
         request.setPageSize(pageSize);
         request.setSkip(skip);
+        request.setBiasing(convertBiasing(biasing));
         request.setCustomUrlParams(getCustomUrlParams());
         request.setRefinements(generateSelectedRefinements(navigations));
         request.setRestrictNavigation(convertRestrictNavigation());
@@ -1186,13 +1187,29 @@ public class Query {
         return this;
     }
 
+    protected static com.groupbyinc.api.request.Biasing convertBiasing(Biasing biasing) {
+        com.groupbyinc.api.request.Biasing convertedBiasing = null;
+        if (biasing != null) {
+            if (CollectionUtils.isNotEmpty(biasing.getBringToTop())) {
+                convertedBiasing = new com.groupbyinc.api.request.Biasing();
+                convertedBiasing.setBringToTop(new ArrayList<String>(biasing.getBringToTop()));
+            }
+        }
+        return convertedBiasing;
+    }
+
     /**
      * <code>
-     * Add a biasing profile, which is defined at query time.
+     * Add a biasing profile, which is defined at query time. Possible settings
+     * include:
+     *  - `bringToTop`: A list of product IDs to bring to the top of the result set. This list
+     *  will ensure that the products are included in the result set and appear in the order
+     *  defined.
      *
      * JSON Reference:
      *
      *     { "biasing": {
+     *         "bringToTop": ["productId1","productId3","productId2"]
      *     }}
      *
      *
@@ -1206,6 +1223,24 @@ public class Query {
      */
     public Query setBiasing(Biasing biasing) {
         this.biasing = biasing;
+        return this;
+    }
+
+    /**
+     * <code>
+     *
+     * @see Query#setBiasing(Biasing). This is a convenience method to set which products should be
+     * brought to the top of the result set.
+     *
+     * </code>
+     *
+     * @param bringToTop
+     *         Any number of product IDs to bring to the top of the result set.
+     *
+     * @return
+     */
+    public Query setBringToTop(String... bringToTop) {
+        CollectionUtils.addAll(this.biasing.getBringToTop(), bringToTop);
         return this;
     }
 }
