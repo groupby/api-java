@@ -11,7 +11,6 @@ import java.util.List;
  * @internal
  */
 public class MatchStrategy {
-
     private List<PartialMatchRule> rules = new ArrayList<PartialMatchRule>();
 
     public List<PartialMatchRule> getRules() {

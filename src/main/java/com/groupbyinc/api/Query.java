@@ -1,5 +1,6 @@
 package com.groupbyinc.api;
 
+import com.groupbyinc.api.model.Biasing;
 import com.groupbyinc.api.model.CustomUrlParam;
 import com.groupbyinc.api.model.MatchStrategy;
 import com.groupbyinc.api.model.Navigation;
@@ -69,6 +70,7 @@ public class Query {
     private boolean returnBinary = true;
     private boolean disableAutocorrection = false;
     protected RestrictNavigation restrictNavigation;
+    private Biasing biasing = new Biasing();
 
     protected static com.groupbyinc.api.request.Sort convertSort(Sort sort) {
         com.groupbyinc.api.request.Sort convertedSort = null;
@@ -915,17 +917,7 @@ public class Query {
 
     /**
      * <code>
-     * <b>Warning</b>  This will count as two queries against your search index.
-     * Typically, this feature is used when you have a large number of navigation items that will overwhelm the end
-     * user. It works by using one of the existing navigation items to decide what the query is about and fires a second
-     * query to restrict the navigation to the most relevant set of navigation items for this search term.
-     * For example, if you pass in a search of `paper` and a restrict navigation of `category:2`
-     * The bridge will find the category navigation refinements in the first query and fire a second query for the top
-     * 2 most populous categories.  Therefore, a search for something generic like "paper" will bring back top category
-     * matches like copy paper (1,030), paper pads (567).  The bridge will fire off the second query with the search
-     * term, plus an OR refinement with the most likely categories.  The navigation items in the first query are
-     * entirely replaced with the navigation items in the second query, except for the navigation that was used
-     * for the restriction so that users still have the ability to navigate by all category types.
+     * <b>Warning</b> @see Query#setRestrictNavigation(RestrictNavigation). This is a convenience method.
      * </code>
      *
      * @param name
@@ -1191,6 +1183,29 @@ public class Query {
      */
     public Query addQueryUrlParams(String key, String value) {
         this.queryUrlParams.put(key, value);
+        return this;
+    }
+
+    /**
+     * <code>
+     * Add a biasing profile, which is defined at query time.
+     *
+     * JSON Reference:
+     *
+     *     { "biasing": {
+     *     }}
+     *
+     *
+     * </code>
+     *
+     * @param biasing
+     *         The biasing parameters
+     *
+     * @return
+     * @internal
+     */
+    public Query setBiasing(Biasing biasing) {
+        this.biasing = biasing;
         return this;
     }
 }

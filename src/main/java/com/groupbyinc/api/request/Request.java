@@ -23,6 +23,7 @@ public class Request {
     private String language;
     private String query;
     private String refinementQuery;
+    private Biasing biasing;
     private RestrictNavigation restrictNavigation;
     private MatchStrategy matchStrategy;
     private Integer skip;
@@ -250,6 +251,15 @@ public class Request {
 
     public Request setExcludedNavigations(List<String> excludedNavigations) {
         this.excludedNavigations = excludedNavigations;
+        return this;
+    }
+
+    public Biasing getBiasing() {
+        return biasing;
+    }
+
+    public Request setBiasing(Biasing biasing) {
+        this.biasing = biasing;
         return this;
     }
 }
