@@ -141,7 +141,7 @@ public abstract class AbstractBridge {
     private void createClient(boolean compressResponse) {
         PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
         cm.setMaxTotal(200);
-        cm.setDefaultMaxPerRoute(20);
+        cm.setDefaultMaxPerRoute(100);
 
         HttpClientBuilder b = HttpClientBuilder.create();
         if (!compressResponse) {
