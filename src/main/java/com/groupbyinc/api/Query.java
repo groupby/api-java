@@ -1203,6 +1203,7 @@ public class Query {
      * <code>
      * Add a biasing profile, which is defined at query time. Possible settings
      * include:
+     *
      *  - `bringToTop`: A list of product IDs to bring to the top of the result set. This list
      *  will ensure that the products are included in the result set and appear in the order
      *  defined.
