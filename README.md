@@ -20,8 +20,8 @@ This will by default run the goals `clean` and `install`.
 This will install the project and run all unit tests. By default, tests are not run.
 
 
-### To add a dependency to this project:
-The uber jar must be used to ensure shaded dependencies are included correctly.
+### Add this library as a dependency to your project:
+The Uber JAR must be used to ensure shaded dependencies are included correctly.
 
 #### Maven
 
