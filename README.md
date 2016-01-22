@@ -29,7 +29,7 @@ The uber jar must be used to ensure shaded dependencies are included correctly.
 <dependency>
   <groupId>com.groupbyinc</groupId>
   <artifactId>api-java-flux</artifactId>
-  <version>2.0.252</version>
+  <version>2.2.14</version>
   <classifier>uber</classifier>
 </dependency>
 ```
@@ -37,7 +37,7 @@ The uber jar must be used to ensure shaded dependencies are included correctly.
 #### Gradle
 
 ```gradle
-compile group: 'com.groupbyinc', name: 'api-java-flux', version: '2.0.252', classifier: 'uber'
+compile group: 'com.groupbyinc', name: 'api-java-flux', version: '2.2.14', classifier: 'uber'
 ```
 
 ### Examples
@@ -45,7 +45,7 @@ compile group: 'com.groupbyinc', name: 'api-java-flux', version: '2.0.252', clas
 #### Searching
 
 ```java
-CloudBridge bridge = new CloudBridge("<client key>", "myCustomerId");
+CloudBridge bridge = new CloudBridge("<client-key>", "<customer-id>");
 Query query = new Query().setQuery("dvd");
 Results results = bridge.search(query);
 ```
