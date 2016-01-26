@@ -15,18 +15,20 @@ public class Biasing {
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<String> bringToTop = new ArrayList<String>();
 
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    private boolean augmentBiases = false;
+
+    private Float influence = null;
+
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private List<Bias> biases = new ArrayList<Bias>();
+
     /**
      * @return The list of product IDs
      */
     public List<String> getBringToTop() {
         return bringToTop;
     }
-
-    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    private boolean augmentBiases = false;
-
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private List<Bias> biases = new ArrayList<Bias>();
 
     /**
      * @return True if this biasing profile should augment the biases defined
@@ -87,6 +89,26 @@ public class Biasing {
      */
     public Biasing setBiases(List<Bias> biases) {
         this.biases = biases;
+        return this;
+    }
+
+    /**
+     * @return The influence of the biases.
+     */
+    public Float getInfluence() {
+        return influence;
+    }
+
+    /**
+     * <code>
+     * Set the influence of the biases.
+     * </code>
+     *
+     * @param influence
+     *          The influence of the biases.
+     */
+    public Biasing setInfluence(Float influence) {
+        this.influence = influence;
         return this;
     }
 }
