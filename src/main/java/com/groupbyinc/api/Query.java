@@ -27,8 +27,11 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class Query {
+    private static final Logger LOG = Logger.getLogger(Query.class.getName());
+
     public static final Pattern REFINEMENTS_SPLITTER_PATTERN = new Pattern("~((?=[\\w.]*[=:]))");
     public static final String[] EMPTY_REFINEMENTS = new String[]{};
     private static final String DOTS = "\\.\\.";
@@ -1188,32 +1191,74 @@ public class Query {
         return this;
     }
 
+    private static com.groupbyinc.api.request.Bias.Strength convertStrength(Bias.Strength strength) {
+        com.groupbyinc.api.request.Bias.Strength convertedStrength;
+
+        try {
+            convertedStrength = com.groupbyinc.api.request.Bias.Strength.valueOf(strength.name());
+        } catch(IllegalArgumentException e) {
+            LOG.warning("Could not convert bias strength: " + strength.name());
+            convertedStrength = com.groupbyinc.api.request.Bias.Strength.Leave_Unchanged;
+        }
+
+        return convertedStrength;
+    }
+
+    private static com.groupbyinc.api.request.Bias convertBias(Bias bias) {
+        return new com.groupbyinc.api.request.Bias().setName(bias.getName()).setContent(bias.getContent()).setStrength(
+                convertStrength(bias.getStrength()));
+    }
+
+    private static List<com.groupbyinc.api.request.Bias> convertBiases(List<Bias> biases) {
+        List<com.groupbyinc.api.request.Bias> convertedBiases = new ArrayList<com.groupbyinc.api.request.Bias>();
+        for(Bias bias : biases) {
+            convertedBiases.add(convertBias(bias));
+        }
+        return convertedBiases;
+    }
+
     protected static com.groupbyinc.api.request.Biasing convertBiasing(Biasing biasing) {
-        com.groupbyinc.api.request.Biasing convertedBiasing = null;
+        com.groupbyinc.api.request.Biasing convertedBiasing =  new com.groupbyinc.api.request.Biasing();
+        boolean hasData = false;
         if (biasing != null) {
             if (CollectionUtils.isNotEmpty(biasing.getBringToTop())) {
-                convertedBiasing = new com.groupbyinc.api.request.Biasing();
                 convertedBiasing.setBringToTop(new ArrayList<String>(biasing.getBringToTop()));
+                hasData = true;
+            }
+            if (CollectionUtils.isNotEmpty(biasing.getBiases())) {
+                convertedBiasing.setBiases(new ArrayList<com.groupbyinc.api.request.Bias>(convertBiases(biasing.getBiases())));
+                convertedBiasing.setAugmentBiases(biasing.isAugmentBiases());
+                hasData = true;
+            }
+            if(biasing.getInfluence() != null) {
+                convertedBiasing.setInfluence(biasing.getInfluence());
+                hasData = true;
             }
         }
-        return convertedBiasing;
+        return hasData ? convertedBiasing : null;
     }
 
     /**
      * <code>
      * Add a biasing profile, which is defined at query time. Possible settings
      * include:
+     *
      *  - `bringToTop`: A list of product IDs to bring to the top of the result set. This list
      *  will ensure that the products are included in the result set and appear in the order
      *  defined.
-     *  - A list of biases, which either override or augment biasing profiles defined
-     *  in Command Center. By default, biases defined here will override the ones defined
+     *  - `influence`: The influence to apply to query-time biases and biases set in Command Center.
+     *  If this field is not defined, then the influence of the biasing profile defined in Command Center will take effect.
+     *  If an influence is not defined in Command Center, then the influence will default to 5.
+     *  - `augmentBiases`: If true, the biases defined here will augment biasing profiles defined in Command Center.
+     *  Otherwise, the biases will override the ones defined in command Center. By default, this is set to false.
+     *  - `biases`: A list of biases, which either override or augment biasing profiles defined
      *  in Command Center.
      *
      * JSON Reference:
      *
      *     { "biasing": {
-     *         "bringToTop": ["productId1","productId3","productId2"]
+     *          "bringToTop": ["productId1","productId3","productId2"]
+     *          "influence": 5.0,
      *          "augmentBiases": false,
      *          "biases": [
      *               {"navigationName":"brand", "value":"Brand A", "strength":"Medium_Increase"},
@@ -1268,6 +1313,22 @@ public class Query {
      */
     public Query setBiasingAugment(boolean augment) {
         biasing.setAugmentBiases(augment);
+        return this;
+    }
+
+    /**
+     * <code>
+     *
+     * @see Query#setBiasing(Biasing). This is a convenience method to set the biasing influence.
+     *
+     * </code>
+     *
+     * @param influence
+     *         The influence
+     * @return
+     */
+    public Query setInfluence(Float influence) {
+        biasing.setInfluence(influence);
         return this;
     }
 

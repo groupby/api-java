@@ -16,6 +16,8 @@ public class Biasing {
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private boolean augmentBiases = false;
 
+    private Float influence = null;
+
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<Bias> biases = new ArrayList<Bias>();
 
@@ -42,6 +44,15 @@ public class Biasing {
 
     public Biasing setBiases(List<Bias> biases) {
         this.biases = biases;
+        return this;
+    }
+
+    public Float getInfluence() {
+        return influence;
+    }
+
+    public Biasing setInfluence(Float influence) {
+        this.influence = influence;
         return this;
     }
 }
