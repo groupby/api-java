@@ -58,6 +58,7 @@ public class Query {
         }
     }
 
+    private String userId;
     private String query;
     private int skip = 0;
     private int pageSize = 10;
@@ -1350,6 +1351,29 @@ public class Query {
      */
     public Query addBias(String name, String value, Bias.Strength strength) {
         biasing.getBiases().add(new Bias().setName(name).setContent(value).setStrength(strength));
+        return this;
+    }
+
+    /**
+     * @return The user ID
+     */
+    public String getUserId() {
+        return userId;
+    }
+
+    /**
+     * <code>
+     *
+     *  An ID that is associated with a user. Every user should have a unique ID, and queries sent by the same user
+     *  should have the same ID.
+     *
+     * </code>
+     * @param userId
+     *         The user ID
+     * @return
+     */
+    public Query setUserId(String userId) {
+        this.userId = userId;
         return this;
     }
 }
