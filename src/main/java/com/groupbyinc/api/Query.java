@@ -125,6 +125,7 @@ public class Query {
     private Request populateRequest(String clientKey) {
         Request request = new Request();
 
+        request.setUserId(userId);
         request.setIncludedNavigations(includedNavigations);
         request.setExcludedNavigations(excludedNavigations);
         request.setClientKey(clientKey);
@@ -1366,6 +1367,8 @@ public class Query {
      *
      *  An ID that is associated with a user. Every user should have a unique ID, and queries sent by the same user
      *  should have the same ID.
+     *
+     *  **Important:** Sending raw session IDs is a security risk. Encrypt or hash session IDs prior to transmission.
      *
      * </code>
      * @param userId
