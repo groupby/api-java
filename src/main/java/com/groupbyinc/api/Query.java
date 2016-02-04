@@ -58,6 +58,7 @@ public class Query {
         }
     }
 
+    private String userId;
     private String query;
     private int skip = 0;
     private int pageSize = 10;
@@ -124,6 +125,7 @@ public class Query {
     private Request populateRequest(String clientKey) {
         Request request = new Request();
 
+        request.setUserId(userId);
         request.setIncludedNavigations(includedNavigations);
         request.setExcludedNavigations(excludedNavigations);
         request.setClientKey(clientKey);
@@ -1350,6 +1352,31 @@ public class Query {
      */
     public Query addBias(String name, String value, Bias.Strength strength) {
         biasing.getBiases().add(new Bias().setName(name).setContent(value).setStrength(strength));
+        return this;
+    }
+
+    /**
+     * @return The user ID
+     */
+    public String getUserId() {
+        return userId;
+    }
+
+    /**
+     * <code>
+     *
+     *  An ID that is associated with a user. Every user should have a unique ID, and queries sent by the same user
+     *  should have the same ID.
+     *
+     *  **Important:** Sending raw session IDs is a security risk. Encrypt or hash session IDs prior to transmission.
+     *
+     * </code>
+     * @param userId
+     *         The user ID
+     * @return
+     */
+    public Query setUserId(String userId) {
+        this.userId = userId;
         return this;
     }
 }

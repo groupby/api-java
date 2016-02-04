@@ -19,6 +19,7 @@ public class Request {
     private String clientKey;
     private String collection;
     private String area;
+    private String userId;
     private String biasingProfile;
     private String language;
     private String query;
@@ -74,6 +75,15 @@ public class Request {
 
     public Request setCollection(String collection) {
         this.collection = collection;
+        return this;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public Request setUserId(String userId) {
+        this.userId = userId;
         return this;
     }
 
