@@ -47,11 +47,11 @@ public class SelectedRefinementValue extends SelectedRefinement<SelectedRefineme
     }
 
     /**
-     * @param pValue Set the value
+     * @param value Set the value
      * @return
      */
-    public SelectedRefinementValue setValue(String pValue) {
-        value = pValue;
+    public SelectedRefinementValue setValue(String value) {
+        this.value = value;
         return this;
     }
 
