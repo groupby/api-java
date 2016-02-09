@@ -1254,7 +1254,7 @@ public class Query {
      *  - `augmentBiases`: If true, the biases defined here will augment biasing profiles defined in Command Center.
      *  Otherwise, the biases will override the ones defined in command Center. By default, this is set to false.
      *  - `biases`: A list of biases, which either override or augment biasing profiles defined
-     *  in Command Center.
+     *  in Command Center. See the documentation for `addBias` for more information.
      *
      * JSON Reference:
      *
@@ -1263,9 +1263,9 @@ public class Query {
      *          "influence": 5.0,
      *          "augmentBiases": false,
      *          "biases": [
-     *               {"navigationName":"brand", "value":"Brand A", "strength":"Medium_Increase"},
-     *               {"navigationName":"brand", "value":"Brand B", "strength":"Strong_Increase"},
-     *               {"navigationName":"material", "value":"Material A", "strength":"Strong_Decrease"}
+     *               {"name":"brand", "content":"Brand A", "strength":"Medium_Increase"},
+     *               {"name":"brand", "content":"Brand B", "strength":"Strong_Increase"},
+     *               {"name":"material", "content":"Material A", "strength":"Strong_Decrease"}
      *          ]
      *     }}
      *
@@ -1343,15 +1343,16 @@ public class Query {
      *
      * @param name
      *         The name of the field to bias on
-     * @param value
+     * @param content
      *         The value to bias
      * @param strength
-     *         The strength of the bias
+     *         The strength of the bias. Legal values are: "Absolute_Increase", "Strong_Increase", "Medium_Increase",
+     *         "Weak_Increase", "Leave_Unchanged", "Weak_Decrease", "Medium_Decrease", "Strong_Decrease", "Absolute_Decrease".
      *
      * @return
      */
-    public Query addBias(String name, String value, Bias.Strength strength) {
-        biasing.getBiases().add(new Bias().setName(name).setContent(value).setStrength(strength));
+    public Query addBias(String name, String content, Bias.Strength strength) {
+        biasing.getBiases().add(new Bias().setName(name).setContent(content).setStrength(strength));
         return this;
     }
 
