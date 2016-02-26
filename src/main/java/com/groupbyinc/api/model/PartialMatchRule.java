@@ -5,44 +5,45 @@ package com.groupbyinc.api.model;
  * @internal
  */
 public class PartialMatchRule {
-    private Integer terms;
-    private Integer termsGreaterThan;
-    private Integer mustMatch;
-    private Boolean percentage;
 
-    public Integer getTerms() {
-        return terms;
-    }
+  private Integer terms;
+  private Integer termsGreaterThan;
+  private Integer mustMatch;
+  private Boolean percentage;
 
-    public PartialMatchRule setTerms(Integer terms) {
-        this.terms = terms;
-        return this;
-    }
+  public Integer getTerms() {
+    return terms;
+  }
 
-    public Integer getTermsGreaterThan() {
-        return termsGreaterThan;
-    }
+  public PartialMatchRule setTerms(Integer terms) {
+    this.terms = terms;
+    return this;
+  }
 
-    public PartialMatchRule setTermsGreaterThan(Integer termsGreaterThan) {
-        this.termsGreaterThan = termsGreaterThan;
-        return this;
-    }
+  public Integer getTermsGreaterThan() {
+    return termsGreaterThan;
+  }
 
-    public Integer getMustMatch() {
-        return mustMatch;
-    }
+  public PartialMatchRule setTermsGreaterThan(Integer termsGreaterThan) {
+    this.termsGreaterThan = termsGreaterThan;
+    return this;
+  }
 
-    public PartialMatchRule setMustMatch(Integer mustMatch) {
-        this.mustMatch = mustMatch;
-        return this;
-    }
+  public Integer getMustMatch() {
+    return mustMatch;
+  }
 
-    public Boolean getPercentage() {
-        return percentage;
-    }
+  public PartialMatchRule setMustMatch(Integer mustMatch) {
+    this.mustMatch = mustMatch;
+    return this;
+  }
 
-    public PartialMatchRule setPercentage(Boolean percentage) {
-        this.percentage = percentage;
-        return this;
-    }
+  public Boolean getPercentage() {
+    return percentage;
+  }
+
+  public PartialMatchRule setPercentage(Boolean percentage) {
+    this.percentage = percentage;
+    return this;
+  }
 }

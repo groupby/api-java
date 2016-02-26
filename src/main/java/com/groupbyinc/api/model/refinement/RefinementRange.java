@@ -19,64 +19,65 @@ import com.groupbyinc.api.model.Refinement;
  * @author will
  */
 public class RefinementRange extends Refinement<RefinementRange> {
-    private String high;
-    private String low;
 
-    /**
-     * <code>
-     * Default constructor
-     * </code>
-     */
-    public RefinementRange() {
-        // default constructor
-    }
+  private String high;
+  private String low;
 
-    /**
-     * @return Type.Range
-     * @internal
-     */
-    @Override
-    public Type getType() {
-        return Type.Range;
-    }
+  /**
+   * <code>
+   * Default constructor
+   * </code>
+   */
+  public RefinementRange() {
+    // default constructor
+  }
 
-    /**
-     * @return Returns the lower bound of this range.
-     */
-    public String getLow() {
-        return low;
-    }
+  /**
+   * @return Type.Range
+   * @internal
+   */
+  @Override
+  public Type getType() {
+    return Type.Range;
+  }
 
-    /**
-     * @param low Set the lower bound.
-     * @return
-     */
-    public RefinementRange setLow(String low) {
-        this.low = low;
-        return this;
-    }
+  /**
+   * @internal
+   */
+  @Override
+  public String toTildeString() {
+    return ":" + low + ".." + high;
+  }
 
-    /**
-     * @return Return the upper bound of this range.
-     */
-    public String getHigh() {
-        return high;
-    }
+  /**
+   * @return Returns the lower bound of this range.
+   */
+  public String getLow() {
+    return low;
+  }
 
-    /**
-     * @param high Set the uppermost value.
-     * @return
-     */
-    public RefinementRange setHigh(String high) {
-        this.high = high;
-        return this;
-    }
+  /**
+   * @param low Set the lower bound.
+   * @return
+   */
+  public RefinementRange setLow(String low) {
+    this.low = low;
+    return this;
+  }
 
-    /**
-     * @internal
-     */
-    @Override
-    public String toTildeString() {
-        return ":" + low + ".." + high;
-    }
+  /**
+   * @return Return the upper bound of this range.
+   */
+  public String getHigh() {
+    return high;
+  }
+
+  /**
+   * @param high Set the uppermost value.
+   * @return
+   */
+  public RefinementRange setHigh(String high) {
+    this.high = high;
+    return this;
+  }
 }

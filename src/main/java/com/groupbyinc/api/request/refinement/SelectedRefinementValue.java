@@ -20,46 +20,47 @@ import com.groupbyinc.api.request.SelectedRefinement;
  * @author will
  */
 public class SelectedRefinementValue extends SelectedRefinement<SelectedRefinementValue> {
-    private String value;
 
-    /**
-     * <code>
-     * Default constructor
-     * </code>
-     */
-    public SelectedRefinementValue() {
-        // default constructor
-    }
+  private String value;
 
-    /**
-     * @return Type.Value
-     */
-    @Override
-    public Type getType() {
-        return Type.Value;
-    }
+  /**
+   * <code>
+   * Default constructor
+   * </code>
+   */
+  public SelectedRefinementValue() {
+    // default constructor
+  }
 
-    /**
-     * @return the value of this refinement
-     */
-    public String getValue() {
-        return value;
-    }
+  /**
+   * @return Type.Value
+   */
+  @Override
+  public Type getType() {
+    return Type.Value;
+  }
 
-    /**
-     * @param value Set the value
-     * @return
-     */
-    public SelectedRefinementValue setValue(String value) {
-        this.value = value;
-        return this;
-    }
+  /**
+   * @internal
+   */
+  @Override
+  public String toTildeString() {
+    return "=" + value;
+  }
 
-    /**
-     * @internal
-     */
-    @Override
-    public String toTildeString() {
-        return "=" + value;
-    }
+  /**
+   * @return the value of this refinement
+   */
+  public String getValue() {
+    return value;
+  }
+
+  /**
+   * @param value Set the value
+   * @return
+   */
+  public SelectedRefinementValue setValue(String value) {
+    this.value = value;
+    return this;
+  }
 }

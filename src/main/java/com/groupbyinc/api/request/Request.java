@@ -16,260 +16,253 @@ import java.util.List;
  * @internal
  */
 public class Request {
-    private String clientKey;
-    private String collection;
-    private String area;
-    private String userId;
-    private String biasingProfile;
-    private String language;
-    private String query;
-    private String refinementQuery;
-    private Biasing biasing;
-    private RestrictNavigation restrictNavigation;
-    private MatchStrategy matchStrategy;
-    private Integer skip;
-    private Integer pageSize;
-    private Boolean returnBinary;
-    private Boolean disableAutocorrection;
-    @JsonProperty
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private List<Sort> sort = new ArrayList<Sort>();
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private List<String> fields = new ArrayList<String>();
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private List<String> orFields = new ArrayList<String>();
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private List<SelectedRefinement> refinements = new ArrayList<SelectedRefinement>();
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private List<CustomUrlParam> customUrlParams = new ArrayList<CustomUrlParam>();
-    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    private Boolean wildcardSearchEnabled = false;
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private List<String> includedNavigations = new ArrayList<String>();
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private List<String> excludedNavigations = new ArrayList<String>();
-    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    private Boolean pruneRefinements = true;
 
-    public String getClientKey() {
-        return clientKey;
-    }
+  private String clientKey;
+  private String collection;
+  private String area;
+  private String userId;
+  private String biasingProfile;
+  private String language;
+  private String query;
+  private String refinementQuery;
+  private Biasing biasing;
+  private RestrictNavigation restrictNavigation;
+  private MatchStrategy matchStrategy;
+  private Integer skip;
+  private Integer pageSize;
+  private Boolean returnBinary;
+  private Boolean disableAutocorrection;
+  @JsonProperty
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
+  private List<Sort> sort = new ArrayList<Sort>();
+  @JsonInclude(JsonInclude.Include.NON_EMPTY) private List<String> fields = new ArrayList<String>();
+  @JsonInclude(JsonInclude.Include.NON_EMPTY) private List<String> orFields = new ArrayList<String>();
+  @JsonInclude(JsonInclude.Include.NON_EMPTY) private List<SelectedRefinement> refinements = new ArrayList<SelectedRefinement>();
+  @JsonInclude(JsonInclude.Include.NON_EMPTY) private List<CustomUrlParam> customUrlParams = new ArrayList<CustomUrlParam>();
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT) private Boolean wildcardSearchEnabled = false;
+  @JsonInclude(JsonInclude.Include.NON_EMPTY) private List<String> includedNavigations = new ArrayList<String>();
+  @JsonInclude(JsonInclude.Include.NON_EMPTY) private List<String> excludedNavigations = new ArrayList<String>();
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT) private Boolean pruneRefinements = true;
 
-    public Request setClientKey(String clientKey) {
-        this.clientKey = clientKey;
-        return this;
-    }
+  public String getClientKey() {
+    return clientKey;
+  }
 
-    public String getArea() {
-        return area;
-    }
+  public Request setClientKey(String clientKey) {
+    this.clientKey = clientKey;
+    return this;
+  }
 
-    public Request setArea(String area) {
-        this.area = area;
-        return this;
-    }
+  public String getArea() {
+    return area;
+  }
 
-    public String getCollection() {
-        return collection;
-    }
+  public Request setArea(String area) {
+    this.area = area;
+    return this;
+  }
 
-    public Request setCollection(String collection) {
-        this.collection = collection;
-        return this;
-    }
+  public String getCollection() {
+    return collection;
+  }
 
-    public String getUserId() {
-        return userId;
-    }
+  public Request setCollection(String collection) {
+    this.collection = collection;
+    return this;
+  }
 
-    public Request setUserId(String userId) {
-        this.userId = userId;
-        return this;
-    }
+  public String getUserId() {
+    return userId;
+  }
 
-    public String getQuery() {
-        return query;
-    }
+  public Request setUserId(String userId) {
+    this.userId = userId;
+    return this;
+  }
 
-    public Request setQuery(String query) {
-        this.query = query;
-        return this;
-    }
+  public String getQuery() {
+    return query;
+  }
 
-    public Integer getSkip() {
-        return skip;
-    }
+  public Request setQuery(String query) {
+    this.query = query;
+    return this;
+  }
 
-    public Request setSkip(Integer skip) {
-        this.skip = skip;
-        return this;
-    }
+  public Integer getSkip() {
+    return skip;
+  }
 
-    public Integer getPageSize() {
-        return pageSize;
-    }
+  public Request setSkip(Integer skip) {
+    this.skip = skip;
+    return this;
+  }
 
-    public Request setPageSize(Integer pageSize) {
-        this.pageSize = pageSize;
-        return this;
-    }
+  public Integer getPageSize() {
+    return pageSize;
+  }
 
-    public List<CustomUrlParam> getCustomUrlParams() {
-        return customUrlParams;
-    }
+  public Request setPageSize(Integer pageSize) {
+    this.pageSize = pageSize;
+    return this;
+  }
 
-    public Request setCustomUrlParams(List<CustomUrlParam> customUrlParams) {
-        this.customUrlParams = customUrlParams;
-        return this;
-    }
+  public List<CustomUrlParam> getCustomUrlParams() {
+    return customUrlParams;
+  }
 
-    public List<String> getFields() {
-        return fields;
-    }
+  public Request setCustomUrlParams(List<CustomUrlParam> customUrlParams) {
+    this.customUrlParams = customUrlParams;
+    return this;
+  }
 
-    public Request setFields(List<String> fields) {
-        this.fields = fields;
-        return this;
-    }
+  public List<String> getFields() {
+    return fields;
+  }
 
-    public List<String> getOrFields() {
-        return orFields;
-    }
+  public Request setFields(List<String> fields) {
+    this.fields = fields;
+    return this;
+  }
 
-    public Request setOrFields(List<String> orFields) {
-        this.orFields = orFields;
-        return this;
-    }
+  public List<String> getOrFields() {
+    return orFields;
+  }
 
-    public String getBiasingProfile() {
-        return biasingProfile;
-    }
+  public Request setOrFields(List<String> orFields) {
+    this.orFields = orFields;
+    return this;
+  }
 
-    public Request setBiasingProfile(String biasingProfile) {
-        this.biasingProfile = biasingProfile;
-        return this;
-    }
+  public String getBiasingProfile() {
+    return biasingProfile;
+  }
 
-    public List<Sort> getSort() {
-        return sort;
-    }
+  public Request setBiasingProfile(String biasingProfile) {
+    this.biasingProfile = biasingProfile;
+    return this;
+  }
 
-    public Request setSort(List<Sort> sort) {
-        this.sort = sort;
-        return this;
-    }
+  public List<Sort> getSort() {
+    return sort;
+  }
 
-    @JsonIgnore
-    public Request setSort(Sort... sort) {
-        CollectionUtils.addAll(this.sort, sort);
-        return this;
-    }
+  @JsonIgnore
+  public Request setSort(Sort... sort) {
+    CollectionUtils.addAll(this.sort, sort);
+    return this;
+  }
 
-    public String getLanguage() {
-        return language;
-    }
+  public Request setSort(List<Sort> sort) {
+    this.sort = sort;
+    return this;
+  }
 
-    public Request setLanguage(String language) {
-        this.language = language;
-        return this;
-    }
+  public String getLanguage() {
+    return language;
+  }
 
-    public Boolean getPruneRefinements() {
-        return pruneRefinements;
-    }
+  public Request setLanguage(String language) {
+    this.language = language;
+    return this;
+  }
 
-    public Request setPruneRefinements(Boolean pruneRefinements) {
-        this.pruneRefinements = pruneRefinements;
-        return this;
-    }
+  public Boolean getPruneRefinements() {
+    return pruneRefinements;
+  }
 
-    public Boolean getReturnBinary() {
-        return returnBinary;
-    }
+  public Request setPruneRefinements(Boolean pruneRefinements) {
+    this.pruneRefinements = pruneRefinements;
+    return this;
+  }
 
-    public Request setReturnBinary(Boolean returnBinary) {
-        this.returnBinary = returnBinary;
-        return this;
-    }
+  public Boolean getReturnBinary() {
+    return returnBinary;
+  }
 
-    public Boolean getDisableAutocorrection() {
-        return disableAutocorrection;
-    }
+  public Request setReturnBinary(Boolean returnBinary) {
+    this.returnBinary = returnBinary;
+    return this;
+  }
 
-    public Request setDisableAutocorrection(Boolean disableAutocorrection) {
-        this.disableAutocorrection = disableAutocorrection;
-        return this;
-    }
+  public Boolean getDisableAutocorrection() {
+    return disableAutocorrection;
+  }
 
-    public List<SelectedRefinement> getRefinements() {
-        return refinements;
-    }
+  public Request setDisableAutocorrection(Boolean disableAutocorrection) {
+    this.disableAutocorrection = disableAutocorrection;
+    return this;
+  }
 
-    public Request setRefinements(List<SelectedRefinement> refinements) {
-        this.refinements = refinements;
-        return this;
-    }
+  public List<SelectedRefinement> getRefinements() {
+    return refinements;
+  }
 
-    public String getRefinementQuery() {
-        return refinementQuery;
-    }
+  public Request setRefinements(List<SelectedRefinement> refinements) {
+    this.refinements = refinements;
+    return this;
+  }
 
-    public Request setRefinementQuery(String refinementQuery) {
-        this.refinementQuery = refinementQuery;
-        return this;
-    }
+  public String getRefinementQuery() {
+    return refinementQuery;
+  }
 
-    public RestrictNavigation getRestrictNavigation() {
-        return restrictNavigation;
-    }
+  public Request setRefinementQuery(String refinementQuery) {
+    this.refinementQuery = refinementQuery;
+    return this;
+  }
 
-    public Request setRestrictNavigation(RestrictNavigation restrictNavigation) {
-        this.restrictNavigation = restrictNavigation;
-        return this;
-    }
+  public RestrictNavigation getRestrictNavigation() {
+    return restrictNavigation;
+  }
 
-    public Boolean isWildcardSearchEnabled() {
-        return wildcardSearchEnabled;
-    }
+  public Request setRestrictNavigation(RestrictNavigation restrictNavigation) {
+    this.restrictNavigation = restrictNavigation;
+    return this;
+  }
 
-    public Request setWildcardSearchEnabled(Boolean wildcardSearchEnabled) {
-        this.wildcardSearchEnabled = wildcardSearchEnabled;
-        return this;
-    }
+  public Boolean isWildcardSearchEnabled() {
+    return wildcardSearchEnabled;
+  }
 
-    public MatchStrategy getMatchStrategy() {
-        return matchStrategy;
-    }
+  public Request setWildcardSearchEnabled(Boolean wildcardSearchEnabled) {
+    this.wildcardSearchEnabled = wildcardSearchEnabled;
+    return this;
+  }
 
-    public Request setMatchStrategy(MatchStrategy matchStrategy) {
-        this.matchStrategy = matchStrategy;
-        return this;
-    }
+  public MatchStrategy getMatchStrategy() {
+    return matchStrategy;
+  }
 
-    public List<String> getIncludedNavigations() {
-        return includedNavigations;
-    }
+  public Request setMatchStrategy(MatchStrategy matchStrategy) {
+    this.matchStrategy = matchStrategy;
+    return this;
+  }
 
-    public Request setIncludedNavigations(List<String> includedNavigations) {
-        this.includedNavigations = includedNavigations;
-        return this;
-    }
+  public List<String> getIncludedNavigations() {
+    return includedNavigations;
+  }
 
-    public List<String> getExcludedNavigations() {
-        return excludedNavigations;
-    }
+  public Request setIncludedNavigations(List<String> includedNavigations) {
+    this.includedNavigations = includedNavigations;
+    return this;
+  }
 
-    public Request setExcludedNavigations(List<String> excludedNavigations) {
-        this.excludedNavigations = excludedNavigations;
-        return this;
-    }
+  public List<String> getExcludedNavigations() {
+    return excludedNavigations;
+  }
 
-    public Biasing getBiasing() {
-        return biasing;
-    }
+  public Request setExcludedNavigations(List<String> excludedNavigations) {
+    this.excludedNavigations = excludedNavigations;
+    return this;
+  }
 
-    public Request setBiasing(Biasing biasing) {
-        this.biasing = biasing;
-        return this;
-    }
+  public Biasing getBiasing() {
+    return biasing;
+  }
+
+  public Request setBiasing(Biasing biasing) {
+    this.biasing = biasing;
+    return this;
+  }
 }

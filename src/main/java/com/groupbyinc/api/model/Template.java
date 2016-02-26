@@ -22,85 +22,85 @@ import java.util.Map;
  * @author will
  */
 public class Template {
-    @JsonProperty("_id")
-    private String id;
-    private String name;
-    private String ruleName;
-    private Map<String, Zone> zones = new HashMap<String, Zone>();
 
-    /**
-     * <code>
-     * Default constructor
-     * </code>
-     */
-    public Template() {
-        // default constructor
-    }
+  @JsonProperty("_id") private String id;
+  private String name;
+  private String ruleName;
+  private Map<String, Zone> zones = new HashMap<String, Zone>();
 
-    /**
-     * @return An MD5 hash of the name of this template.
-     */
-    public String getId() {
-        return id;
-    }
+  /**
+   * <code>
+   * Default constructor
+   * </code>
+   */
+  public Template() {
+    // default constructor
+  }
 
-    /**
-     * @param id
-     *         Set the ID.
-     *
-     * @return
-     */
-    public Template setId(String id) {
-        this.id = id;
-        return this;
-    }
+  /**
+   * @return An MD5 hash of the name of this template.
+   */
+  public String getId() {
+    return id;
+  }
 
-    /**
-     * @return The name as set in the command center.
-     */
-    public String getName() {
-        return name;
-    }
+  /**
+   * @param id
+   *         Set the ID.
+   *
+   * @return
+   */
+  public Template setId(String id) {
+    this.id = id;
+    return this;
+  }
 
-    /**
-     * @param name
-     *         Set the name
-     *
-     * @return
-     */
-    public Template setName(String name) {
-        this.name = name;
-        return this;
-    }
+  /**
+   * @return The name as set in the command center.
+   */
+  public String getName() {
+    return name;
+  }
 
-    /**
-     * @return The name of the rule that triggered this template.
-     */
-    public String getRuleName() {
-        return ruleName;
-    }
+  /**
+   * @param name
+   *         Set the name
+   *
+   * @return
+   */
+  public Template setName(String name) {
+    this.name = name;
+    return this;
+  }
 
-    /**
-     * @param ruleName
-     *         Set the rule.
-     */
-    public void setRuleName(String ruleName) {
-        this.ruleName = ruleName;
-    }
+  /**
+   * @return The name of the rule that triggered this template.
+   */
+  public String getRuleName() {
+    return ruleName;
+  }
 
-    /**
-     * @return A map of zones keyed by name for easy lookup in the UI layer.
-     */
-    public Map<String, Zone> getZones() {
-        return zones;
-    }
+  /**
+   * @param ruleName
+   *         Set the rule.
+   */
+  public void setRuleName(String ruleName) {
+    this.ruleName = ruleName;
+  }
 
-    /**
-     * @param zones
-     *         Set the zones.
-     */
-    public Template setZones(Map<String, Zone> zones) {
-        this.zones = zones;
-        return this;
-    }
+  /**
+   * @return A map of zones keyed by name for easy lookup in the UI layer.
+   */
+  public Map<String, Zone> getZones() {
+    return zones;
+  }
+
+  /**
+   * @param zones
+   *         Set the zones.
+   */
+  public Template setZones(Map<String, Zone> zones) {
+    this.zones = zones;
+    return this;
+  }
 }

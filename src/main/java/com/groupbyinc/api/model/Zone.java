@@ -14,73 +14,74 @@ import com.groupbyinc.common.jackson.annotation.JsonTypeInfo;
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = ContentZone.class, name = "Content"),
-        @JsonSubTypes.Type(value = RecordZone.class, name = "Record"),
-        @JsonSubTypes.Type(value = BannerZone.class, name = "Banner"),
-        @JsonSubTypes.Type(value = RichContentZone.class, name = "Rich_Content")})
+    @JsonSubTypes.Type(value = ContentZone.class, name = "Content"), @JsonSubTypes.Type(value = RecordZone.class, name = "Record"), @JsonSubTypes.Type(value = BannerZone.class, name = "Banner"),
+    @JsonSubTypes.Type(value = RichContentZone.class, name = "Rich_Content")})
 public abstract class Zone<Z extends Zone<Z>> {
-    public enum Type {
-        Content, Record, Banner, Rich_Content
-    }
 
-    @JsonProperty("_id")
-    private String id;
-    private String name;
+  public enum Type {
+    Content,
+    Record,
+    Banner,
+    Rich_Content
+  }
 
-    /**
-     * <code>
-     * Default constructor
-     * </code>
-     * @internal
-     */
-    public Zone() {
-        // default constructor
-    }
+  @JsonProperty("_id") private String id;
+  private String name;
 
-    /**
-     * <code>
-     * Zones support the following content types:
-     *
-     *     Content, Record, Banner, Rich_Content
-     *
-     * </code>
-     *
-     * @return The type of zone.
-     */
-    @JsonTypeId
-    public abstract Type getType();
+  /**
+   * <code>
+   * Default constructor
+   * </code>
+   * @internal
+   */
+  public Zone() {
+    // default constructor
+  }
 
-    /**
-     * @return ID is a MD5 hash of the name.
-     */
-    public String getId() {
-        return id;
-    }
+  /**
+   * <code>
+   * Zones support the following content types:
+   *
+   *     Content, Record, Banner, Rich_Content
+   *
+   * </code>
+   *
+   * @return The type of zone.
+   */
+  @JsonTypeId
+  public abstract Type getType();
 
-    /**
-     * @param id Set the ID.
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    public Z setId(String id) {
-        this.id = id;
-        return (Z) this;
-    }
+  /**
+   * @return ID is a MD5 hash of the name.
+   */
+  public String getId() {
+    return id;
+  }
 
-    /**
-     * @return The name of the zone.
-     */
-    public String getName() {
-        return name;
-    }
+  /**
+   * @param id Set the ID.
+   * @return
+   */
+  @SuppressWarnings("unchecked")
+  public Z setId(String id) {
+    this.id = id;
+    return (Z) this;
+  }
 
-    /**
-     * @param name Set the name
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    public Z setName(String name) {
-        this.name = name;
-        return (Z) this;
-    }
+  /**
+   * @return The name of the zone.
+   */
+  public String getName() {
+    return name;
+  }
+
+  /**
+   * @param name Set the name
+   * @return
+   */
+  @SuppressWarnings("unchecked")
+  public Z setName(String name) {
+    this.name = name;
+    return (Z) this;
+  }
 }

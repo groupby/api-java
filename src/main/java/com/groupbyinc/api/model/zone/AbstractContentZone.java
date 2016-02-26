@@ -8,24 +8,24 @@ import com.groupbyinc.common.jackson.annotation.JsonIgnore;
  * @author will
  */
 public abstract class AbstractContentZone<T extends AbstractContentZone<T>> extends Zone<T> {
-    @JsonIgnore
-    private String content;
 
-    /**
-     * @return If this zone is not a Record zone this will represent the value
-     * set by the merchandiser.
-     */
-    protected String getContent() {
-        return content;
-    }
+  @JsonIgnore private String content;
 
-    /**
-     * @param content Set the content
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    protected T setContent(String content) {
-        this.content = content;
-        return (T) this;
-    }
+  /**
+   * @return If this zone is not a Record zone this will represent the value
+   * set by the merchandiser.
+   */
+  protected String getContent() {
+    return content;
+  }
+
+  /**
+   * @param content Set the content
+   * @return
+   */
+  @SuppressWarnings("unchecked")
+  protected T setContent(String content) {
+    this.content = content;
+    return (T) this;
+  }
 }

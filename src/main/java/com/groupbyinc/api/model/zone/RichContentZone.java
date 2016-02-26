@@ -17,26 +17,27 @@ import com.groupbyinc.common.jackson.annotation.JsonProperty;
  * @author will
  */
 public class RichContentZone extends AbstractContentZone<RichContentZone> {
-    /**
-     * <code>
-     * Default constructor
-     * </code>
-     */
-    public RichContentZone() {
-        // default constructor
-    }
 
-    @Override
-    public Type getType() {
-        return Type.Rich_Content;
-    }
+  /**
+   * <code>
+   * Default constructor
+   * </code>
+   */
+  public RichContentZone() {
+    // default constructor
+  }
 
-    @JsonProperty
-    public String getRichContent() {
-        return getContent();
-    }
+  @Override
+  public Type getType() {
+    return Type.Rich_Content;
+  }
 
-    public RichContentZone setRichContent(String content) {
-        return setContent(content);
-    }
+  @JsonProperty
+  public String getRichContent() {
+    return getContent();
+  }
+
+  public RichContentZone setRichContent(String content) {
+    return setContent(content);
+  }
 }
