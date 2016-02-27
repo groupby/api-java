@@ -25,221 +25,223 @@ import java.util.List;
  * @author will
  */
 public class Navigation {
-    public enum Sort {
-        Count_Ascending, Count_Descending, Value_Ascending, Value_Descending // NOSONAR
-    }
 
-    @JsonProperty("_id")
-    private String id;
-    private String name;
-    private String displayName;
-    private boolean range = false;
-    private boolean or = false;
-    private Sort sort;
+  public enum Sort {
+    Count_Ascending,
+    Count_Descending,
+    Value_Ascending,
+    Value_Descending // NOSONAR
+  }
 
-    @JsonInclude(value = JsonInclude.Include.NON_DEFAULT)
-    private Boolean moreRefinements = Boolean.FALSE;
-    private List<Refinement> refinements = new ArrayList<Refinement>();
-    private List<Metadata> metadata = new ArrayList<Metadata>();
+  @JsonProperty("_id") private String id;
+  private String name;
+  private String displayName;
+  private boolean range = false;
+  private boolean or = false;
+  private Sort sort;
 
-    /**
-     * <code>
-     * Default constructor
-     * </code>
-     */
-    public Navigation() {
-        // default constructor
-    }
+  @JsonInclude(value = JsonInclude.Include.NON_DEFAULT) private Boolean moreRefinements = Boolean.FALSE;
+  private List<Refinement> refinements = new ArrayList<Refinement>();
+  private List<Metadata> metadata = new ArrayList<Metadata>();
 
-    /**
-     * @return The name of the dynamic navigation attribute. This is the name of
-     * the metadata that was uploaded as part of the feed
-     */
-    public String getName() {
-        return name;
-    }
+  /**
+   * <code>
+   * Default constructor
+   * </code>
+   */
+  public Navigation() {
+    // default constructor
+  }
 
-    /**
-     * @param name The name of the navigation
-     * @return
-     */
-    public Navigation setName(String name) {
-        this.name = name;
-        return this;
-    }
+  /**
+   * @return The name of the dynamic navigation attribute. This is the name of
+   * the metadata that was uploaded as part of the feed
+   */
+  public String getName() {
+    return name;
+  }
 
-    /**
-     * @return The human readable label for this navigation.
-     */
-    public String getDisplayName() {
-        return displayName;
-    }
+  /**
+   * @param name The name of the navigation
+   * @return
+   */
+  public Navigation setName(String name) {
+    this.name = name;
+    return this;
+  }
 
-    /**
-     * @param displayName Set the display name
-     * @return
-     */
-    public Navigation setDisplayName(String displayName) {
-        this.displayName = displayName;
-        return this;
-    }
+  /**
+   * @return The human readable label for this navigation.
+   */
+  public String getDisplayName() {
+    return displayName;
+  }
 
-    /**
-     * @return A list of refinement values that represent the ways in which you
-     * can filter data.
-     */
-    public List<Refinement> getRefinements() {
-        return refinements;
-    }
+  /**
+   * @param displayName Set the display name
+   * @return
+   */
+  public Navigation setDisplayName(String displayName) {
+    this.displayName = displayName;
+    return this;
+  }
 
-    /**
-     * @param refinements The refinement values
-     * @return
-     */
-    public Navigation setRefinements(List<Refinement> refinements) {
-        this.refinements = refinements;
-        return this;
-    }
+  /**
+   * @return A list of refinement values that represent the ways in which you
+   * can filter data.
+   */
+  public List<Refinement> getRefinements() {
+    return refinements;
+  }
 
-    /**
-     * @return A MD5 of the name, which means that this navigation ID is unique.
-     */
-    public String getId() {
-        return id;
-    }
+  /**
+   * @param refinements The refinement values
+   * @return
+   */
+  public Navigation setRefinements(List<Refinement> refinements) {
+    this.refinements = refinements;
+    return this;
+  }
 
-    /**
-     * @param id Set the ID
-     * @return
-     */
-    public Navigation setId(String id) {
-        this.id = id;
-        return this;
-    }
+  /**
+   * @return A MD5 of the name, which means that this navigation ID is unique.
+   */
+  public String getId() {
+    return id;
+  }
 
-    /**
-     * @return True if this navigation is a of type range.
-     */
-    @JsonProperty("range")
-    public boolean isRange() {
-        return range;
-    }
+  /**
+   * @param id Set the ID
+   * @return
+   */
+  public Navigation setId(String id) {
+    this.id = id;
+    return this;
+  }
 
-    /**
-     * @param range Set range
-     * @return
-     */
-    public Navigation setRange(boolean range) {
-        this.range = range;
-        return this;
-    }
+  /**
+   * @return True if this navigation is a of type range.
+   */
+  @JsonProperty("range")
+  public boolean isRange() {
+    return range;
+  }
 
-    /**
-     * <code>
-     * If you are using the this object within a JSP you will not be able to reference it directly as
-     * `navigation.or` is a reserved field in JSTL.  Instead reference it within quotes:
-     *
-     *     <div>
-     *         ${navigation['or'] ? 'Or Query' : 'And Query'}
-     *     </div>
-     *
-     * </code>
-     * @return Is this dynamic navigation going to be treated as an OR field by the search service.
-     */
-    @JsonProperty("or")
-    public boolean isOr() {
-        return or;
-    }
+  /**
+   * @param range Set range
+   * @return
+   */
+  public Navigation setRange(boolean range) {
+    this.range = range;
+    return this;
+  }
 
-    /**
-     * @param or
-     *         Set whether this is an OR field
-     *
-     * @return
-     */
-    public Navigation setOr(boolean or) {
-        this.or = or;
-        return this;
-    }
+  /**
+   * <code>
+   * If you are using the this object within a JSP you will not be able to reference it directly as
+   * `navigation.or` is a reserved field in JSTL.  Instead reference it within quotes:
+   *
+   *     <div>
+   *         ${navigation['or'] ? 'Or Query' : 'And Query'}
+   *     </div>
+   *
+   * </code>
+   * @return Is this dynamic navigation going to be treated as an OR field by the search service.
+   */
+  @JsonProperty("or")
+  public boolean isOr() {
+    return or;
+  }
 
-    /**
-     * <code>
-     * Will return one of the following sort types:
-     *
-     *     Count_Ascending, Count_Descending
-     *     Value_Ascending, Value_Descending
-     *
-     * </code>
-     *
-     * @return The sort option for this navigation.
-     */
-    public Sort getSort() {
-        return sort;
-    }
+  /**
+   * @param or
+   *         Set whether this is an OR field
+   *
+   * @return
+   */
+  public Navigation setOr(boolean or) {
+    this.or = or;
+    return this;
+  }
 
-    /**
-     * @param sort Set the sort type
-     */
-    @JsonIgnore
-    public Navigation setSort(Sort sort) {
-        this.sort = sort;
-        return this;
-    }
+  /**
+   * <code>
+   * Will return one of the following sort types:
+   *
+   *     Count_Ascending, Count_Descending
+   *     Value_Ascending, Value_Descending
+   *
+   * </code>
+   *
+   * @return The sort option for this navigation.
+   */
+  public Sort getSort() {
+    return sort;
+  }
 
-    /**
-     * <code>
-     * Helper method
-     * </code>
-     *
-     * @param sort Set the sort by string.
-     */
-    public Navigation setSort(String sort) {
-        this.sort = Sort.valueOf(sort);
-        return this;
-    }
+  /**
+   * <code>
+   * Helper method
+   * </code>
+   *
+   * @param sort Set the sort by string.
+   */
+  public Navigation setSort(String sort) {
+    this.sort = Sort.valueOf(sort);
+    return this;
+  }
 
-    /**
-     * <code>
-     * A list of metadata key-value pairs for a specified navigation item. Each value
-     * contains the following properties:
-     *
-     * - key: a string containing the attribute name
-     * - value: a string containing the attribute value
-     *
-     * </code>
-     *
-     * @return A list of metadata elements
-     */
-    public List<Metadata> getMetadata() {
-        return metadata;
-    }
+  /**
+   * @param sort Set the sort type
+   */
+  @JsonIgnore
+  public Navigation setSort(Sort sort) {
+    this.sort = sort;
+    return this;
+  }
 
-    /**
-     * @param metadata Set the metadata
-     * @return
-     */
-    public Navigation setMetadata(List<Metadata> metadata) {
-        this.metadata = metadata;
-        return this;
-    }
+  /**
+   * <code>
+   * A list of metadata key-value pairs for a specified navigation item. Each value
+   * contains the following properties:
+   *
+   * - key: a string containing the attribute name
+   * - value: a string containing the attribute value
+   *
+   * </code>
+   *
+   * @return A list of metadata elements
+   */
+  public List<Metadata> getMetadata() {
+    return metadata;
+  }
 
-    /**
-     * <code>
-     * True if this navigation has more refinement values than the ones returned.
-     * </code>
-     *
-     * @return True if this navigation has more refinement values than the ones returned, false otherwise.
-     */
-    public Boolean isMoreRefinements() {
-        return moreRefinements;
-    }
+  /**
+   * @param metadata Set the metadata
+   * @return
+   */
+  public Navigation setMetadata(List<Metadata> metadata) {
+    this.metadata = metadata;
+    return this;
+  }
 
-    /**
-     * @param moreRefinements True if this navigation has more refinement values than the ones returned.
-     * @return
-     */
-    public Navigation setMoreRefinements(Boolean moreRefinements) {
-        this.moreRefinements = moreRefinements;
-        return this;
-    }
+  /**
+   * <code>
+   * True if this navigation has more refinement values than the ones returned.
+   * </code>
+   *
+   * @return True if this navigation has more refinement values than the ones returned, false otherwise.
+   */
+  public Boolean isMoreRefinements() {
+    return moreRefinements;
+  }
+
+  /**
+   * @param moreRefinements True if this navigation has more refinement values than the ones returned.
+   * @return
+   */
+  public Navigation setMoreRefinements(Boolean moreRefinements) {
+    this.moreRefinements = moreRefinements;
+    return this;
+  }
 }

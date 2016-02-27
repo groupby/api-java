@@ -11,59 +11,60 @@ import java.util.List;
  * @author user
  */
 public class Cluster {
-    private String term;
-    private List<ClusterRecord> records = new ArrayList<ClusterRecord>();
 
-    /**
-     * <code>
-     * Default constructor
-     * </code>
-     */
-    public Cluster() {
-        // default
-    }
+  private String term;
+  private List<ClusterRecord> records = new ArrayList<ClusterRecord>();
 
-    /**
-     * @return The list of clustered records
-     */
-    public List<ClusterRecord> getRecords() {
-        return records;
-    }
+  /**
+   * <code>
+   * Default constructor
+   * </code>
+   */
+  public Cluster() {
+    // default
+  }
 
-    /**
-     * <code>
-     * Set a list of cluster records
-     * </code>
-     *
-     * @param records
-     *         The list of cluster records to set
-     *
-     * @return
-     */
-    public Cluster setRecords(List<ClusterRecord> records) {
-        this.records = records;
-        return this;
-    }
+  /**
+   * @return The list of clustered records
+   */
+  public List<ClusterRecord> getRecords() {
+    return records;
+  }
 
-    /**
-     * @return The term for this cluster
-     */
-    public String getTerm() {
-        return term;
-    }
+  /**
+   * <code>
+   * Set a list of cluster records
+   * </code>
+   *
+   * @param records
+   *         The list of cluster records to set
+   *
+   * @return
+   */
+  public Cluster setRecords(List<ClusterRecord> records) {
+    this.records = records;
+    return this;
+  }
 
-    /**
-     * <code>
-     * Set the term for this cluster.
-     * </code>
-     *
-     * @param term
-     *         The cluster term
-     *
-     * @return
-     */
-    public Cluster setTerm(String term) {
-        this.term = term;
-        return this;
-    }
+  /**
+   * @return The term for this cluster
+   */
+  public String getTerm() {
+    return term;
+  }
+
+  /**
+   * <code>
+   * Set the term for this cluster.
+   * </code>
+   *
+   * @param term
+   *         The cluster term
+   *
+   * @return
+   */
+  public Cluster setTerm(String term) {
+    this.term = term;
+    return this;
+  }
 }

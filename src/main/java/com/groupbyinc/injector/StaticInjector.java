@@ -1,7 +1,8 @@
 package com.groupbyinc.injector;
 
 public interface StaticInjector<T> {
-    public T get();
 
-    public void set(T injectedObject);
+  public T get();
+
+  public void set(T injectedObject);
 }

@@ -7,24 +7,25 @@ package com.groupbyinc.api.request;
  * @internal
  */
 public class RefinementsRequest {
-    private Request originalQuery;
-    private String navigationName;
 
-    public String getNavigationName() {
-        return navigationName;
-    }
+  private Request originalQuery;
+  private String navigationName;
 
-    public RefinementsRequest setNavigationName(String navigationName) {
-        this.navigationName = navigationName;
-        return this;
-    }
+  public String getNavigationName() {
+    return navigationName;
+  }
 
-    public Request getOriginalQuery() {
-        return originalQuery;
-    }
+  public RefinementsRequest setNavigationName(String navigationName) {
+    this.navigationName = navigationName;
+    return this;
+  }
 
-    public RefinementsRequest setOriginalQuery(Request originalQuery) {
-        this.originalQuery = originalQuery;
-        return this;
-    }
+  public Request getOriginalQuery() {
+    return originalQuery;
+  }
+
+  public RefinementsRequest setOriginalQuery(Request originalQuery) {
+    this.originalQuery = originalQuery;
+    return this;
+  }
 }

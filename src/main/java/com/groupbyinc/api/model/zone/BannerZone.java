@@ -23,26 +23,27 @@ import com.groupbyinc.common.jackson.annotation.JsonProperty;
  * @author will
  */
 public class BannerZone extends AbstractContentZone<BannerZone> {
-    /**
-     * <code>
-     * Default constructor
-     * </code>
-     */
-    public BannerZone() {
-        // default constructor
-    }
 
-    @Override
-    public Type getType() {
-        return Type.Banner;
-    }
+  /**
+   * <code>
+   * Default constructor
+   * </code>
+   */
+  public BannerZone() {
+    // default constructor
+  }
 
-    @JsonProperty
-    public String getBannerUrl() {
-        return getContent();
-    }
+  @Override
+  public Type getType() {
+    return Type.Banner;
+  }
 
-    public BannerZone setBannerUrl(String bannerUrl) {
-        return setContent(bannerUrl);
-    }
+  @JsonProperty
+  public String getBannerUrl() {
+    return getContent();
+  }
+
+  public BannerZone setBannerUrl(String bannerUrl) {
+    return setContent(bannerUrl);
+  }
 }

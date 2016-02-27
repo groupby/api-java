@@ -20,64 +20,65 @@ import java.util.List;
  * @author will
  */
 public class RecordZone extends Zone<RecordZone> {
-    private String query;
-    private List<Record> records;
 
-    /**
-     * <code>
-     * Default constructor
-     * </code>
-     */
-    public RecordZone() {
-        // default constructor
-    }
+  private String query;
+  private List<Record> records;
 
-    /**
-     * @internal
-     * @return
-     */
-    @Override
-    public Type getType() {
-        return Type.Record;
-    }
+  /**
+   * <code>
+   * Default constructor
+   * </code>
+   */
+  public RecordZone() {
+    // default constructor
+  }
 
-    /**
-     * <code>
-     * The query that was fired for this zone.
-     * </code>
-     *
-     * @return The query that was fired for this zone.
-     */
-    public String getQuery() {
-        return query;
-    }
+  /**
+   * @internal
+   * @return
+   */
+  @Override
+  public Type getType() {
+    return Type.Record;
+  }
 
-    /**
-     * @param query Set the query
-     * @return
-     */
-    public RecordZone setQuery(String query) {
-        this.query = query;
-        return this;
-    }
+  /**
+   * <code>
+   * The query that was fired for this zone.
+   * </code>
+   *
+   * @return The query that was fired for this zone.
+   */
+  public String getQuery() {
+    return query;
+  }
 
-    /**
-     * <code>
-     * A maximum of ten records will be returned for each record zone.
-     * </code>
-     *
-     * @return A list of records returned from the search service.
-     */
-    public List<Record> getRecords() {
-        return records;
-    }
+  /**
+   * @param query Set the query
+   * @return
+   */
+  public RecordZone setQuery(String query) {
+    this.query = query;
+    return this;
+  }
 
-    /**
-     * @param records Set the records
-     * @return
-     */
-    public RecordZone setRecords(List<Record> records) {
-        this.records = records;
-        return this;
-    }
+  /**
+   * <code>
+   * A maximum of ten records will be returned for each record zone.
+   * </code>
+   *
+   * @return A list of records returned from the search service.
+   */
+  public List<Record> getRecords() {
+    return records;
+  }
+
+  /**
+   * @param records Set the records
+   * @return
+   */
+  public RecordZone setRecords(List<Record> records) {
+    this.records = records;
+    return this;
+  }
 }

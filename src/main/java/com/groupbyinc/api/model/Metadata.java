@@ -12,51 +12,52 @@ package com.groupbyinc.api.model;
  * @author will
  */
 public class Metadata {
-    private String key;
-    private String value;
 
-    /**
-     * <code>
-     * Default constructor
-     * </code>
-     */
-    public Metadata() {
-        // default constructor
-    }
+  private String key;
+  private String value;
 
-    /**
-     * @return The name of this metadata.
-     */
-    public String getKey() {
-        return key;
-    }
+  /**
+   * <code>
+   * Default constructor
+   * </code>
+   */
+  public Metadata() {
+    // default constructor
+  }
 
-    /**
-     * @param key
-     *         Set the name of this key
-     *
-     * @return
-     */
-    public Metadata setKey(String key) {
-        this.key = key;
-        return this;
-    }
+  /**
+   * @return The name of this metadata.
+   */
+  public String getKey() {
+    return key;
+  }
 
-    /**
-     * @return The value associated with this key.
-     */
-    public String getValue() {
-        return value;
-    }
+  /**
+   * @param key
+   *         Set the name of this key
+   *
+   * @return
+   */
+  public Metadata setKey(String key) {
+    this.key = key;
+    return this;
+  }
 
-    /**
-     * @param value
-     *         Set the value.
-     *
-     * @return
-     */
-    public Metadata setValue(String value) {
-        this.value = value;
-        return this;
-    }
+  /**
+   * @return The value associated with this key.
+   */
+  public String getValue() {
+    return value;
+  }
+
+  /**
+   * @param value
+   *         Set the value.
+   *
+   * @return
+   */
+  public Metadata setValue(String value) {
+    this.value = value;
+    return this;
+  }
 }

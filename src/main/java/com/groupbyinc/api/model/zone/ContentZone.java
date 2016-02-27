@@ -19,26 +19,27 @@ import com.groupbyinc.common.jackson.annotation.JsonProperty;
  * @author will
  */
 public class ContentZone extends AbstractContentZone<ContentZone> {
-    /**
-     * <code>
-     * Default constructor
-     * </code>
-     */
-    public ContentZone() {
-        // default constructor
-    }
 
-    @Override
-    public Type getType() {
-        return Type.Content;
-    }
+  /**
+   * <code>
+   * Default constructor
+   * </code>
+   */
+  public ContentZone() {
+    // default constructor
+  }
 
-    @JsonProperty
-    public String getContent() {
-        return super.getContent();
-    }
+  @Override
+  public Type getType() {
+    return Type.Content;
+  }
 
-    public ContentZone setContent(String content) {
-        return super.setContent(content);
-    }
+  @JsonProperty
+  public String getContent() {
+    return super.getContent();
+  }
+
+  public ContentZone setContent(String content) {
+    return super.setContent(content);
+  }
 }

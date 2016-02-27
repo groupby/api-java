@@ -12,93 +12,93 @@ import com.groupbyinc.common.jackson.annotation.JsonProperty;
  * @author osman
  */
 public class Bias {
-    public enum Strength {
-        Absolute_Increase,
-        Strong_Increase,
-        Medium_Increase,
-        Weak_Increase,
-        Leave_Unchanged,
-        Weak_Decrease,
-        Medium_Decrease,
-        Strong_Decrease,
-        Absolute_Decrease
-    }
 
-    private String name;
-    private String content;
+  public enum Strength {
+    Absolute_Increase,
+    Strong_Increase,
+    Medium_Increase,
+    Weak_Increase,
+    Leave_Unchanged,
+    Weak_Decrease,
+    Medium_Decrease,
+    Strong_Decrease,
+    Absolute_Decrease
+  }
 
-    @JsonProperty
-    private Strength strength;
+  private String name;
+  private String content;
 
-    /**
-     * @return The name of the field to bias on
-     */
-    public String getName() {
-        return name;
-    }
+  @JsonProperty private Strength strength;
 
-    /**
-     * <code>
-     * Set the field name to bias on
-     * </code>
-     *
-     * @param name
-     *         The name of the field to bias on
-     *
-     * @return
-     */
-    public Bias setName(String name) {
-        this.name = name;
-        return this;
-    }
+  /**
+   * @return The name of the field to bias on
+   */
+  public String getName() {
+    return name;
+  }
 
-    /**
-     * @return The value of the field to bias on
-     */
-    public String getContent() {
-        return content;
-    }
+  /**
+   * <code>
+   * Set the field name to bias on
+   * </code>
+   *
+   * @param name
+   *         The name of the field to bias on
+   *
+   * @return
+   */
+  public Bias setName(String name) {
+    this.name = name;
+    return this;
+  }
 
-    /**
-     * <code>
-     * Set the field name to bias on
-     * </code>
-     *
-     * @param content
-     *         The value of the field to bias on
-     *
-     * @return
-     */
-    public Bias setContent(String content) {
-        this.content = content;
-        return this;
-    }
+  /**
+   * @return The value of the field to bias on
+   */
+  public String getContent() {
+    return content;
+  }
 
-    /**
-     * @return The strength of the bias
-     */
-    public Strength getStrength() {
-        return strength;
-    }
+  /**
+   * <code>
+   * Set the field name to bias on
+   * </code>
+   *
+   * @param content
+   *         The value of the field to bias on
+   *
+   * @return
+   */
+  public Bias setContent(String content) {
+    this.content = content;
+    return this;
+  }
 
-    @JsonIgnore
-    public Bias setStrength(Strength strength) {
-        this.strength = strength;
-        return this;
-    }
+  /**
+   * @return The strength of the bias
+   */
+  public Strength getStrength() {
+    return strength;
+  }
 
-    /**
-     * <code>
-     * Set the field name to bias on
-     * </code>
-     *
-     * @param strength
-     *         The strength of the bias, if applied
-     *
-     * @return
-     */
-    public Bias setStrength(String strength) {
-        this.strength = Strength.valueOf(strength);
-        return this;
-    }
+  /**
+   * <code>
+   * Set the field name to bias on
+   * </code>
+   *
+   * @param strength
+   *         The strength of the bias, if applied
+   *
+   * @return
+   */
+  public Bias setStrength(String strength) {
+    this.strength = Strength.valueOf(strength);
+    return this;
+  }
+
+  @JsonIgnore
+  public Bias setStrength(Strength strength) {
+    this.strength = strength;
+    return this;
+  }
 }

@@ -9,61 +9,62 @@ package com.groupbyinc.api.model;
  * @author will
  */
 public class ClusterRecord {
-    private String title;
-    private String url;
-    private String snippet;
 
-    /**
-     * <code>
-     * Default constructor
-     * </code>
-     */
-    public ClusterRecord() {
-        // default
-    }
+  private String title;
+  private String url;
+  private String snippet;
 
-    /**
-     * @return The matching set of terms for this record.
-     */
-    public String getSnippet() {
-        return snippet;
-    }
+  /**
+   * <code>
+   * Default constructor
+   * </code>
+   */
+  public ClusterRecord() {
+    // default
+  }
 
-    /**
-     * @param snippet
-     *         Snippet value
-     */
-    public void setSnippet(String snippet) {
-        this.snippet = snippet;
-    }
+  /**
+   * @return The matching set of terms for this record.
+   */
+  public String getSnippet() {
+    return snippet;
+  }
 
-    /**
-     * @return The title of this record.
-     */
-    public String getTitle() {
-        return title;
-    }
+  /**
+   * @param snippet
+   *         Snippet value
+   */
+  public void setSnippet(String snippet) {
+    this.snippet = snippet;
+  }
 
-    /**
-     * @param title
-     *         The title of this record.
-     */
-    public void setTitle(String title) {
-        this.title = title;
-    }
+  /**
+   * @return The title of this record.
+   */
+  public String getTitle() {
+    return title;
+  }
 
-    /**
-     * @return The Unique identifier of this record.
-     */
-    public String getUrl() {
-        return url;
-    }
+  /**
+   * @param title
+   *         The title of this record.
+   */
+  public void setTitle(String title) {
+    this.title = title;
+  }
 
-    /**
-     * @param url
-     *         The unique identifier of this record.
-     */
-    public void setUrl(String url) {
-        this.url = url;
-    }
+  /**
+   * @return The Unique identifier of this record.
+   */
+  public String getUrl() {
+    return url;
+  }
+
+  /**
+   * @param url
+   *         The unique identifier of this record.
+   */
+  public void setUrl(String url) {
+    this.url = url;
+  }
 }
