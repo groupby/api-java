@@ -27,6 +27,7 @@ public class Results {
   protected String correctedQuery;
   protected Template template;
   protected PageInfo pageInfo = new PageInfo();
+  protected List<String> warnings;
   protected List<Navigation> availableNavigation = new ArrayList<Navigation>();
   protected List<Navigation> selectedNavigation = new ArrayList<Navigation>();
   protected List<Record> records = new ArrayList<Record>();
@@ -364,6 +365,51 @@ public class Results {
    */
   public Results setBiasingProfile(String biasingProfile) {
     this.biasingProfile = biasingProfile;
+    return this;
+  }
+
+  /**
+   * @return A list of warnings encountered.
+   */
+  public List<String> getWarnings() {
+    return warnings;
+  }
+
+  /**
+   * @param warnings
+   *         Set warnings.
+   *
+   * @return
+   */
+  public Results setWarnings(List<String> warnings) {
+    this.warnings = warnings;
+    return this;
+  }
+
+  /**
+   * @param warnings
+   *         The warnings to add
+   * @return
+   */
+  public Results addWarnings(List<String> warnings) {
+    if (warnings != null) {
+      for (String warning : warnings) {
+        addWarning(warning);
+      }
+    }
+    return this;
+  }
+
+  /**
+   * @param warning
+   *         The warning to add
+   * @return
+   */
+  public Results addWarning(String warning) {
+    if (warnings == null) {
+      warnings = new ArrayList<String>();
+    }
+    this.warnings.add(warning);
     return this;
   }
 }
