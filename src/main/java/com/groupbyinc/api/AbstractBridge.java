@@ -48,13 +48,30 @@ public abstract class AbstractBridge {
   private static final String SEARCH = "/search";
   private static final String REFINEMENTS = "/refinements";
   private static final String REFINEMENT_SEARCH = "/refinement";
+  private static final String BOD/**
+ * <code>
+ * The Bridge is the class responsible for marshalling a query to and from the search service.
+ * Because the bridge holds a connection pool that is expensive to create, it is highly recommended
+ * that the bridge is held in the application memory scope and reused where appropriate.
+ * <b>Do not create a new bridge object for each request as you will incur overhead that will
+ * bring down your UI servers when under heavy load!</b>
+ * </code>
+ *
+ * @author Will Warren
+ */
+public abstract class AbstractBridge {
+
+  public static final String CLUSTER = "/cluster";
+  protected static final String COLON = ":";
+  protected static final String HTTP = "http://";
+  protected static final String HTTPS = "https://";
+  private static final Logger LOG = Logger.getLogger(AbstractBridge.class.getName());
+  private static final String SEARCH = "/search";
+  private static final String REFINEMENTS = "/refinements";
+  private static final String REFINEMENT_SEARCH = "/refinement";
   private static final String BODY = "\nbody:\n";
   private static final String EXCEPTION_FROM_BRIDGE = "Exception from bridge: ";
-  private static final RequestConfig REQUEST_CONFIG = RequestConfig.custom()
-      .setConnectTimeout(15000)
-      .setConnectionRequestTimeout(15000)
-      .setSocketTimeout(30000)
-      .build();
+  private static RequestConfig REQUEST_CONFIG = null;
   private final String bridgeUrl;
   private final String bridgeRefinementsUrl;
   private final String bridgeRefinementSearchUrl;
@@ -62,6 +79,13 @@ public abstract class AbstractBridge {
   protected String clientKey;
   private CloseableHttpClient httpClient;
   private long retryTimeout = 80;
+  
+  private long connectTimeout = 15000;
+  private long connectionRequestTimeout = 15000;
+  private long socketTimeout = 30000;
+  private int maxTries = 3;
+  private int maxTotal = 200;
+  private int defaultMaxPerRoute = 100;
 
   /**
    * <code>
@@ -115,13 +139,22 @@ public abstract class AbstractBridge {
 
   private void createClient(boolean compressResponse) {
     PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
-    cm.setMaxTotal(200);
-    cm.setDefaultMaxPerRoute(100);
+    cm.setMaxTotal(maxTotal);
+    cm.setDefaultMaxPerRoute(defaultMaxPerRoute);
 
     HttpClientBuilder b = HttpClientBuilder.create();
     if (!compressResponse) {
       b.disableContentCompression();
     }
+    
+    if(REQUEST_CONFIG == null) {
+    	REQUEST_CONFIG = RequestConfig.custom()
+      		.setConnectTimeout(connectTimeout)
+      		.setConnectionRequestTimeout(connectionRequestTimeout)
+      		.setSocketTimeout(socketTimeout)
+      		.build();
+    }
+    
     httpClient = b.setConnectionManager(cm)
         .setDefaultRequestConfig(REQUEST_CONFIG)
         .build();
@@ -189,7 +222,7 @@ public abstract class AbstractBridge {
     boolean successful = false;
     int tries = 0;
     SocketException lastError = null;
-    while (!successful && tries < 3) {
+    while (!successful && tries < maxTries) {
       try {
         HttpPost httpPost = new HttpPost(generateURI(url, urlParams, tries));
         httpPost.setEntity(entity);
@@ -205,7 +238,7 @@ public abstract class AbstractBridge {
         tries++;
       }
     }
-    if (tries < 3) {
+    if (tries < maxTries) {
       return response;
     }
     throw new IOException("Tried to connect three times to: " + url, lastError);
@@ -293,4 +326,71 @@ public abstract class AbstractBridge {
   public void setRetryTimeout(long retryTimeout) {
     this.retryTimeout = retryTimeout;
   }
+  
+  /**
+   * <code>
+   * Sets the connect timeout for a request.
+   * </code>
+   *
+   * @param connectTimeout the connect timeout
+   */
+  public void setConnectTimeout(long connectTimeout) {
+    this.connectTimeout = connectTimeout;
+  } 
+  
+  /**
+   * <code>
+   * Sets the connectionRequest timeout for a request.
+   * </code>
+   *
+   * @param connectionRequestTimeout the connectionRequest timeout
+   */
+  public void setConnectionRequestTimeout(long connectionRequestTimeout) {
+    this.connectionRequestTimeout = connectionRequestTimeout;
+  } 
+ 
+  /**
+   * <code>
+   * Sets the socket timeout for a request.
+   * </code>
+   *
+   * @param socketTimeout the socket timeout
+   */
+  public void setSocketTimeout(long socketTimeout) {
+    this.socketTimeout = socketTimeout;
+  } 
+ 
+  /**
+   * <code>
+   * Sets the max tries for failing request.
+   * </code>
+   *
+   * @param maxTries the max tries
+   */
+  public void setMaxTries(int maxTries) {
+    this.maxTries = maxTries;
+  } 
+ 
+  /**
+   * <code>
+   * Sets the max total pool connections.
+   * </code>
+   *
+   * @param maxTotal max total pool connections
+   */
+  public void setMaxTotal(int maxTotal) {
+    this.maxTotal = maxTotal;
+  }   
+
+  /**
+   * <code>
+   * Sets the default max per route pool connections.
+   * </code>
+   *
+   * @param defaultMaxPerRoute default max per route pool connections
+   */
+  public void setDefaultMaxPerRoute(int defaultMaxPerRoute) {
+    this.defaultMaxPerRoute = defaultMaxPerRoute;
+  }   
+  
 }
