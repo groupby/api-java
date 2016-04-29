@@ -38,6 +38,7 @@ public class Navigation {
   private String displayName;
   private boolean range = false;
   private boolean or = false;
+  private Boolean ignored;
   private Sort sort;
 
   @JsonInclude(value = JsonInclude.Include.NON_DEFAULT) private Boolean moreRefinements = Boolean.FALSE;
@@ -242,6 +243,26 @@ public class Navigation {
    */
   public Navigation setMoreRefinements(Boolean moreRefinements) {
     this.moreRefinements = moreRefinements;
+    return this;
+  }
+
+  /**
+   * <code>
+   * True if this navigation has been ignored.
+   * </code>
+   *
+   * @return True if this navigation was ignored, false otherwise.
+   */
+  public Boolean isIgnored() {
+    return ignored;
+  }
+
+  /**
+   * @param ignored True if this navigation has been ignored.
+   * @return
+   */
+  public Navigation setIgnored(Boolean ignored) {
+    this.ignored = ignored;
     return this;
   }
 }

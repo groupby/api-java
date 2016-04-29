@@ -6,6 +6,7 @@ import com.groupbyinc.common.jackson.annotation.JsonProperty;
 import com.groupbyinc.common.jackson.core.JsonProcessingException;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -391,7 +392,7 @@ public class Results {
    *         The warnings to add
    * @return
    */
-  public Results addWarnings(List<String> warnings) {
+  public Results addWarnings(Collection<String> warnings) {
     if (warnings != null) {
       for (String warning : warnings) {
         addWarning(warning);
