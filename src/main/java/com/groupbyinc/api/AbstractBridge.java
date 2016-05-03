@@ -48,27 +48,6 @@ public abstract class AbstractBridge {
   private static final String SEARCH = "/search";
   private static final String REFINEMENTS = "/refinements";
   private static final String REFINEMENT_SEARCH = "/refinement";
-  private static final String BOD/**
- * <code>
- * The Bridge is the class responsible for marshalling a query to and from the search service.
- * Because the bridge holds a connection pool that is expensive to create, it is highly recommended
- * that the bridge is held in the application memory scope and reused where appropriate.
- * <b>Do not create a new bridge object for each request as you will incur overhead that will
- * bring down your UI servers when under heavy load!</b>
- * </code>
- *
- * @author Will Warren
- */
-public abstract class AbstractBridge {
-
-  public static final String CLUSTER = "/cluster";
-  protected static final String COLON = ":";
-  protected static final String HTTP = "http://";
-  protected static final String HTTPS = "https://";
-  private static final Logger LOG = Logger.getLogger(AbstractBridge.class.getName());
-  private static final String SEARCH = "/search";
-  private static final String REFINEMENTS = "/refinements";
-  private static final String REFINEMENT_SEARCH = "/refinement";
   private static final String BODY = "\nbody:\n";
   private static final String EXCEPTION_FROM_BRIDGE = "Exception from bridge: ";
   private static RequestConfig REQUEST_CONFIG = null;
