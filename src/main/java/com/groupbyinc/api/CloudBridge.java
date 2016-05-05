@@ -1,5 +1,7 @@
 package com.groupbyinc.api;
 
+import com.groupbyinc.api.config.ConnectionConfiguration;
+
 /**
  * @author Ben Teichman
  */
@@ -14,9 +16,12 @@ public class CloudBridge extends AbstractBridge {
   /**
    * <code>
    * Constructor to create a bridge object that connects to the search api.
+   *
    * JSON Reference:
    * The key as found in your key management page in the command center
-   * {"clientKey": "--clientKey--"}
+   *
+   *     {"clientKey": "--clientKey--"}
+   *
    * </code>
    *
    * @param clientKey
@@ -27,5 +32,28 @@ public class CloudBridge extends AbstractBridge {
    */
   public CloudBridge(String clientKey, String customerId) {
     super(clientKey, HTTPS + customerId + URL_SUFFIX);
+  }
+
+  /**
+   * <code>
+   * Constructor to create a bridge object that connects to the search api.
+   *
+   * JSON Reference:
+   * The key as found in your key management page in the command center
+   *
+   *     {"clientKey": "--clientKey--"}
+   *
+   * </code>
+   *
+   * @param clientKey
+   *         The key as found in your key management page in the command
+   *         center.
+   * @param customerId
+   *         The name of your subdomain.  For example, https://--customerId--.groupbycloud.com
+   * @param config
+   *         Configuration for the underlying HttpClient instance.
+   */
+  public CloudBridge(String clientKey, String customerId, ConnectionConfiguration config) {
+    super(clientKey, HTTPS + customerId + URL_SUFFIX, config);
   }
 }
