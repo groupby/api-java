@@ -1399,4 +1399,11 @@ public class Query {
     this.userId = userId;
     return this;
   }
+
+  /**
+   * @return The biasing
+   */
+  public Biasing getBiasing() {
+    return biasing;
+  }
 }
