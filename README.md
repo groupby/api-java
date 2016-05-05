@@ -1,7 +1,7 @@
 GroupBy Search API
 ========
 
-![release](https://img.shields.io/maven-central/v/com.groupbyinc/api-java.svg)
+![release](https://img.shields.io/maven-central/v/com.groupbyinc/api-java-flux.svg)
 ![license](https://img.shields.io/github/license/groupby/api-java.svg)
 
 Please follow the steps carefully to ensure a successful build.

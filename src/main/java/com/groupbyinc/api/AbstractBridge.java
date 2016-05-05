@@ -1,5 +1,6 @@
 package com.groupbyinc.api;
 
+import com.groupbyinc.api.config.ConnectionConfiguration;
 import com.groupbyinc.api.model.RefinementsResult;
 import com.groupbyinc.api.model.Results;
 import com.groupbyinc.common.apache.commons.collections4.MapUtils;
@@ -40,6 +41,8 @@ import java.util.logging.Logger;
  */
 public abstract class AbstractBridge {
 
+  public static final int DEFAULT_RETRY_TIMEOUT = 80;
+  public static final int DEFAULT_MAX_TRIES = 3;
   public static final String CLUSTER = "/cluster";
   protected static final String COLON = ":";
   protected static final String HTTP = "http://";
@@ -50,25 +53,27 @@ public abstract class AbstractBridge {
   private static final String REFINEMENT_SEARCH = "/refinement";
   private static final String BODY = "\nbody:\n";
   private static final String EXCEPTION_FROM_BRIDGE = "Exception from bridge: ";
-  private static final RequestConfig REQUEST_CONFIG = RequestConfig.custom()
-      .setConnectTimeout(15000)
-      .setConnectionRequestTimeout(15000)
-      .setSocketTimeout(30000)
-      .build();
+
+  private final ConnectionConfiguration config;
+  private final RequestConfig requestConfig;
   private final String bridgeUrl;
   private final String bridgeRefinementsUrl;
   private final String bridgeRefinementSearchUrl;
   private final String bridgeClusterUrl;
   protected String clientKey;
   private CloseableHttpClient httpClient;
-  private long retryTimeout = 80;
+  private long retryTimeout = DEFAULT_RETRY_TIMEOUT;
+  private long maxTries = DEFAULT_MAX_TRIES;
 
   /**
    * <code>
    * Constructor to create a bridge object that connects to the search api.
+   *
    * JSON Reference:
    * The key as found in your key management page in the command center
-   * {"clientKey": "<client key>"}
+   *
+   *     {"clientKey": "<client key>"}
+   *
    * </code>
    *
    * @param clientKey
@@ -78,15 +83,41 @@ public abstract class AbstractBridge {
    *         The base url the bridge is serving on.
    */
   public AbstractBridge(String clientKey, String baseUrl) {
-    this(clientKey, baseUrl, true);
+    this(clientKey, baseUrl, true, new ConnectionConfiguration());
   }
 
   /**
    * <code>
    * Constructor to create a bridge object that connects to the search api.
+   *
    * JSON Reference:
    * The key as found in your key management page in the command center
-   * {"clientKey": "<client key>"}
+   *
+   *     {"clientKey": "<client key>"}
+   *
+   * </code>
+   *
+   * @param clientKey
+   *         The key as found in your key management page in the command
+   *         center.
+   * @param baseUrl
+   *         The base url the bridge is serving on.
+   * @param config
+   *         Configuration for the underlying HttpClient instance.
+   */
+  public AbstractBridge(String clientKey, String baseUrl, ConnectionConfiguration config) {
+    this(clientKey, baseUrl, true, config);
+  }
+
+  /**
+   * <code>
+   * Constructor to create a bridge object that connects to the search api.
+   *
+   * JSON Reference:
+   * The key as found in your key management page in the command center
+   *
+   *     {"clientKey": "<client key>"}
+   *
    * </code>
    *
    * @param clientKey
@@ -98,11 +129,43 @@ public abstract class AbstractBridge {
    *         true to compress the response content, false to send uncompressed response.
    */
   public AbstractBridge(String clientKey, String baseUrl, boolean compressResponse) {
+    this(clientKey, baseUrl, compressResponse, new ConnectionConfiguration());
+  }
+
+  /**
+   * <code>
+   * Constructor to create a bridge object that connects to the search api.
+   *
+   * JSON Reference:
+   * The key as found in your key management page in the command center
+   *
+   *     {"clientKey": "<client key>"}
+   *
+   * </code>
+   *
+   * @param clientKey
+   *         The key as found in your key management page in the command
+   *         center.
+   * @param baseUrl
+   *         The base url the bridge is serving on.
+   * @param compressResponse
+   *         true to compress the response content, false to send uncompressed response.
+   * @param config
+   *         Configuration for the underlying HttpClient instance.
+   */
+  public AbstractBridge(String clientKey, String baseUrl, boolean compressResponse, ConnectionConfiguration config) {
     try {
       new URI(baseUrl);
     } catch (URISyntaxException e) {
       throw new IllegalStateException("Invalid url: " + baseUrl);
     }
+
+    this.config = config;
+    requestConfig = RequestConfig.custom()
+        .setConnectTimeout(config.getConnectTimeout())
+        .setConnectionRequestTimeout(config.getConnectionRequestTimeout())
+        .setSocketTimeout(config.getSocketTimeout())
+        .build();
 
     this.clientKey = clientKey;
     createClient(compressResponse);
@@ -115,15 +178,15 @@ public abstract class AbstractBridge {
 
   private void createClient(boolean compressResponse) {
     PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
-    cm.setMaxTotal(200);
-    cm.setDefaultMaxPerRoute(100);
+    cm.setMaxTotal(config.getMaxConnections());
+    cm.setDefaultMaxPerRoute(config.getMaxConnectionsPerRoute());
 
     HttpClientBuilder b = HttpClientBuilder.create();
     if (!compressResponse) {
       b.disableContentCompression();
     }
     httpClient = b.setConnectionManager(cm)
-        .setDefaultRequestConfig(REQUEST_CONFIG)
+        .setDefaultRequestConfig(requestConfig)
         .build();
   }
 
@@ -205,7 +268,7 @@ public abstract class AbstractBridge {
         tries++;
       }
     }
-    if (tries < 3) {
+    if (tries < maxTries) {
       return response;
     }
     throw new IOException("Tried to connect three times to: " + url, lastError);
@@ -292,5 +355,16 @@ public abstract class AbstractBridge {
    */
   public void setRetryTimeout(long retryTimeout) {
     this.retryTimeout = retryTimeout;
+  }
+
+  /**
+   * <code>
+   * Sets the maximum number of times to try a request before returning an error.
+   * </code>
+   *
+   * @param maxTries the maximum number of request attempts
+   */
+  public void setMaxTries(long maxTries) {
+    this.maxTries = maxTries;
   }
 }
