@@ -29,7 +29,7 @@ The Uber JAR must be used to ensure shaded dependencies are included correctly.
 <dependency>
   <groupId>com.groupbyinc</groupId>
   <artifactId>api-java-flux</artifactId>
-  <version>2.2.32</version>
+  <version>VERSION</version>
   <classifier>uber</classifier>
 </dependency>
 ```
@@ -37,7 +37,7 @@ The Uber JAR must be used to ensure shaded dependencies are included correctly.
 #### Gradle
 
 ```gradle
-compile group: 'com.groupbyinc', name: 'api-java-flux', version: '2.2.14', classifier: 'uber'
+compile group: 'com.groupbyinc', name: 'api-java-flux', version: 'VERSION', classifier: 'uber'
 ```
 
 ### Examples
