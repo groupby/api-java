@@ -7,6 +7,7 @@ import com.groupbyinc.common.apache.commons.collections4.MapUtils;
 import com.groupbyinc.common.apache.commons.io.Charsets;
 import com.groupbyinc.common.apache.commons.io.IOUtils;
 import com.groupbyinc.common.apache.commons.lang3.StringUtils;
+import com.groupbyinc.common.apache.http.Header;
 import com.groupbyinc.common.apache.http.HttpResponse;
 import com.groupbyinc.common.apache.http.client.config.RequestConfig;
 import com.groupbyinc.common.apache.http.client.methods.HttpPost;
@@ -25,6 +26,8 @@ import java.net.SocketException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -64,6 +67,7 @@ public abstract class AbstractBridge {
   private CloseableHttpClient httpClient;
   private long retryTimeout = DEFAULT_RETRY_TIMEOUT;
   private long maxTries = DEFAULT_MAX_TRIES;
+  private List<Header> headers = new ArrayList<Header>();
 
   /**
    * <code>
@@ -255,6 +259,9 @@ public abstract class AbstractBridge {
     while (!successful && tries < 3) {
       try {
         HttpPost httpPost = new HttpPost(generateURI(url, urlParams, tries));
+        for (Header header : headers) {
+          httpPost.addHeader(header);
+        }
         httpPost.setEntity(entity);
         response = httpClient.execute(httpPost);
         successful = true;
@@ -367,4 +374,19 @@ public abstract class AbstractBridge {
   public void setMaxTries(long maxTries) {
     this.maxTries = maxTries;
   }
+
+  public List<Header> getHeaders() {
+    return headers;
+  }
+
+  /**
+   * <code>
+   * Set a list of headers.  Use `getHeaders().add(new BasicHeader())`
+   * </code>
+   * @param headers
+     */
+  public void setHeaders(List<Header> headers) {
+    this.headers = headers;
+  }
+
 }

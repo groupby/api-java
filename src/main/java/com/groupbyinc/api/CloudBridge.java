@@ -1,6 +1,10 @@
 package com.groupbyinc.api;
 
 import com.groupbyinc.api.config.ConnectionConfiguration;
+import com.groupbyinc.common.apache.http.Header;
+import com.groupbyinc.common.apache.http.message.BasicHeader;
+
+import java.util.Iterator;
 
 /**
  * @author Ben Teichman
@@ -56,4 +60,56 @@ public class CloudBridge extends AbstractBridge {
   public CloudBridge(String clientKey, String customerId, ConnectionConfiguration config) {
     super(clientKey, HTTPS + customerId + URL_SUFFIX, config);
   }
+
+  /**
+   * <code>
+   * If using the semantic layer, this tells the semantic layer to not cache the response.
+   * By default caching is on when using the semantic layer.
+   *
+   * Currently this is undocumented until the semantic layer is globally enabled.
+   *
+   * @param cachingEnabled
+   *         Turn off caching by setting this to false.
+   *
+   * @internal
+   */
+  public void setCachingEnabled(boolean cachingEnabled){
+    if (containsSkipCachingHeader()) {
+      if (cachingEnabled) {
+        removeSkipCachingHeader();
+      } else {
+        return;
+      }
+    } else {
+      if (cachingEnabled) {
+        return;
+      } else {
+        addSkipCachingHeader();
+      }
+    }
+  }
+
+  private void addSkipCachingHeader() {
+    getHeaders().add(new BasicHeader("Skip-Caching","true"));
+  }
+
+  private void removeSkipCachingHeader() {
+    Iterator<Header> iterator = getHeaders().iterator();
+    while(iterator.hasNext()) {
+      Header header = iterator.next();
+      if (header.getName().equalsIgnoreCase("Skip-Caching")) {
+        iterator.remove();
+      }
+    }
+  }
+
+  private boolean containsSkipCachingHeader() {
+    for (Header header : getHeaders()) {
+      if (header.getName().equalsIgnoreCase("Skip-Caching")) {
+        return true;
+      }
+    }
+    return false;
+  }
+
 }
