@@ -31,8 +31,8 @@ import java.util.logging.Logger;
 
 public class Query {
 
-  public static final Pattern REFINEMENTS_SPLITTER_PATTERN = new Pattern("~((?=[\\w.]*[=:]))");
-  public static final String[] EMPTY_REFINEMENTS = new String[]{};
+  private static final Pattern REFINEMENTS_SPLITTER_PATTERN = new Pattern("~((?=[\\w.]*[=:]))");
+  private static final String[] EMPTY_REFINEMENTS = new String[]{};
   private static final Logger LOG = Logger.getLogger(Query.class.getName());
   private static final String DOTS = "\\.\\.";
 
@@ -779,7 +779,7 @@ public class Query {
   /**
    * @return The number of documents to skip
    */
-  public long getSkip() {
+  public int getSkip() {
     return skip;
   }
 
@@ -806,7 +806,7 @@ public class Query {
   /**
    * @return The current page size
    */
-  public long getPageSize() {
+  public int getPageSize() {
     return pageSize;
   }
 

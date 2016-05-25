@@ -18,22 +18,23 @@ import java.util.List;
  */
 public class Results {
 
-  protected long totalRecordCount;
+  private long totalRecordCount;
   protected String area;
   protected String biasingProfile;
   protected String redirect;
   protected String errors;
   protected String query;
-  protected String originalQuery;
-  protected String correctedQuery;
+  private String originalQuery;
+  private String correctedQuery;
   protected Template template;
-  protected PageInfo pageInfo = new PageInfo();
+  private PageInfo pageInfo = new PageInfo();
+  protected MatchStrategy matchStrategy;
   protected List<String> warnings;
-  protected List<Navigation> availableNavigation = new ArrayList<Navigation>();
-  protected List<Navigation> selectedNavigation = new ArrayList<Navigation>();
+  private List<Navigation> availableNavigation = new ArrayList<Navigation>();
+  private List<Navigation> selectedNavigation = new ArrayList<Navigation>();
   protected List<Record> records = new ArrayList<Record>();
-  protected List<String> didYouMean = new ArrayList<String>();
-  protected List<Metadata> siteParams = new ArrayList<Metadata>();
+  private List<String> didYouMean = new ArrayList<String>();
+  private List<Metadata> siteParams = new ArrayList<Metadata>();
   @JsonProperty DebugInfo debugInfo;
   private List<String> relatedQueries = new ArrayList<String>();
   private List<String> rewrites = new ArrayList<String>();
@@ -412,5 +413,19 @@ public class Results {
     }
     this.warnings.add(warning);
     return this;
+  }
+
+  public MatchStrategy getMatchStrategy() {
+    return matchStrategy;
+  }
+
+  /**
+   * @param matchStrategy
+   *         Set the match strategy in effect
+   *
+   * @return
+   */
+  public void setMatchStrategy(MatchStrategy matchStrategy) {
+    this.matchStrategy = matchStrategy;
   }
 }
