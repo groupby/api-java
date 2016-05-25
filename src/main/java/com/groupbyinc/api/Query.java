@@ -41,7 +41,7 @@ public class Query {
   private boolean wildcardSearchEnabled;
   private List<String> includedNavigations = new ArrayList<String>();
   private List<String> excludedNavigations = new ArrayList<String>();
-  private String userId;
+  private String visitorId;
   private String query;
   private int skip = 0;
   private int pageSize = 10;
@@ -85,7 +85,7 @@ public class Query {
   private Request populateRequest(String clientKey) {
     Request request = new Request();
 
-    request.setUserId(userId);
+    request.setVisitorId(visitorId);
     request.setIncludedNavigations(includedNavigations);
     request.setExcludedNavigations(excludedNavigations);
     request.setClientKey(clientKey);
@@ -1378,8 +1378,8 @@ public class Query {
   /**
    * @return The user ID
    */
-  public String getUserId() {
-    return userId;
+  public String getVisitorId() {
+    return visitorId;
   }
 
   /**
@@ -1391,12 +1391,12 @@ public class Query {
    *  **Important:** Sending raw session IDs is a security risk. Encrypt or hash session IDs prior to transmission.
    *
    * </code>
-   * @param userId
+   * @param visitorId
    *         The user ID
    * @return
    */
-  public Query setUserId(String userId) {
-    this.userId = userId;
+  public Query setVisitorId(String visitorId) {
+    this.visitorId = visitorId;
     return this;
   }
 

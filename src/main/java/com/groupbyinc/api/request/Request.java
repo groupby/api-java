@@ -20,7 +20,7 @@ public class Request {
   private String clientKey;
   private String collection;
   private String area;
-  private String userId;
+  private String visitorId;
   private String biasingProfile;
   private String language;
   private String query;
@@ -71,12 +71,12 @@ public class Request {
     return this;
   }
 
-  public String getUserId() {
-    return userId;
+  public String getVisitorId() {
+    return visitorId;
   }
 
-  public Request setUserId(String userId) {
-    this.userId = userId;
+  public Request setVisitorId(String visitorId) {
+    this.visitorId = visitorId;
     return this;
   }
 
