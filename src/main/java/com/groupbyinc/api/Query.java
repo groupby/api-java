@@ -785,7 +785,7 @@ public class Query {
 
   /**
    * <code>
-   * Tell the search service to offset to the Nth record.
+   * Tell the search service to offset by N records. For example, if N is 10, the records returned will start at 11.
    *
    * JSON Reference:
    *
