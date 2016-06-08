@@ -19,6 +19,7 @@ import java.util.List;
 public class Functions {
 
   private static final SimpleDateFormat ISO_DATE = new SimpleDateFormat("yyyy-MM-dd");
+  private static final SimpleDateFormat ISO_DATETIME = new SimpleDateFormat("yyyy-MM-dd HH:mm");
   private static final String[] acronyms = {"Api", "Xml", "Gsa", "Asp", "Jstl", "Net", "Php", "Sayt", "Db", "Faq", "Sdk", "Seo"};
 
   private Functions() {
@@ -53,12 +54,13 @@ public class Functions {
     return StringEscapeUtils.escapeEcmaScript(value);
   }
 
+  @Deprecated
   public static String epochToIso(String value) {
-    if (value == null || value.trim()
-                             .length() == 0) {
-      return StringUtils.EMPTY;
-    }
-    return ISO_DATE.format(new Date(Long.parseLong(value)));
+    return StringUtils.length(StringUtils.trim(value)) == 0 ? StringUtils.EMPTY : ISO_DATE.format(new Date(Long.parseLong(value)));
+  }
+
+  public static String epochToIsoDateTime(String value) {
+    return StringUtils.length(StringUtils.trim(value)) == 0 ? StringUtils.EMPTY : ISO_DATETIME.format(new Date(Long.parseLong(value)));
   }
 
   public static String uncamel(String value) {
