@@ -1,10 +1,12 @@
 package com.groupbyinc.api.model;
 
+import com.groupbyinc.api.interfaces.PartialMatchRuleInterface;
+
 /**
  * @author osman
  * @internal
  */
-public class PartialMatchRule {
+public class PartialMatchRule implements PartialMatchRuleInterface {
 
   private Integer terms;
   private Integer termsGreaterThan;

@@ -1,12 +1,12 @@
 package com.groupbyinc.api.request;
 
-import com.groupbyinc.common.jackson.annotation.JsonIgnore;
+import com.groupbyinc.api.interfaces.PartialMatchRuleInterface;
 
 /**
  * @author osman
  * @internal
  */
-public class PartialMatchRule {
+public class PartialMatchRule implements PartialMatchRuleInterface {
 
   private Integer terms;
   private Integer termsGreaterThan;
@@ -49,14 +49,5 @@ public class PartialMatchRule {
     return this;
   }
 
-  @JsonIgnore
-  public Integer getEffectiveGreaterThan() {
-    if (terms != null) {
-      return terms - 1;
-    } else if (termsGreaterThan != null) {
-      return termsGreaterThan;
-    } else {
-      return null;
-    }
-  }
+
 }

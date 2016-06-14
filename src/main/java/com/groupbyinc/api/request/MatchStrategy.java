@@ -1,5 +1,8 @@
 package com.groupbyinc.api.request;
 
+import com.groupbyinc.api.interfaces.MatchStrategyInterface;
+import com.groupbyinc.api.interfaces.PartialMatchRuleInterface;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +10,7 @@ import java.util.List;
  * @author osman
  * @internal
  */
-public class MatchStrategy {
+public class MatchStrategy implements MatchStrategyInterface {
 
   private List<PartialMatchRule> rules = new ArrayList<PartialMatchRule>();
 
@@ -18,5 +21,13 @@ public class MatchStrategy {
   public MatchStrategy setRules(List<PartialMatchRule> rules) {
     this.rules = rules;
     return this;
+  }
+
+  @Override
+  public void addRule(PartialMatchRuleInterface rule) {
+    rules.add(new PartialMatchRule().setTerms(rule.getTerms())
+                  .setTermsGreaterThan(rule.getTermsGreaterThan())
+                  .setMustMatch(rule.getMustMatch())
+                  .setPercentage(rule.getPercentage()));
   }
 }
