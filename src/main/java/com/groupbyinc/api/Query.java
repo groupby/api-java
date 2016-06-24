@@ -48,6 +48,7 @@ public class Query {
   private String collection;
   private String area;
   private String biasingProfile;
+  private String matchStrategyName;
   private String language;
   private Map<String, String> queryUrlParams = new HashMap<String, String>();
   private List<CustomUrlParam> customUrlParams = new ArrayList<CustomUrlParam>();
@@ -96,6 +97,7 @@ public class Query {
     request.setOrFields(orFields);
     request.setLanguage(language);
     request.setBiasingProfile(biasingProfile);
+    request.setMatchStrategyName(matchStrategyName);
     request.setPageSize(pageSize);
     request.setSkip(skip);
     request.setBiasing(convertBiasing(biasing));
@@ -207,8 +209,7 @@ public class Query {
       if (CollectionUtils.isNotEmpty(strategy.getRules())) {
         convertedStrategy = new com.groupbyinc.api.request.MatchStrategy();
         for (PartialMatchRule r : strategy.getRules()) {
-          convertedStrategy.getRules()
-              .add(convertPartialMatchRule(r));
+          convertedStrategy.addRule(r);
         }
       }
     }
@@ -221,13 +222,6 @@ public class Query {
       convertedBiases.add(convertBias(bias));
     }
     return convertedBiases;
-  }
-
-  protected static com.groupbyinc.api.request.PartialMatchRule convertPartialMatchRule(PartialMatchRule rule) {
-    return rule == null ? null : new com.groupbyinc.api.request.PartialMatchRule().setTerms(rule.getTerms())
-        .setTermsGreaterThan(rule.getTermsGreaterThan())
-        .setMustMatch(rule.getMustMatch())
-        .setPercentage(rule.getPercentage());
   }
 
   private static com.groupbyinc.api.request.Bias convertBias(Bias bias) {
@@ -891,6 +885,33 @@ public class Query {
    */
   public Query setBiasingProfile(String biasingProfile) {
     this.biasingProfile = biasingProfile;
+    return this;
+  }
+
+  /**
+   * @return The current match strategy name.
+   */
+  public String getMatchStrategyName() {
+    return matchStrategyName;
+  }
+
+  /**
+   * <code>
+   * Override the match strategy used for this query - takes precedence over any
+   * match strategy set in the command center.
+   *
+   * JSON Reference:
+   *
+   *     { "matchStrategyName": "RelaxedMatch" }
+   *
+   * </code>
+   *
+   * @param matchStrategyName The name of the match strategy
+   *
+   * @return
+   */
+  public Query setMatchStrategyName(String matchStrategyName) {
+    this.matchStrategyName = matchStrategyName;
     return this;
   }
 

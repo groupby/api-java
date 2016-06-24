@@ -25,6 +25,7 @@ public class Request {
   private String language;
   private String query;
   private String refinementQuery;
+  private String matchStrategyName;
   private Biasing biasing;
   private RestrictNavigation restrictNavigation;
   private MatchStrategy matchStrategy;
@@ -263,6 +264,15 @@ public class Request {
 
   public Request setBiasing(Biasing biasing) {
     this.biasing = biasing;
+    return this;
+  }
+
+  public String getMatchStrategyName() {
+    return matchStrategyName;
+  }
+
+  public Request setMatchStrategyName(String matchStrategyName) {
+    this.matchStrategyName = matchStrategyName;
     return this;
   }
 }
