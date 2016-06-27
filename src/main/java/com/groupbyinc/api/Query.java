@@ -1406,14 +1406,16 @@ public class Query {
   /**
    * <code>
    *
-   *  An ID that is associated with a user. Every user should have a unique ID, and queries sent by the same user
-   *  should have the same ID.
+   *  A unique string identifier of an end customer, if the customer is logged in.  Otherwise, the Visitor ID field
+   *  should be left blank. It is recommended that this value be a hash of the customer's login information.  The
+   *  Visitor ID should remain the same for a particular customer over different sessions.  Also, it must be consistent
+   *  between the Search and Recommendations APIs to ensure correct monitoring of conversion metrics.
    *
    *  **Important:** Sending raw session IDs is a security risk. Encrypt or hash session IDs prior to transmission.
    *
    * </code>
    * @param visitorId
-   *         The user ID
+   *         The visitor ID
    * @return
    */
   public Query setVisitorId(String visitorId) {
