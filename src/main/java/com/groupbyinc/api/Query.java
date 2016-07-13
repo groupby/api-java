@@ -1155,6 +1155,13 @@ public class Query {
   }
 
   /**
+   * @return The current match strategy.
+   */
+  public MatchStrategy getMatchStrategy() {
+    return this.matchStrategy;
+  }
+
+  /**
    * @return A list of navigations that will be included with the response.
    */
   public List<String> getIncludeNavigations() {
