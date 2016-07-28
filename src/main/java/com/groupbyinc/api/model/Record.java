@@ -24,6 +24,7 @@ import java.util.Map;
 public class Record {
 
   private List<RefinementMatch> refinementMatches;
+  private String collection;
   @JsonProperty("_id") private String id;
   @JsonProperty("_u") private String url;
   @JsonProperty("_snippet") private String snippet;
@@ -45,6 +46,18 @@ public class Record {
    */
   public Record setRefinementMatches(List<RefinementMatch> refinementMatches) {
     this.refinementMatches = refinementMatches;
+    return this;
+  }
+
+  /**
+   * @return The collection that this record belongs to.
+   */
+  public String getCollection() {
+    return collection;
+  }
+
+  public Record setCollection(String collection) {
+    this.collection = collection;
     return this;
   }
 
