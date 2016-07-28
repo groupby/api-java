@@ -10,6 +10,8 @@ import com.groupbyinc.common.jackson.annotation.JsonInclude;
  */
 public class Sort {
 
+  public static Sort RELEVANCE = new Sort().setField(com.groupbyinc.api.model.Sort.RELEVANCE.getField());
+
   public enum Order {
     Ascending,
     Descending
