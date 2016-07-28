@@ -19,6 +19,7 @@ import java.util.List;
 public class Results {
 
   private long totalRecordCount;
+  protected String id;
   protected String area;
   protected String biasingProfile;
   protected String redirect;
@@ -38,6 +39,24 @@ public class Results {
   @JsonProperty DebugInfo debugInfo;
   private List<String> relatedQueries = new ArrayList<String>();
   private List<String> rewrites = new ArrayList<String>();
+
+  /**
+   * @return An id that uniquely identifies this Results object.
+   */
+  public String getId() {
+    return id;
+  }
+
+  /**
+   * @param id
+   *         Set the unique identifier for this Results object.
+   *
+   * @return
+   */
+  public Results setId(String id) {
+    this.id = id;
+    return this;
+  }
 
   /**
    * @return The area that the query was run against.
