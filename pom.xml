@@ -6,7 +6,7 @@
     <groupId>com.groupbyinc</groupId>
     <artifactId>parent-oss</artifactId>
     <version>6</version>
-    <relativePath />
+    <relativePath/>
   </parent>
 
   <artifactId>api-java-flux</artifactId>
@@ -31,10 +31,10 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.build.locale>en_US</project.build.locale>
     <repo.upload.retryAttempts>3</repo.upload.retryAttempts>
-    <log4j.properties />
+    <log4j.properties/>
 
     <!-- ### Versions -->
-    <groupbyinc.common.version>59</groupbyinc.common.version>
+    <groupbyinc.common.version>66</groupbyinc.common.version>
     <api.servlet.version>2.5</api.servlet.version>
     <api.jsp.version>2.1</api.jsp.version>
     <junit.version>4.12</junit.version>
@@ -196,7 +196,7 @@
               <manifest>
                 <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                 <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                <packageName />
+                <packageName/>
               </manifest>
               <manifestEntries>
                 <Jdk-Compatibility-Version>${project.build.jdkVersion}</Jdk-Compatibility-Version>
@@ -223,7 +223,7 @@
               <manifest>
                 <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                 <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                <packageName />
+                <packageName/>
               </manifest>
               <manifestEntries>
                 <Jdk-Compatibility-Version>${project.build.jdkVersion}</Jdk-Compatibility-Version>
