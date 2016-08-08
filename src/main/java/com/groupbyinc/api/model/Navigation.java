@@ -33,6 +33,12 @@ public class Navigation {
     Value_Descending // NOSONAR
   }
 
+  public enum Type {
+    Value,
+    Range,
+    Slider
+  }
+
   @JsonProperty("_id") private String id;
   private String name;
   private String displayName;
@@ -40,6 +46,7 @@ public class Navigation {
   private boolean or = false;
   private Boolean ignored;
   private Sort sort;
+  private Type type;
 
   @JsonInclude(value = JsonInclude.Include.NON_DEFAULT) private Boolean moreRefinements = Boolean.FALSE;
   private List<Refinement> refinements = new ArrayList<Refinement>();
@@ -263,6 +270,31 @@ public class Navigation {
    */
   public Navigation setIgnored(Boolean ignored) {
     this.ignored = ignored;
+    return this;
+  }
+
+  /**
+   * <code>
+   * The navigation type:
+   *
+   * - Value
+   * - Range
+   * - Slider
+   *
+   * </code>
+   *
+   * @return The navigation type
+   */
+  public com.groupbyinc.api.model.Navigation.Type getType() {
+    return type;
+  }
+
+  /**
+   * @param type Value/Range/Slider.
+   * @return
+   */
+  public Navigation setType(com.groupbyinc.api.model.Navigation.Type type) {
+    this.type = type;
     return this;
   }
 }
