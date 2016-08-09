@@ -36,7 +36,7 @@ public class Navigation {
   public enum Type {
     Value,
     Range,
-    Slider
+    Dynamic_Range
   }
 
   @JsonProperty("_id") private String id;
@@ -279,7 +279,7 @@ public class Navigation {
    *
    * - Value
    * - Range
-   * - Slider
+   * - Dynamic_Range
    *
    * </code>
    *
@@ -290,7 +290,7 @@ public class Navigation {
   }
 
   /**
-   * @param type Value/Range/Slider.
+   * @param type Value/Range/Dynamic_Range.
    * @return
    */
   public Navigation setType(com.groupbyinc.api.model.Navigation.Type type) {
