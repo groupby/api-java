@@ -1,5 +1,6 @@
 package com.groupbyinc.api.model;
 
+import com.groupbyinc.api.request.Request;
 import com.groupbyinc.common.jackson.Mappers;
 import com.groupbyinc.common.jackson.annotation.JsonIgnore;
 import com.groupbyinc.common.jackson.annotation.JsonProperty;
@@ -37,6 +38,7 @@ public class Results {
   private List<String> didYouMean = new ArrayList<String>();
   private List<Metadata> siteParams = new ArrayList<Metadata>();
   @JsonProperty DebugInfo debugInfo;
+  private Request originalRequest;
   private List<String> relatedQueries = new ArrayList<String>();
   private List<String> rewrites = new ArrayList<String>();
 
@@ -434,6 +436,9 @@ public class Results {
     return this;
   }
 
+  /**
+   * @return The match strategy.
+   */
   public MatchStrategy getMatchStrategy() {
     return matchStrategy;
   }
@@ -444,7 +449,26 @@ public class Results {
    *
    * @return
    */
-  public void setMatchStrategy(MatchStrategy matchStrategy) {
+  public Results setMatchStrategy(MatchStrategy matchStrategy) {
     this.matchStrategy = matchStrategy;
+    return this;
+  }
+
+  /**
+   * @return The original request received.
+   */
+  public Request getOriginalRequest() {
+    return originalRequest;
+  }
+
+  /**
+   * @param originalRequest
+   *         Set the original request
+   *
+   * @return
+   */
+  public Results setOriginalRequest(Request originalRequest) {
+    this.originalRequest = originalRequest;
+    return this;
   }
 }
