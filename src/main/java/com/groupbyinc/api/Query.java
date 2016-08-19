@@ -146,7 +146,7 @@ public class Query {
   }
 
   /**
-   * @return A list of custom url params
+   * @return A list of custom params
    */
   public List<CustomUrlParam> getCustomUrlParams() {
     return customUrlParams;
