@@ -1,7 +1,6 @@
 package com.groupbyinc.api.model;
 
 import com.groupbyinc.api.model.zone.RecordZone;
-import com.groupbyinc.common.jackson.Mappers;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -11,6 +10,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.groupbyinc.common.jackson.Mappers.writeValueAsString;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
@@ -34,25 +34,24 @@ public class ZoneTest {
           .setTitle("abc")
           .setSnippet("abc")
           .setRefinementMatches(refinementMatches);
-      String actual = Mappers.writeValueAsString(record, true);
-      System.out.println(actual);
+      String actual = writeValueAsString(record, true);
 
       RecordZone zone = new RecordZone().setId("abc")
           .setName("abc")
           .setQuery("abc")
           .setRecords(singletonList(record));
-      actual = Mappers.writeValueAsString(zone, true);
+      actual = writeValueAsString(zone, true);
       assertCountMatches(1, TYPE_RECORD, actual, "zone");
 
       Map<String, Zone> zones = new HashMap<String, Zone>();
       zones.put("abc", zone);
       Template template = new Template().setName("abc")
           .setZones(zones);
-      actual = Mappers.writeValueAsString(template, true);
+      actual = writeValueAsString(template, true);
       assertCountMatches(1, TYPE_RECORD, actual, "template");
 
       Results results = new Results().setTemplate(template);
-      actual = Mappers.writeValueAsString(results, true);
+      actual = writeValueAsString(results, true);
       assertCountMatches(1, TYPE_RECORD, actual, "results");
     } catch (StackOverflowError e) {
       fail("should be able to serialize");
@@ -67,8 +66,6 @@ public class ZoneTest {
     while (m.find()) {
       count++;
     }
-
-    System.out.println(type + ": " + actual);
     assertEquals(expectedCount, count);
   }
 }
