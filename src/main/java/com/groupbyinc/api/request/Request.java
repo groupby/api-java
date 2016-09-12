@@ -7,7 +7,9 @@ import com.groupbyinc.common.jackson.annotation.JsonInclude;
 import com.groupbyinc.common.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Request object for the api to send search service requests
@@ -33,6 +35,7 @@ public class Request {
   private Integer pageSize;
   private Boolean returnBinary;
   private Boolean disableAutocorrection;
+  @JsonIgnore private Map<String, String> queryUrlParams = new HashMap<String, String>();
   @JsonProperty
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
   private List<Sort> sort = new ArrayList<Sort>();
@@ -273,6 +276,15 @@ public class Request {
 
   public Request setMatchStrategyName(String matchStrategyName) {
     this.matchStrategyName = matchStrategyName;
+    return this;
+  }
+
+  public Map<String, String> getQueryUrlParams() {
+    return queryUrlParams;
+  }
+
+  public Request setQueryUrlParams(Map<String, String> queryUrlParams) {
+    this.queryUrlParams = queryUrlParams;
     return this;
   }
 }

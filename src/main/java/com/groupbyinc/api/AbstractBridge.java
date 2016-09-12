@@ -3,6 +3,8 @@ package com.groupbyinc.api;
 import com.groupbyinc.api.config.ConnectionConfiguration;
 import com.groupbyinc.api.model.RefinementsResult;
 import com.groupbyinc.api.model.Results;
+import com.groupbyinc.api.request.RefinementsRequest;
+import com.groupbyinc.api.request.Request;
 import com.groupbyinc.common.apache.commons.collections4.MapUtils;
 import com.groupbyinc.common.apache.commons.io.Charsets;
 import com.groupbyinc.common.apache.commons.io.IOUtils;
@@ -220,6 +222,41 @@ public abstract class AbstractBridge {
     return map(data, query.isReturnBinary());
   }
 
+  /**
+   * @internal
+   * using the request object instead of the query object.
+   */
+  public Results search(Request request) throws IOException {
+    makeBackwardsCompatible(request);
+    String json = getJson(request);
+    Boolean returnBinary = request.getReturnBinary() == null ? false: request.getReturnBinary();
+    InputStream data = fireRequest(getBridgeUrl(), request.getQueryUrlParams(), json, returnBinary);
+    return map(data, returnBinary);
+  }
+
+  private String getJson(Object request) {
+    String json;
+    try {
+      json = Mappers.writeValueAsString(request);
+    } catch (IllegalArgumentException e) {
+      json = "{}";
+    }
+    return json;
+  }
+
+  private void makeBackwardsCompatible(Request request) {
+    request.setClientKey(clientKey);
+    if (request.getSkip() == null) {
+      request.setSkip(0);
+    }
+    if (request.getPageSize() == null) {
+      request.setPageSize(10);
+    }
+    if (request.getReturnBinary() != null && !request.getReturnBinary()) {
+      request.setReturnBinary(null);
+    }
+  }
+
   protected InputStream fireRequest(String url, Map<String, String> urlParams, String body, boolean returnBinary) throws IOException {
     HttpResponse response = postToBridge(url, urlParams, body);
     InputStream data = response.getEntity()
@@ -329,6 +366,18 @@ public abstract class AbstractBridge {
   public RefinementsResult refinements(Query query, String navigationName) throws IOException {
     InputStream data = fireRequest(getBridgeRefinementsUrl(), query.getQueryUrlParams(), query.getBridgeRefinementsJson(clientKey, navigationName), query.isReturnBinary());
     return mapRefinements(data, query.isReturnBinary());
+  }
+
+  /**
+   * @internal
+   * use RefinementsRequest object for refinement searches
+   */
+  public RefinementsResult refinements(RefinementsRequest request) throws IOException {
+    makeBackwardsCompatible(request.getOriginalQuery());
+    String json = getJson(request);
+    Boolean returnBinary = request.getOriginalQuery().getReturnBinary() == null ? false: request.getOriginalQuery().getReturnBinary();
+    InputStream data = fireRequest(getBridgeRefinementsUrl(), request.getOriginalQuery().getQueryUrlParams(), json, returnBinary);
+    return mapRefinements(data, returnBinary);
   }
 
   /**

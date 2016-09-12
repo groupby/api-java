@@ -2,6 +2,9 @@ package com.groupbyinc.api;
 
 import com.groupbyinc.api.model.RefinementsResult;
 import com.groupbyinc.api.model.Results;
+import com.groupbyinc.api.request.RefinementsRequest;
+import com.groupbyinc.api.request.Request;
+import com.groupbyinc.api.request.refinement.SelectedRefinementValue;
 import com.groupbyinc.common.apache.http.HttpRequestInterceptor;
 import com.groupbyinc.common.apache.http.HttpResponseInterceptor;
 import com.groupbyinc.common.apache.http.client.protocol.RequestAcceptEncoding;
@@ -10,21 +13,97 @@ import com.groupbyinc.common.apache.http.impl.client.CloseableHttpClient;
 import com.groupbyinc.common.apache.http.impl.execchain.ClientExecChain;
 import com.groupbyinc.common.apache.http.impl.execchain.RetryExec;
 import com.groupbyinc.common.apache.http.protocol.ImmutableHttpProcessor;
+import com.meterware.pseudoserver.PseudoServer;
+import com.meterware.pseudoserver.PseudoServlet;
+import com.meterware.pseudoserver.WebResource;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class AbstractBridgeTest {
 
   protected String clientKey = "clientKey";
+
+  private PseudoServer server ;
+
+  @Before
+  public void setUp(){
+    server = new PseudoServer();
+  }
+
+  @After
+  public void tearDown() {
+    server.shutDown();
+  }
+
+
+  @Test
+  public void testBridgeWithRequest() throws IOException {
+    final List<String> postBodys = new ArrayList<String>();
+    String bridgeUrl = "http://localhost:" + server.getConnectedPort();
+    server.setResource("/search?pretty=true&retry=0", new PseudoServlet() {
+      @Override
+      public WebResource getResponse(String methodType) throws IOException {
+        postBodys.add(new String(getBody()));
+        return new WebResource("{}");
+      }
+    });
+    AbstractBridge bridge = new AbstractBridge(clientKey, bridgeUrl, true) {    };
+    Query query = new Query();
+    query.setReturnBinary(false);
+    query.addValueRefinement("name", "value", true);
+    query.getQueryUrlParams().put("pretty", "true");
+    bridge.search(query);
+    Request request = new Request();
+    request.setReturnBinary(false);
+    request.getRefinements().add(new SelectedRefinementValue().setNavigationName("name").setValue("value").setExclude(true));
+    request.getQueryUrlParams().put("pretty", "true");
+    bridge.search(request);
+    assertEquals(2, postBodys.size());
+    String queryPostBody = postBodys.get(0);
+    String requestPostBody = postBodys.get(1);
+    assertEquals(queryPostBody, requestPostBody);
+  }
+
+  @Test
+  public void testBridgeWithRefinementsRequest() throws IOException {
+    final List<String> postBodys = new ArrayList<String>();
+    String bridgeUrl = "http://localhost:" + server.getConnectedPort();
+    server.setResource("/search/refinements?pretty=true&retry=0", new PseudoServlet() {
+      @Override
+      public WebResource getResponse(String methodType) throws IOException {
+        postBodys.add(new String(getBody()));
+        return new WebResource("{}");
+      }
+    });
+    AbstractBridge bridge = new AbstractBridge(clientKey, bridgeUrl, true) {    };
+    Query query = new Query();
+    query.setReturnBinary(false);
+    query.addValueRefinement("name", "value", true);
+    query.getQueryUrlParams().put("pretty", "true");
+    bridge.refinements(query, "brand");
+    RefinementsRequest request = new RefinementsRequest();
+    request.setOriginalQuery(new Request());
+    request.setNavigationName("brand");
+    request.getOriginalQuery().setReturnBinary(false);
+    request.getOriginalQuery().getRefinements().add(new SelectedRefinementValue().setNavigationName("name").setValue("value").setExclude(true));
+    request.getOriginalQuery().getQueryUrlParams().put("pretty", "true");
+    bridge.refinements(request);
+    assertEquals(2, postBodys.size());
+    String queryPostBody = postBodys.get(0);
+    String requestPostBody = postBodys.get(1);
+    assertEquals(queryPostBody, requestPostBody);
+  }
 
   @Test
   public void testAcceptCompressedResponseByDefault() throws Exception {
@@ -189,8 +268,8 @@ public class AbstractBridgeTest {
       bridge.handleErrorStatus(status, content.getBytes(), false);
     } catch (IOException e) {
       assertEquals("Exception from bridge: status\n" +
-                   "body:\n" +
-                   "non-json error message", e.getMessage());
+          "body:\n" +
+          "non-json error message", e.getMessage());
     }
 
     byte[] bytes = new byte[]{0x38, 0x29, 0x49};
@@ -198,8 +277,8 @@ public class AbstractBridgeTest {
       bridge.handleErrorStatus(status, bytes, false);
     } catch (IOException e) {
       assertEquals("Exception from bridge: status\n" +
-                   "body:\n" +
-                   "8)I", e.getMessage());
+          "body:\n" +
+          "8)I", e.getMessage());
     }
   }
 }
