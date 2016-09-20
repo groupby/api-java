@@ -16,15 +16,6 @@ public class Cluster {
   private List<ClusterRecord> records = new ArrayList<ClusterRecord>();
 
   /**
-   * <code>
-   * Default constructor
-   * </code>
-   */
-  public Cluster() {
-    // default
-  }
-
-  /**
    * @return The list of clustered records
    */
   public List<ClusterRecord> getRecords() {

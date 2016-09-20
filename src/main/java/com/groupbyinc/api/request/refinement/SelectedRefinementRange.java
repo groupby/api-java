@@ -26,15 +26,6 @@ public class SelectedRefinementRange extends SelectedRefinement<SelectedRefineme
   private String low;
 
   /**
-   * <code>
-   * Default constructor
-   * </code>
-   */
-  public SelectedRefinementRange() {
-    // default constructor
-  }
-
-  /**
    * @return Type.Range
    */
   @Override

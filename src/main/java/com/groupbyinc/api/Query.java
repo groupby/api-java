@@ -178,8 +178,8 @@ public class Query {
     return refinements;
   }
 
-  private com.groupbyinc.api.request.RestrictNavigation convertRestrictNavigation() {
-    return restrictNavigation == null ? null : new com.groupbyinc.api.request.RestrictNavigation().setName(restrictNavigation.getName())
+  private RestrictNavigation convertRestrictNavigation() {
+    return restrictNavigation == null ? null : new RestrictNavigation().setName(restrictNavigation.getName())
         .setCount(restrictNavigation.getCount());
   }
 

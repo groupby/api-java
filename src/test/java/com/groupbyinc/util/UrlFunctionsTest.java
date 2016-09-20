@@ -22,7 +22,7 @@ public class UrlFunctionsTest {
 
   private final String DEFAULT_BEAUTIFIER = "default";
 
-  UrlBeautifier urlBeautifier;
+  private UrlBeautifier urlBeautifier;
 
   @Before
   public void setUp() {
