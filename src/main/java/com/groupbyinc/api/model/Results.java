@@ -19,25 +19,28 @@ import java.util.List;
  */
 public class Results {
 
-  private long totalRecordCount;
   protected String id;
   protected String area;
-  protected String biasingProfile;
-  protected String redirect;
-  protected String errors;
   protected String query;
+  protected List<Record> records = new ArrayList<Record>();
+  // this is a hidden property
+  @SuppressWarnings("unused")
+  @JsonProperty
+  protected DebugInfo debugInfo;
+  private long totalRecordCount;
+  private String biasingProfile;
+  private String redirect;
+  private String errors;
   private String originalQuery;
   private String correctedQuery;
-  protected Template template;
+  private Template template;
   private PageInfo pageInfo = new PageInfo();
-  protected MatchStrategy matchStrategy;
-  protected List<String> warnings;
+  private MatchStrategy matchStrategy;
+  private List<String> warnings;
   private List<Navigation> availableNavigation = new ArrayList<Navigation>();
   private List<Navigation> selectedNavigation = new ArrayList<Navigation>();
-  protected List<Record> records = new ArrayList<Record>();
   private List<String> didYouMean = new ArrayList<String>();
   private List<Metadata> siteParams = new ArrayList<Metadata>();
-  @JsonProperty DebugInfo debugInfo;
   private Request originalRequest;
   private List<String> relatedQueries = new ArrayList<String>();
   private List<String> rewrites = new ArrayList<String>();

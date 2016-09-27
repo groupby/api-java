@@ -4,9 +4,9 @@ import com.groupbyinc.common.jackson.annotation.JsonProperty;
 
 public class RefinementsResult {
 
-  protected String errors;
   protected Navigation navigation;
-  @JsonProperty DebugInfo debugInfo;
+  @JsonProperty protected DebugInfo debugInfo;
+  private String errors;
 
   public String getErrors() {
     return errors;

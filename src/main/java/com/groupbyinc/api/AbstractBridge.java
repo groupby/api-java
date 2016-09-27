@@ -108,52 +108,6 @@ public abstract class AbstractBridge {
    *         center.
    * @param baseUrl
    *         The base url the bridge is serving on.
-   * @param config
-   *         Configuration for the underlying HttpClient instance.
-   */
-  public AbstractBridge(String clientKey, String baseUrl, ConnectionConfiguration config) {
-    this(clientKey, baseUrl, true, config);
-  }
-
-  /**
-   * <code>
-   * Constructor to create a bridge object that connects to the search api.
-   *
-   * JSON Reference:
-   * The key as found in your key management page in the command center
-   *
-   *     {"clientKey": "<client key>"}
-   *
-   * </code>
-   *
-   * @param clientKey
-   *         The key as found in your key management page in the command
-   *         center.
-   * @param baseUrl
-   *         The base url the bridge is serving on.
-   * @param compressResponse
-   *         true to compress the response content, false to send uncompressed response.
-   */
-  public AbstractBridge(String clientKey, String baseUrl, boolean compressResponse) {
-    this(clientKey, baseUrl, compressResponse, new ConnectionConfiguration());
-  }
-
-  /**
-   * <code>
-   * Constructor to create a bridge object that connects to the search api.
-   *
-   * JSON Reference:
-   * The key as found in your key management page in the command center
-   *
-   *     {"clientKey": "<client key>"}
-   *
-   * </code>
-   *
-   * @param clientKey
-   *         The key as found in your key management page in the command
-   *         center.
-   * @param baseUrl
-   *         The base url the bridge is serving on.
    * @param compressResponse
    *         true to compress the response content, false to send uncompressed response.
    * @param config
@@ -197,6 +151,52 @@ public abstract class AbstractBridge {
   }
 
   /**
+   * <code>
+   * Constructor to create a bridge object that connects to the search api.
+   *
+   * JSON Reference:
+   * The key as found in your key management page in the command center
+   *
+   *     {"clientKey": "<client key>"}
+   *
+   * </code>
+   *
+   * @param clientKey
+   *         The key as found in your key management page in the command
+   *         center.
+   * @param baseUrl
+   *         The base url the bridge is serving on.
+   * @param config
+   *         Configuration for the underlying HttpClient instance.
+   */
+  public AbstractBridge(String clientKey, String baseUrl, ConnectionConfiguration config) {
+    this(clientKey, baseUrl, true, config);
+  }
+
+  /**
+   * <code>
+   * Constructor to create a bridge object that connects to the search api.
+   *
+   * JSON Reference:
+   * The key as found in your key management page in the command center
+   *
+   *     {"clientKey": "<client key>"}
+   *
+   * </code>
+   *
+   * @param clientKey
+   *         The key as found in your key management page in the command
+   *         center.
+   * @param baseUrl
+   *         The base url the bridge is serving on.
+   * @param compressResponse
+   *         true to compress the response content, false to send uncompressed response.
+   */
+  public AbstractBridge(String clientKey, String baseUrl, boolean compressResponse) {
+    this(clientKey, baseUrl, compressResponse, new ConnectionConfiguration());
+  }
+
+  /**
    * @return
    *
    * @internal
@@ -220,41 +220,6 @@ public abstract class AbstractBridge {
   public Results search(Query query) throws IOException {
     InputStream data = fireRequest(getBridgeUrl(), query.getQueryUrlParams(), query.getBridgeJson(clientKey), query.isReturnBinary());
     return map(data, query.isReturnBinary());
-  }
-
-  /**
-   * @internal
-   * using the request object instead of the query object.
-   */
-  public Results search(Request request) throws IOException {
-    makeBackwardsCompatible(request);
-    String json = getJson(request);
-    Boolean returnBinary = request.getReturnBinary() == null ? false: request.getReturnBinary();
-    InputStream data = fireRequest(getBridgeUrl(), request.getQueryUrlParams(), json, returnBinary);
-    return map(data, returnBinary);
-  }
-
-  private String getJson(Object request) {
-    String json;
-    try {
-      json = Mappers.writeValueAsString(request);
-    } catch (IllegalArgumentException e) {
-      json = "{}";
-    }
-    return json;
-  }
-
-  private void makeBackwardsCompatible(Request request) {
-    request.setClientKey(clientKey);
-    if (request.getSkip() == null) {
-      request.setSkip(0);
-    }
-    if (request.getPageSize() == null) {
-      request.setPageSize(10);
-    }
-    if (request.getReturnBinary() != null && !request.getReturnBinary()) {
-      request.setReturnBinary(null);
-    }
   }
 
   protected InputStream fireRequest(String url, Map<String, String> urlParams, String body, boolean returnBinary) throws IOException {
@@ -318,7 +283,7 @@ public abstract class AbstractBridge {
     throw new IOException("Tried to connect three times to: " + url, lastError);
   }
 
-  void handleErrorStatus(String status, byte[] bytes, boolean returnBinary) throws IOException {
+  protected void handleErrorStatus(String status, byte[] bytes, boolean returnBinary) throws IOException {
     StringBuilder msg = new StringBuilder();
     try {
       String errors = map(new ByteArrayInputStream(bytes), returnBinary).getErrors();
@@ -349,6 +314,41 @@ public abstract class AbstractBridge {
   }
 
   /**
+   * @internal
+   * using the request object instead of the query object.
+   */
+  public Results search(Request request) throws IOException {
+    makeBackwardsCompatible(request);
+    String json = getJson(request);
+    Boolean returnBinary = request.getReturnBinary() == null ? false : request.getReturnBinary();
+    InputStream data = fireRequest(getBridgeUrl(), request.getQueryUrlParams(), json, returnBinary);
+    return map(data, returnBinary);
+  }
+
+  private void makeBackwardsCompatible(Request request) {
+    request.setClientKey(clientKey);
+    if (request.getSkip() == null) {
+      request.setSkip(0);
+    }
+    if (request.getPageSize() == null) {
+      request.setPageSize(10);
+    }
+    if (request.getReturnBinary() != null && !request.getReturnBinary()) {
+      request.setReturnBinary(null);
+    }
+  }
+
+  private String getJson(Object request) {
+    String json;
+    try {
+      json = Mappers.writeValueAsString(request);
+    } catch (IllegalArgumentException e) {
+      json = "{}";
+    }
+    return json;
+  }
+
+  /**
    * <code>
    * Connects to the refinements service, parses the response into a model
    * Retrieves at most 10,000 refinements for the navigation specified.
@@ -369,18 +369,6 @@ public abstract class AbstractBridge {
   }
 
   /**
-   * @internal
-   * use RefinementsRequest object for refinement searches
-   */
-  public RefinementsResult refinements(RefinementsRequest request) throws IOException {
-    makeBackwardsCompatible(request.getOriginalQuery());
-    String json = getJson(request);
-    Boolean returnBinary = request.getOriginalQuery().getReturnBinary() == null ? false: request.getOriginalQuery().getReturnBinary();
-    InputStream data = fireRequest(getBridgeRefinementsUrl(), request.getOriginalQuery().getQueryUrlParams(), json, returnBinary);
-    return mapRefinements(data, returnBinary);
-  }
-
-  /**
    * @return
    *
    * @internal
@@ -391,6 +379,22 @@ public abstract class AbstractBridge {
 
   protected RefinementsResult mapRefinements(InputStream data, boolean returnBinary) {
     return Mappers.readValue(data, RefinementsResult.class, returnBinary);
+  }
+
+  /**
+   * @internal
+   * use RefinementsRequest object for refinement searches
+   */
+  public RefinementsResult refinements(RefinementsRequest request) throws IOException {
+    makeBackwardsCompatible(request.getOriginalQuery());
+    String json = getJson(request);
+    Boolean returnBinary = request.getOriginalQuery()
+                               .getReturnBinary() == null ? false : request.getOriginalQuery()
+                               .getReturnBinary();
+    InputStream data = fireRequest(
+        getBridgeRefinementsUrl(), request.getOriginalQuery()
+            .getQueryUrlParams(), json, returnBinary);
+    return mapRefinements(data, returnBinary);
   }
 
   /**
@@ -433,9 +437,8 @@ public abstract class AbstractBridge {
    * Set a list of headers.  Use `getHeaders().add(new BasicHeader())`
    * </code>
    * @param headers
-     */
+   */
   public void setHeaders(List<Header> headers) {
     this.headers = headers;
   }
-
 }

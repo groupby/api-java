@@ -28,12 +28,13 @@ public class UrlReplacement {
   }
 
   public static List<UrlReplacement> parseQueryString(String query) throws ParserException {
+    String tempQuery = query;
     int delimiterIndex = 0;
     List<UrlReplacement> replacements = new ArrayList<UrlReplacement>();
-    if (StringUtils.isBlank(query)) {
+    if (StringUtils.isBlank(tempQuery)) {
       return replacements;
     }
-    StringBuilder queryString = new StringBuilder(query);
+    StringBuilder queryString = new StringBuilder(tempQuery);
     while (delimiterIndex >= 0) {
       int pairSeparator = queryString.indexOf(REPLACEMENT_DELIMITER);
       if (pairSeparator < 0) {
@@ -51,9 +52,9 @@ public class UrlReplacement {
         queryString.deleteCharAt(0);
       }
     }
-    query = queryString.toString();
-    if (StringUtils.isNotBlank(query)) {
-      replacements.add(UrlReplacement.fromString(query));
+    tempQuery = queryString.toString();
+    if (StringUtils.isNotBlank(tempQuery)) {
+      replacements.add(UrlReplacement.fromString(tempQuery));
     }
     Collections.reverse(replacements);
     return replacements;

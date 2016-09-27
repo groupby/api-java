@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 public class UrlBeautifierTest {
@@ -203,8 +204,11 @@ public class UrlBeautifierTest {
 
   @Test
   public void testEmptyQueryString() throws Exception {
-    test.fromUrl("/value/20in/computer%20accessories/thc?");
-    test.fromUrl("");
+    Query actualQuery = test.fromUrl("/value/20in/computer%20accessories/thc?");
+    assertNull(actualQuery.getQuery());
+
+    actualQuery = test.fromUrl("");
+    assertNull(actualQuery.getQuery());
   }
 
   @Test
@@ -258,7 +262,7 @@ public class UrlBeautifierTest {
     assertNavigation("height", "=20in", navigations.get(1));
   }
 
-  public void assertNavigation(String pExpectedNavigationName, String pExpectedValue, Navigation pNavigation) {
+  private void assertNavigation(String pExpectedNavigationName, String pExpectedValue, Navigation pNavigation) {
     assertEquals(pExpectedNavigationName, pNavigation.getName());
     assertEquals(pExpectedValue, pNavigation.getRefinements()
         .get(0)
