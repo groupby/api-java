@@ -153,11 +153,13 @@ public class UrlBeautifier {
     int indexOffSet = StringUtils.length(uri.getPath()) + 1;
     List<UrlReplacement> replacements = new ArrayList<UrlReplacement>();
 
+    String tempSearchString = searchString;
+
     for (Navigation m : remainingMappings) {
-      if (SEARCH_NAVIGATION.equals(m) && StringUtils.isNotBlank(searchString)) {
-        searchString = applyReplacementRule(m, searchString, indexOffSet, replacements);
-        indexOffSet += searchString.length() + 1;
-        addSearchString(searchString, pathSegmentLookup, uri);
+      if (SEARCH_NAVIGATION.equals(m) && StringUtils.isNotBlank(tempSearchString)) {
+        tempSearchString = applyReplacementRule(m, tempSearchString, indexOffSet, replacements);
+        indexOffSet += tempSearchString.length() + 1;
+        addSearchString(tempSearchString, pathSegmentLookup, uri);
         continue;
       }
       Navigation n = navigations.get(m.getName());
@@ -179,6 +181,8 @@ public class UrlBeautifier {
               break;
             case Range:
               throw new UrlBeautifier.UrlBeautificationException("You should not map ranges into URLs.");
+            default:
+              break;
           }
         }
         if (n.getRefinements()
