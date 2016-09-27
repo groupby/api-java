@@ -15,15 +15,6 @@ public class ClusterRecord {
   private String snippet;
 
   /**
-   * <code>
-   * Default constructor
-   * </code>
-   */
-  public ClusterRecord() {
-    // default
-  }
-
-  /**
    * @return The matching set of terms for this record.
    */
   public String getSnippet() {

@@ -1,6 +1,5 @@
 package com.groupbyinc.util;
 
-import com.groupbyinc.api.Query;
 import com.groupbyinc.api.model.Navigation;
 import com.groupbyinc.api.model.refinement.RefinementValue;
 import com.groupbyinc.api.tags.UrlFunctions;
@@ -21,16 +20,11 @@ public class UrlFunctionsBugTest {
 
   private final String DEFAULT_BEAUTIFIER = "default";
 
-  UrlBeautifier urlBeautifier;
-
-  Query query;
-
   @Before
-  public void setUp() {
-    query = new Query();
+  public void before() {
     UrlBeautifier.INJECTOR.set(new HashMap<String, UrlBeautifier>());
     UrlBeautifier.createUrlBeautifier(DEFAULT_BEAUTIFIER);
-    urlBeautifier = UrlBeautifier.getUrlBeautifiers()
+    UrlBeautifier urlBeautifier = UrlBeautifier.getUrlBeautifiers()
         .get(DEFAULT_BEAUTIFIER);
     urlBeautifier.addRefinementMapping('s', "size");
     urlBeautifier.setSearchMapping('q');

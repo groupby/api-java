@@ -24,15 +24,6 @@ public class SelectedRefinementValue extends SelectedRefinement<SelectedRefineme
   private String value;
 
   /**
-   * <code>
-   * Default constructor
-   * </code>
-   */
-  public SelectedRefinementValue() {
-    // default constructor
-  }
-
-  /**
    * @return Type.Value
    */
   @Override

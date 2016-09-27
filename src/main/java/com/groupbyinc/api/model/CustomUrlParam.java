@@ -16,15 +16,6 @@ public class CustomUrlParam {
   private String value;
 
   /**
-   * <code>
-   * Default constructor
-   * </code>
-   */
-  public CustomUrlParam() {
-    // default constructor
-  }
-
-  /**
    * @return The name of this parameter.
    */
   public String getKey() {

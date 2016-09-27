@@ -30,16 +30,6 @@ public abstract class Zone<Z extends Zone<Z>> {
 
   /**
    * <code>
-   * Default constructor
-   * </code>
-   * @internal
-   */
-  public Zone() {
-    // default constructor
-  }
-
-  /**
-   * <code>
    * Zones support the following content types:
    *
    *     Content, Record, Banner, Rich_Content

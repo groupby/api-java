@@ -209,12 +209,10 @@ public class Query {
 
   protected static com.groupbyinc.api.request.MatchStrategy convertPartialMatchStrategy(MatchStrategy strategy) {
     com.groupbyinc.api.request.MatchStrategy convertedStrategy = null;
-    if (strategy != null) {
-      if (CollectionUtils.isNotEmpty(strategy.getRules())) {
-        convertedStrategy = new com.groupbyinc.api.request.MatchStrategy();
-        for (PartialMatchRule r : strategy.getRules()) {
-          convertedStrategy.addRule(r);
-        }
+    if (strategy != null && CollectionUtils.isNotEmpty(strategy.getRules())) {
+      convertedStrategy = new com.groupbyinc.api.request.MatchStrategy();
+      for (PartialMatchRule r : strategy.getRules()) {
+        convertedStrategy.addRule(r);
       }
     }
     return convertedStrategy;

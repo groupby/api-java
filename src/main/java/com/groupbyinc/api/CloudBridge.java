@@ -73,43 +73,40 @@ public class CloudBridge extends AbstractBridge {
    *
    * @internal
    */
-  public void setCachingEnabled(boolean cachingEnabled){
+  public void setCachingEnabled(boolean cachingEnabled) {
     if (containsSkipCachingHeader()) {
       if (cachingEnabled) {
         removeSkipCachingHeader();
-      } else {
-        return;
       }
     } else {
-      if (cachingEnabled) {
-        return;
-      } else {
+      if (!cachingEnabled) {
         addSkipCachingHeader();
-      }
-    }
-  }
-
-  private void addSkipCachingHeader() {
-    getHeaders().add(new BasicHeader("Skip-Caching","true"));
-  }
-
-  private void removeSkipCachingHeader() {
-    Iterator<Header> iterator = getHeaders().iterator();
-    while(iterator.hasNext()) {
-      Header header = iterator.next();
-      if (header.getName().equalsIgnoreCase("Skip-Caching")) {
-        iterator.remove();
       }
     }
   }
 
   private boolean containsSkipCachingHeader() {
     for (Header header : getHeaders()) {
-      if (header.getName().equalsIgnoreCase("Skip-Caching")) {
+      if (header.getName()
+          .equalsIgnoreCase("Skip-Caching")) {
         return true;
       }
     }
     return false;
   }
 
+  private void removeSkipCachingHeader() {
+    Iterator<Header> iterator = getHeaders().iterator();
+    while (iterator.hasNext()) {
+      Header header = iterator.next();
+      if (header.getName()
+          .equalsIgnoreCase("Skip-Caching")) {
+        iterator.remove();
+      }
+    }
+  }
+
+  private void addSkipCachingHeader() {
+    getHeaders().add(new BasicHeader("Skip-Caching", "true"));
+  }
 }

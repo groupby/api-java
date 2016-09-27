@@ -20,15 +20,6 @@ import com.groupbyinc.common.jackson.annotation.JsonProperty;
  */
 public class ContentZone extends AbstractContentZone<ContentZone> {
 
-  /**
-   * <code>
-   * Default constructor
-   * </code>
-   */
-  public ContentZone() {
-    // default constructor
-  }
-
   @Override
   public Type getType() {
     return Type.Content;

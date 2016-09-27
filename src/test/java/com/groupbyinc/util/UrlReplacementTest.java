@@ -8,6 +8,7 @@ import java.util.List;
 import static com.groupbyinc.util.UrlReplacement.OperationType;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -17,6 +18,7 @@ public class UrlReplacementTest {
   public void testToString() throws Exception {
     UrlReplacement r = new UrlReplacement(2, "a", OperationType.Swap);
     assertEquals("2-a", r.toString());
+
     r = new UrlReplacement(20, "%", OperationType.Insert);
     assertEquals("i20-%", r.toString());
   }
@@ -24,6 +26,7 @@ public class UrlReplacementTest {
   @Test
   public void testFromString() throws Exception {
     UrlReplacement r = UrlReplacement.fromString("2-a");
+    assertEquals("2-a", r.toString());
   }
 
   @Test()
@@ -33,6 +36,7 @@ public class UrlReplacementTest {
       fail("Exception not thrown");
     } catch (ParserException e) {
       //expected
+      assertEquals("Invalid index:a2", e.getMessage());
     }
   }
 
@@ -109,59 +113,59 @@ public class UrlReplacementTest {
 
   @Test
   public void testSimpleApplyReplace() {
-    assertApply("avc123", "abc123", new UrlReplacement(1, "b", OperationType.Swap));
+    assertApply("abc123", "avc123", new UrlReplacement(1, "b", OperationType.Swap));
   }
 
-  private void assertApply(String pInput, String pExpected, UrlReplacement pUrlReplacement) {
-    StringBuilder stringBuilder = new StringBuilder(pInput);
-    pUrlReplacement.apply(stringBuilder, 0);
-    assertEquals(pExpected, stringBuilder.toString());
+  private void assertApply(String expected, String input, UrlReplacement urlReplacement) {
+    StringBuilder stringBuilder = new StringBuilder(input);
+    urlReplacement.apply(stringBuilder, 0);
+    assertEquals(expected, stringBuilder.toString());
   }
 
   @Test
   public void testSimpleApplyReplaceAtStart() {
-    assertApply("zbc123", "abc123", new UrlReplacement(0, "a", OperationType.Swap));
+    assertApply("abc123", "zbc123", new UrlReplacement(0, "a", OperationType.Swap));
   }
 
   @Test
   public void testSimpleApplyReplaceAtStartBadIndex() {
-    asserBadApply("zbc123", new UrlReplacement(-1, "a", OperationType.Swap));
+    assertBadApply("zbc123", new UrlReplacement(-1, "a", OperationType.Swap));
   }
 
-  private void asserBadApply(String pInput, UrlReplacement pUrlReplacement) {
-    StringBuilder stringBuilder = new StringBuilder(pInput);
-    pUrlReplacement.apply(stringBuilder, 0);
-    assertEquals(pInput, stringBuilder.toString());
+  private void assertBadApply(String input, UrlReplacement urlReplacement) {
+    StringBuilder stringBuilder = new StringBuilder(input);
+    urlReplacement.apply(stringBuilder, 0);
+    assertEquals(input, stringBuilder.toString());
   }
 
   @Test
   public void testSimpleApplyReplaceAtEnd() {
-    assertApply("abc124", "abc123", new UrlReplacement(5, "3", OperationType.Swap));
+    assertApply("abc123", "abc124", new UrlReplacement(5, "3", OperationType.Swap));
   }
 
   @Test
   public void testSimpleApplyReplaceAtEndBadIndex() {
-    asserBadApply("abc124", new UrlReplacement(6, "3", OperationType.Swap));
+    assertBadApply("abc124", new UrlReplacement(6, "3", OperationType.Swap));
   }
 
   @Test
   public void testSimpleApplyInsertAtEnd() {
-    assertApply("abc12", "abc123", new UrlReplacement(5, "3", OperationType.Insert));
+    assertApply("abc123", "abc12", new UrlReplacement(5, "3", OperationType.Insert));
   }
 
   @Test
   public void testSimpleApplyInsertAtStart() {
-    assertApply("bc123", "abc123", new UrlReplacement(0, "a", OperationType.Insert));
+    assertApply("abc123", "bc123", new UrlReplacement(0, "a", OperationType.Insert));
   }
 
   @Test
   public void testSimpleApplyInsertAtStartBadIndex() {
-    asserBadApply("bc123", new UrlReplacement(-1, "a", OperationType.Insert));
+    assertBadApply("bc123", new UrlReplacement(-1, "a", OperationType.Insert));
   }
 
   @Test
   public void testSimpleApplyInsertAtEndBadIndex() {
-    asserBadApply("abc12", new UrlReplacement(6, "3", OperationType.Insert));
+    assertBadApply("abc12", new UrlReplacement(6, "3", OperationType.Insert));
   }
 
   @Test
@@ -171,8 +175,8 @@ public class UrlReplacementTest {
     UrlReplacement urlReplacement3 = new UrlReplacement(6, "3", OperationType.Insert);
     UrlReplacement urlReplacement4 = new UrlReplacement(6, "4", OperationType.Insert);
     UrlReplacement urlReplacement5 = new UrlReplacement(6, "4", OperationType.Swap);
-    assertFalse(urlReplacement1.equals(null));
-    assertTrue(urlReplacement1.equals(urlReplacement1));
+    assertNotNull(urlReplacement1);
+    assertEquals(urlReplacement1, urlReplacement1);
     assertTrue(urlReplacement1.equals(urlReplacement2));
     assertFalse(urlReplacement2.equals(urlReplacement3));
     assertFalse(urlReplacement3.equals(urlReplacement4));

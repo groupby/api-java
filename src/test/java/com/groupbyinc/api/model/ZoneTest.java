@@ -14,11 +14,12 @@ import static com.groupbyinc.common.jackson.Mappers.writeValueAsString;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class ZoneTest {
 
-  public static final String TYPE_RECORD = "\"type\" : \"Record\",";
+  private static final String TYPE_RECORD = "\"type\" : \"Record\",";
 
   @Test
   public void testRecordZone() throws Exception {
@@ -41,24 +42,24 @@ public class ZoneTest {
           .setRecords(singletonList(record));
 
       String actual = writeValueAsString(zone, true);
-      assertCountMatches(1, TYPE_RECORD, actual, "zone");
+      assertCountMatches(1, TYPE_RECORD, actual, "Record");
 
       Map<String, Zone> zones = new HashMap<String, Zone>();
       zones.put("abc", zone);
       Template template = new Template().setName("abc")
           .setZones(zones);
       actual = writeValueAsString(template, true);
-      assertCountMatches(1, TYPE_RECORD, actual, "template");
+      assertCountMatches(1, TYPE_RECORD, actual, "Record");
 
       Results results = new Results().setTemplate(template);
       actual = writeValueAsString(results, true);
-      assertCountMatches(1, TYPE_RECORD, actual, "results");
+      assertCountMatches(1, TYPE_RECORD, actual, "Record");
     } catch (StackOverflowError e) {
       fail("should be able to serialize");
     }
   }
 
-  private void assertCountMatches(int expectedCount, String search, String actual, String type) {
+  private void assertCountMatches(int expectedCount, String search, String actual, String type) throws Exception {
     Matcher m = Pattern.compile(search)
         .matcher(actual);
 
@@ -67,5 +68,6 @@ public class ZoneTest {
       count++;
     }
     assertEquals(expectedCount, count);
+    assertTrue(actual.contains("\"type\" : \"" + type + "\""));
   }
 }

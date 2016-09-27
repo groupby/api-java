@@ -22,15 +22,6 @@ public class RefinementValue extends Refinement<RefinementValue> {
   private String value;
 
   /**
-   * <code>
-   * Default constructor
-   * </code>
-   */
-  public RefinementValue() {
-    // default constructor
-  }
-
-  /**
    * @return Type.Value
    * @internal
    */

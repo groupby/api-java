@@ -17,15 +17,6 @@ public class Metadata {
   private String value;
 
   /**
-   * <code>
-   * Default constructor
-   * </code>
-   */
-  public Metadata() {
-    // default constructor
-  }
-
-  /**
    * @return The name of this metadata.
    */
   public String getKey() {

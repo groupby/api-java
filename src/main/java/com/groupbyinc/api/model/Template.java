@@ -29,15 +29,6 @@ public class Template {
   private Map<String, Zone> zones = new HashMap<String, Zone>();
 
   /**
-   * <code>
-   * Default constructor
-   * </code>
-   */
-  public Template() {
-    // default constructor
-  }
-
-  /**
    * @return An MD5 hash of the name of this template.
    */
   public String getId() {

@@ -18,15 +18,6 @@ import com.groupbyinc.common.jackson.annotation.JsonProperty;
  */
 public class RichContentZone extends AbstractContentZone<RichContentZone> {
 
-  /**
-   * <code>
-   * Default constructor
-   * </code>
-   */
-  public RichContentZone() {
-    // default constructor
-  }
-
   @Override
   public Type getType() {
     return Type.Rich_Content;

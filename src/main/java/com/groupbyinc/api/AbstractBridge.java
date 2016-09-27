@@ -55,7 +55,6 @@ public abstract class AbstractBridge {
   private static final Logger LOG = Logger.getLogger(AbstractBridge.class.getName());
   private static final String SEARCH = "/search";
   private static final String REFINEMENTS = "/refinements";
-  private static final String REFINEMENT_SEARCH = "/refinement";
   private static final String BODY = "\nbody:\n";
   private static final String EXCEPTION_FROM_BRIDGE = "Exception from bridge: ";
 
@@ -63,7 +62,6 @@ public abstract class AbstractBridge {
   private final RequestConfig requestConfig;
   private final String bridgeUrl;
   private final String bridgeRefinementsUrl;
-  private final String bridgeRefinementSearchUrl;
   private final String bridgeClusterUrl;
   protected String clientKey;
   private CloseableHttpClient httpClient;
@@ -132,7 +130,6 @@ public abstract class AbstractBridge {
 
     bridgeUrl = baseUrl + SEARCH;
     bridgeRefinementsUrl = bridgeUrl + REFINEMENTS;
-    bridgeRefinementSearchUrl = baseUrl + REFINEMENT_SEARCH;
     bridgeClusterUrl = baseUrl + CLUSTER;
   }
 

@@ -13,15 +13,6 @@ public class PageInfo {
   private int recordEnd;
 
   /**
-   * <code>
-   * Default constructor
-   * </code>
-   */
-  public PageInfo() {
-    // default constructor
-  }
-
-  /**
    * @return The record offset for this search and navigation state.
    */
   public int getRecordStart() {

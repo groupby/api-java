@@ -25,15 +25,6 @@ public class RecordZone extends Zone<RecordZone> {
   private List<Record> records;
 
   /**
-   * <code>
-   * Default constructor
-   * </code>
-   */
-  public RecordZone() {
-    // default constructor
-  }
-
-  /**
    * @internal
    * @return
    */
