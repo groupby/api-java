@@ -147,18 +147,16 @@ public class UrlBeautifierTest {
   @Test
   public void testRange() throws Exception {
     test.addRefinementMapping('t', "test");
-    assertEquals(
-        "/bob/t?refinements=%7Eprice%3A10..20", test.toUrl(
-            null, new Query().addValueRefinement("test", "bob")
-                .addRangeRefinement("price", "10", "20")
-                .getNavigations()));
+    assertEquals("/bob/t?refinements=%7Eprice%3A10..20", test.toUrl(
+        null, new Query().addValueRefinement("test", "bob")
+            .addRangeRefinement("price", "10", "20")
+            .getNavigations()));
     test.addRefinementMapping('p', "price");
     try {
-      assertEquals(
-          "/bob/t?refinements=%7Eprice%3A10..20", test.toUrl(
-              null, new Query().addValueRefinement("test", "bob")
-                  .addRangeRefinement("price", "10", "20")
-                  .getNavigations()));
+      assertEquals("/bob/t?refinements=%7Eprice%3A10..20", test.toUrl(
+          null, new Query().addValueRefinement("test", "bob")
+              .addRangeRefinement("price", "10", "20")
+              .getNavigations()));
       fail("Should throw exception if trying to map range");
     } catch (UrlBeautifier.UrlBeautificationException e) {
       //expected
@@ -324,19 +322,19 @@ public class UrlBeautifierTest {
   @Test
   public void testCanonical() throws Exception {
     setUpTestHeightAndCategoryRefinements();
-    assertEquals(
-        test.toUrl(null, new Query().addValueRefinement("height", "20in")
+    assertEquals(test.toUrl(
+        null, new Query().addValueRefinement("height", "20in")
             .addValueRefinement("category2", "mice")
             .addValueRefinement("cat3", "wireless mice")
             .addValueRefinement("test", "value")
             .addValueRefinement("category", "computer accessories")
             .getNavigations()), test.toUrl(
-            null, new Query().addValueRefinement("height", "20in")
-                .addValueRefinement("category", "computer accessories")
-                .addValueRefinement("test", "value")
-                .addValueRefinement("category2", "mice")
-                .addValueRefinement("cat3", "wireless mice")
-                .getNavigations()));
+        null, new Query().addValueRefinement("height", "20in")
+            .addValueRefinement("category", "computer accessories")
+            .addValueRefinement("test", "value")
+            .addValueRefinement("category2", "mice")
+            .addValueRefinement("cat3", "wireless mice")
+            .getNavigations()));
   }
 
   @Test
@@ -358,10 +356,10 @@ public class UrlBeautifierTest {
     test.setSearchMapping('q');
     test.addRefinementMapping('d', "department");
     test.setAppend("/index.html");
-    testFromUrl("/aoeu/laptop/MAGNOLIA+HOME+THEATR/qd/index.html", null, "MAGNOLIA HOME THEATR");
+    assertFromUrl("/aoeu/laptop/MAGNOLIA+HOME+THEATR/qd/index.html", null, "MAGNOLIA HOME THEATR");
   }
 
-  private void testFromUrl(String purl, String searchString, String... refinements) throws Exception {
+  private void assertFromUrl(String purl, String searchString, String... refinements) throws Exception {
     Query query = test.fromUrl(purl);
     if (StringUtils.isNotEmpty(searchString)) {
       assertEquals(searchString, query.getQuery());
@@ -380,14 +378,14 @@ public class UrlBeautifierTest {
     test.setSearchMapping('q');
     test.addRefinementMapping('d', "department");
     test.setAppend("/index.html");
-    testFromUrl("/taylor/PHOTO%252FCOMMODITIES/qd/index.html", null, "PHOTO/COMMODITIES");
+    assertFromUrl("/taylor/PHOTO%252FCOMMODITIES/qd/index.html", null, "PHOTO/COMMODITIES");
   }
 
   @Test
   public void testFromUrlWithOneReplace() throws Exception {
     setSearchAndIndex();
     test.addReplacementRule('&', ' ');
-    toAndFromUrl("black&decker", null);
+    assertToAndFromUrl("black&decker", null);
   }
 
   private void setSearchAndIndex() {
@@ -395,8 +393,7 @@ public class UrlBeautifierTest {
     test.setAppend("/index.html");
   }
 
-  private void toAndFromUrl(
-      String searchString, Map<String, Navigation> navigations, String... expectedRefinementsValues) throws URISyntaxException, UrlBeautifier.UrlBeautificationException {
+  private void assertToAndFromUrl(String searchString, Map<String, Navigation> navigations, String... expectedRefinementsValues) throws URISyntaxException, UrlBeautifier.UrlBeautificationException {
     String url = test.toUrl(searchString, navigations);
     Query query = test.fromUrl(url);
     assertEquals(searchString, query.getQuery());
@@ -416,13 +413,13 @@ public class UrlBeautifierTest {
     test.addReplacementRule('&', ' ');
     test.addReplacementRule('B', 'b');
     test.addReplacementRule('D', 'd');
-    toAndFromUrl("Black&Decker", null);
+    assertToAndFromUrl("Black&Decker", null);
   }
 
   @Test
   public void testFromUrlWithOneInsert() throws Exception {
     setSearchAndIndex();
-    testFromUrl("/black+decker/q/index.html?z=i1-1", "1black decker");
+    assertFromUrl("/black+decker/q/index.html?z=i1-1", "1black decker");
   }
 
   @Test
@@ -438,16 +435,16 @@ public class UrlBeautifierTest {
     String expected = "/Black+Decker/q";
     assertEquals(expected, test.toUrl(searchString, (Map<String, Navigation>) null)
         .substring(0, expected.length()));
-    toAndFromUrl(searchString, null);
+    assertToAndFromUrl(searchString, null);
   }
 
   @Test
   public void testFromUrlBadReplace() throws Exception {
     setSearchAndIndex();
-    testFailingQuery("/black+decker/q/index.html?z=2-B--");
+    assertFailingQuery("/black+decker/q/index.html?z=2-B--");
   }
 
-  private void testFailingQuery(String pUri) throws Exception {
+  private void assertFailingQuery(String pUri) throws Exception {
     try {
       test.fromUrl(pUri);
       fail("Expected an exception");
@@ -459,79 +456,79 @@ public class UrlBeautifierTest {
   @Test
   public void testFromUrlBadInsert() throws Exception {
     setSearchAndIndex();
-    testFailingQuery("/black+decker/q/index.html?z=c2-B");
+    assertFailingQuery("/black+decker/q/index.html?z=c2-B");
   }
 
   @Test
   public void testFromUrlBadInsert2() throws Exception {
     setSearchAndIndex();
-    testFailingQuery("/black+decker/q/index.html?z=ii2-B");
+    assertFailingQuery("/black+decker/q/index.html?z=ii2-B");
   }
 
   @Test
   public void testFromUrlReplaceBadIndex() throws Exception {
     setSearchAndIndex();
-    testFromUrl("/black+decker/q/index.html?z=26-R", "black decker");
+    assertFromUrl("/black+decker/q/index.html?z=26-R", "black decker");
   }
 
   @Test
   public void testFromUrlReplaceBadReplacementString() throws Exception {
     setSearchAndIndex();
-    testFailingQuery("/black+decker/q/index.html?z=-1-R");
+    assertFailingQuery("/black+decker/q/index.html?z=-1-R");
   }
 
   @Test
   public void testFromUrlReplaceBadIndex3() throws Exception {
     setSearchAndIndex();
-    testFromUrl("/black+decker/q/index.html?z=0-R", "black decker");
+    assertFromUrl("/black+decker/q/index.html?z=0-R", "black decker");
   }
 
   @Test
   public void testFromUrlReplaceBadIndex4() throws Exception {
     setSearchAndIndex();
-    testFromUrl("/black+decker/q/index.html?z=13-R", "black decker");
+    assertFromUrl("/black+decker/q/index.html?z=13-R", "black decker");
   }
 
   @Test
   public void testFromUrlReplaceNoIndex() throws Exception {
     setSearchAndIndex();
-    testFailingQuery("/black+decker/q/index.html?z=-R");
+    assertFailingQuery("/black+decker/q/index.html?z=-R");
   }
 
   @Test
   public void testFromUrlReplaceValidEdgeIndex() throws Exception {
     setSearchAndIndex();
-    testFromUrl("/black+decker/q/index.html?z=12-R", "black deckeR");
+    assertFromUrl("/black+decker/q/index.html?z=12-R", "black deckeR");
   }
 
   @Test
   public void testFromUrlInsertBadIndex() throws Exception {
     setSearchAndIndex();
-    testFromUrl("/black+decker/q/index.html?z=i26-R", "black decker");
+    assertFromUrl("/black+decker/q/index.html?z=i26-R", "black decker");
   }
 
   @Test
   public void testFromUrlInsertMalformedIndex() throws Exception {
     setSearchAndIndex();
-    testFailingQuery("/black+decker/q/index.html?z=i-1-R");
+    assertFailingQuery("/black+decker/q/index.html?z=i-1-R");
   }
 
   @Test
   public void testFromUrlInsertBadIndex3() throws Exception {
     setSearchAndIndex();
-    testFromUrl("/black+decker/q/index.html?z=i0-R", "black decker");
+    assertFromUrl("/black+decker/q/index.html?z=i0-R", "black decker");
   }
 
   @Test
   public void testFromUrlInsertNoIndex() throws Exception {
     setSearchAndIndex();
-    testFailingQuery("/black+decker/q/index.html?z=i-R");
+    assertFailingQuery("/black+decker/q/index.html?z=i-R");
   }
 
   @Test
   public void testFromUrlInsertValidEdgeIndex() throws Exception {
     setSearchAndIndex();
-    testFromUrl("/black+decker/q/index.html?z=i13-R-6-%26", "black&deckerR");
+    assertFromUrl("/black+decker/q/index.html?z=i13-R-6-%26", "black&deckerR");
   }
 
   @Test
@@ -540,7 +537,7 @@ public class UrlBeautifierTest {
     test.addRefinementMapping('d', "department");
     test.addRefinementMapping('c', "category");
     test.setAppend("/index.html");
-    testFromUrl("/mice/wireless/dell/cdq/index.html?z=1-M-i14-123-18-D", "Dell", "Mice", "wireless123");
+    assertFromUrl("/mice/wireless/dell/cdq/index.html?z=1-M-i14-123-18-D", "Dell", "Mice", "wireless123");
   }
 
   @Test
@@ -549,7 +546,7 @@ public class UrlBeautifierTest {
     test.addRefinementMapping('d', "department");
     test.addRefinementMapping('c', "category");
     test.setAppend("/index.html");
-    testFromUrl("www.example.com/mice/wireless/dell/cdq/index.html?z=1-M-i14-123-18-D", "Dell", "Mice", "wireless123");
+    assertFromUrl("www.example.com/mice/wireless/dell/cdq/index.html?z=1-M-i14-123-18-D", "Dell", "Mice", "wireless123");
   }
 
   @Test
@@ -558,7 +555,7 @@ public class UrlBeautifierTest {
     test.addReplacementRule('/', '-');
     String searchString = "this is/a test";
     assertEquals("/this+is-a+test/q?z=8-%2F", test.toUrl(searchString, (Map<String, Navigation>) null));
-    toAndFromUrl(searchString, null);
+    assertToAndFromUrl(searchString, null);
   }
 
   @Test
@@ -568,7 +565,7 @@ public class UrlBeautifierTest {
     test.addReplacementRule('T', 't');
     String searchString = "This is/a Test";
     assertEquals("/this+is-a+test/q?z=8-%2F-1-T-11-T", test.toUrl(searchString, (Map<String, Navigation>) null));
-    toAndFromUrl(searchString, null);
+    assertToAndFromUrl(searchString, null);
   }
 
   @Test
@@ -577,7 +574,7 @@ public class UrlBeautifierTest {
     test.addReplacementRule('/', null);
     String searchString = "this is/a test";
     assertEquals("/this+isa+test/q?z=i8-%2F", test.toUrl("this is/a test", (Map<String, Navigation>) null));
-    toAndFromUrl(searchString, null);
+    assertToAndFromUrl(searchString, null);
   }
 
   @Test
@@ -587,7 +584,7 @@ public class UrlBeautifierTest {
     test.addReplacementRule('_', null);
     String searchString = "this _is/a _test";
     assertEquals("/this+isa+test/q?z=i9-%2F-i6-_-i10-_", test.toUrl(searchString, (Map<String, Navigation>) null));
-    toAndFromUrl(searchString, null);
+    assertToAndFromUrl(searchString, null);
   }
 
   @Test
@@ -596,7 +593,7 @@ public class UrlBeautifierTest {
     test.addReplacementRule('a', null);
     test.addReplacementRule('/', '-');
     test.addReplacementRule('_', null);
-    toAndFromUrl("this _is/a _test", null);
+    assertToAndFromUrl("this _is/a _test", null);
   }
 
   @Test
@@ -612,7 +609,7 @@ public class UrlBeautifierTest {
         .getNavigations();
     String url = test.toUrl(searchString, navigations);
     assertEquals("/value/20-in/computer+accessories/testquery/thcq?z=9-%2F-i38-%26", url);
-    toAndFromUrl(searchString, navigations, "value", "20/in", "computer accessories");
+    assertToAndFromUrl(searchString, navigations, "value", "20/in", "computer accessories");
   }
 
   @Test
@@ -628,7 +625,7 @@ public class UrlBeautifierTest {
         .getNavigations();
     String url = test.toUrl(searchString, navigations);
     assertEquals("/value/20+in/computer+accessories/testquery/thcq?z=9---i38-%26", url);
-    toAndFromUrl(searchString, navigations, "value", "20-in", "computer accessories");
+    assertToAndFromUrl(searchString, navigations, "value", "20-in", "computer accessories");
   }
 
   @Test
@@ -640,7 +637,7 @@ public class UrlBeautifierTest {
         .addValueRefinement("height", "20/in")
         .addValueRefinement("category", "computer accessories")
         .getNavigations();
-    toAndFromUrl("test&query", navigations, "val&ue", "20/in", "computer accessories");
+    assertToAndFromUrl("test&query", navigations, "val&ue", "20/in", "computer accessories");
   }
 
   private void setUpTestHeightCategoryAndSearch() {
@@ -664,7 +661,7 @@ public class UrlBeautifierTest {
         .getNavigations();
     String url = test.toUrl(searchString, navigations);
     assertEquals("/20+in/computer+accessories/testquery/hcq?z=3---i32-%26&refinements=%7Etest%3Dvalue", url);
-    toAndFromUrl(searchString, navigations, "20-in", "computer accessories", "value");
+    assertToAndFromUrl(searchString, navigations, "20-in", "computer accessories", "value");
   }
 
   @Test
@@ -680,7 +677,7 @@ public class UrlBeautifierTest {
     String url = test.toUrl(searchString, navigations);
     String expected = "/test+query/val%2526ue";
     assertEquals(expected, url.substring(0, expected.length()));
-    toAndFromUrl(searchString, navigations, "val&ue", "20-in", "computer accessories");
+    assertToAndFromUrl(searchString, navigations, "val&ue", "20-in", "computer accessories");
   }
 
   @Test
@@ -698,7 +695,7 @@ public class UrlBeautifierTest {
     String url = test.toUrl(searchString, navigations);
     String expected = "/test+query/val%2526ue/20-mn/computar+accassorias";
     assertEquals(expected, url.substring(0, expected.length()));
-    toAndFromUrl(searchString, navigations, "val&ue", "20-in", "computer accessories");
+    assertToAndFromUrl(searchString, navigations, "val&ue", "20-in", "computer accessories");
   }
 
   @Test
@@ -711,7 +708,7 @@ public class UrlBeautifierTest {
         .addValueRefinement("height", "20-in")
         .addValueRefinement("category", "computer accessories")
         .getNavigations();
-    toAndFromUrl("test&query", navigations, "val&ue", "20-in", "computer accessories");
+    assertToAndFromUrl("test&query", navigations, "val&ue", "20-in", "computer accessories");
   }
 
   @Test
@@ -723,7 +720,7 @@ public class UrlBeautifierTest {
         .addValueRefinement("height", "20-in")
         .addValueRefinement("category", "computer accessories")
         .getNavigations();
-    toAndFromUrl("test&qu%ery", navigations, "val&ue", "20-in", "computer accessories");
+    assertToAndFromUrl("test&qu%ery", navigations, "val&ue", "20-in", "computer accessories");
   }
 
   @Test
@@ -735,7 +732,7 @@ public class UrlBeautifierTest {
         .addValueRefinement("height", "20-in")
         .addValueRefinement("category", "computer accessories")
         .getNavigations();
-    toAndFromUrl("test&qu%ery", navigations, "val&ue", "20-in", "computer accessories");
+    assertToAndFromUrl("test&qu%ery", navigations, "val&ue", "20-in", "computer accessories");
   }
 
   @Test
@@ -747,7 +744,7 @@ public class UrlBeautifierTest {
         .addValueRefinement("height", "20-in")
         .addValueRefinement("category", "computer accessories")
         .getNavigations();
-    toAndFromUrl("test&qu%ery", navigations, "val&ue", "20-in", "computer accessories");
+    assertToAndFromUrl("test&qu%ery", navigations, "val&ue", "20-in", "computer accessories");
   }
 
   @Test
@@ -759,7 +756,7 @@ public class UrlBeautifierTest {
         .addValueRefinement("height", "20-in")
         .addValueRefinement("category", "computer accessories")
         .getNavigations();
-    toAndFromUrl("test&qu%ery", navigations, "val&ue", "20-in", "computer accessories");
+    assertToAndFromUrl("test&qu%ery", navigations, "val&ue", "20-in", "computer accessories");
   }
 
   @Test
@@ -771,6 +768,6 @@ public class UrlBeautifierTest {
         .addValueRefinement("height", "20-in")
         .addValueRefinement("category", "computer accessories")
         .getNavigations();
-    toAndFromUrl(null, navigations, "", "20-in", "computer accessories");
+    assertToAndFromUrl(null, navigations, "", "20-in", "computer accessories");
   }
 }

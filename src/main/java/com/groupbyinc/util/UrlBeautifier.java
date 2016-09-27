@@ -154,7 +154,7 @@ public class UrlBeautifier {
     List<UrlReplacement> replacements = new ArrayList<UrlReplacement>();
 
     for (Navigation m : remainingMappings) {
-      if (m == SEARCH_NAVIGATION && StringUtils.isNotBlank(searchString)) {
+      if (SEARCH_NAVIGATION.equals(m) && StringUtils.isNotBlank(searchString)) {
         searchString = applyReplacementRule(m, searchString, indexOffSet, replacements);
         indexOffSet += searchString.length() + 1;
         addSearchString(searchString, pathSegmentLookup, uri);

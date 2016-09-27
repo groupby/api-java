@@ -24,15 +24,6 @@ public class RefinementRange extends Refinement<RefinementRange> {
   private String low;
 
   /**
-   * <code>
-   * Default constructor
-   * </code>
-   */
-  public RefinementRange() {
-    // default constructor
-  }
-
-  /**
    * @return Type.Range
    * @internal
    */

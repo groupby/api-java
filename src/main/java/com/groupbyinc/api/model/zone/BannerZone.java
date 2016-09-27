@@ -24,15 +24,6 @@ import com.groupbyinc.common.jackson.annotation.JsonProperty;
  */
 public class BannerZone extends AbstractContentZone<BannerZone> {
 
-  /**
-   * <code>
-   * Default constructor
-   * </code>
-   */
-  public BannerZone() {
-    // default constructor
-  }
-
   @Override
   public Type getType() {
     return Type.Banner;

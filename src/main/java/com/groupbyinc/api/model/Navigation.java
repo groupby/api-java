@@ -53,15 +53,6 @@ public class Navigation {
   private List<Metadata> metadata = new ArrayList<Metadata>();
 
   /**
-   * <code>
-   * Default constructor
-   * </code>
-   */
-  public Navigation() {
-    // default constructor
-  }
-
-  /**
    * @return The name of the dynamic navigation attribute. This is the name of
    * the metadata that was uploaded as part of the feed
    */
@@ -188,6 +179,15 @@ public class Navigation {
   }
 
   /**
+   * @param sort Set the sort type
+   */
+  @JsonIgnore
+  public Navigation setSort(Sort sort) {
+    this.sort = sort;
+    return this;
+  }
+
+  /**
    * <code>
    * Helper method
    * </code>
@@ -196,15 +196,6 @@ public class Navigation {
    */
   public Navigation setSort(String sort) {
     this.sort = Sort.valueOf(sort);
-    return this;
-  }
-
-  /**
-   * @param sort Set the sort type
-   */
-  @JsonIgnore
-  public Navigation setSort(Sort sort) {
-    this.sort = sort;
     return this;
   }
 

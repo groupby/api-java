@@ -34,13 +34,13 @@ public class ZoneTest {
           .setTitle("abc")
           .setSnippet("abc")
           .setRefinementMatches(refinementMatches);
-      String actual = writeValueAsString(record, true);
 
       RecordZone zone = new RecordZone().setId("abc")
           .setName("abc")
           .setQuery("abc")
           .setRecords(singletonList(record));
-      actual = writeValueAsString(zone, true);
+
+      String actual = writeValueAsString(zone, true);
       assertCountMatches(1, TYPE_RECORD, actual, "zone");
 
       Map<String, Zone> zones = new HashMap<String, Zone>();
