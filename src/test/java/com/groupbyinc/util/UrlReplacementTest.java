@@ -8,6 +8,7 @@ import java.util.List;
 import static com.groupbyinc.util.UrlReplacement.OperationType;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -24,6 +25,7 @@ public class UrlReplacementTest {
   @Test
   public void testFromString() throws Exception {
     UrlReplacement r = UrlReplacement.fromString("2-a");
+    assertEquals("2-a", r.toString());
   }
 
   @Test()
@@ -125,10 +127,10 @@ public class UrlReplacementTest {
 
   @Test
   public void testSimpleApplyReplaceAtStartBadIndex() {
-    asserBadApply("zbc123", new UrlReplacement(-1, "a", OperationType.Swap));
+    assertBadApply("zbc123", new UrlReplacement(-1, "a", OperationType.Swap));
   }
 
-  private void asserBadApply(String pInput, UrlReplacement pUrlReplacement) {
+  private void assertBadApply(String pInput, UrlReplacement pUrlReplacement) {
     StringBuilder stringBuilder = new StringBuilder(pInput);
     pUrlReplacement.apply(stringBuilder, 0);
     assertEquals(pInput, stringBuilder.toString());
@@ -141,7 +143,7 @@ public class UrlReplacementTest {
 
   @Test
   public void testSimpleApplyReplaceAtEndBadIndex() {
-    asserBadApply("abc124", new UrlReplacement(6, "3", OperationType.Swap));
+    assertBadApply("abc124", new UrlReplacement(6, "3", OperationType.Swap));
   }
 
   @Test
@@ -156,12 +158,12 @@ public class UrlReplacementTest {
 
   @Test
   public void testSimpleApplyInsertAtStartBadIndex() {
-    asserBadApply("bc123", new UrlReplacement(-1, "a", OperationType.Insert));
+    assertBadApply("bc123", new UrlReplacement(-1, "a", OperationType.Insert));
   }
 
   @Test
   public void testSimpleApplyInsertAtEndBadIndex() {
-    asserBadApply("abc12", new UrlReplacement(6, "3", OperationType.Insert));
+    assertBadApply("abc12", new UrlReplacement(6, "3", OperationType.Insert));
   }
 
   @Test
@@ -171,7 +173,7 @@ public class UrlReplacementTest {
     UrlReplacement urlReplacement3 = new UrlReplacement(6, "3", OperationType.Insert);
     UrlReplacement urlReplacement4 = new UrlReplacement(6, "4", OperationType.Insert);
     UrlReplacement urlReplacement5 = new UrlReplacement(6, "4", OperationType.Swap);
-    assertFalse(urlReplacement1.equals(null));
+    assertNotNull(urlReplacement1);
     assertTrue(urlReplacement1.equals(urlReplacement1));
     assertTrue(urlReplacement1.equals(urlReplacement2));
     assertFalse(urlReplacement2.equals(urlReplacement3));

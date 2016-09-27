@@ -21,9 +21,9 @@ public class UrlFunctionsBugTest {
 
   private final String DEFAULT_BEAUTIFIER = "default";
 
-  UrlBeautifier urlBeautifier;
+  private UrlBeautifier urlBeautifier;
 
-  Query query;
+  private Query query;
 
   @Before
   public void setUp() {
