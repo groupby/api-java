@@ -172,6 +172,8 @@ public class Query {
                                 .setExclude(rv.getExclude()));
             break;
           }
+          default:
+            break;
         }
       }
     }
@@ -197,6 +199,8 @@ public class Query {
           break;
         case Descending:
           convertedSort.setOrder(com.groupbyinc.api.request.Sort.Order.Descending);
+          break;
+        default:
           break;
       }
     }
@@ -1099,6 +1103,13 @@ public class Query {
   }
 
   /**
+   * @return The current match strategy.
+   */
+  public MatchStrategy getMatchStrategy() {
+    return this.matchStrategy;
+  }
+
+  /**
    * <code>
    * A match strategy allows you to explicitly manage recall on a per query basis. There must always be one term
    * matching in a query, thus `termsGreaterThan` can only be defined from 1 upwards and `terms` can only be defined
@@ -1152,13 +1163,6 @@ public class Query {
   public Query setMatchStrategy(MatchStrategy matchStrategy) {
     this.matchStrategy = matchStrategy;
     return this;
-  }
-
-  /**
-   * @return The current match strategy.
-   */
-  public MatchStrategy getMatchStrategy() {
-    return this.matchStrategy;
   }
 
   /**
@@ -1286,49 +1290,6 @@ public class Query {
 
   /**
    * <code>
-   * Add a biasing profile, which is defined at query time. Possible settings
-   * include:
-   *
-   *  - `bringToTop`: A list of product IDs to bring to the top of the result set. This list
-   *  will ensure that the products are included in the result set and appear in the order
-   *  defined.
-   *  - `influence`: The influence to apply to query-time biases and biases set in Command Center.
-   *  If this field is not defined, then the influence of the biasing profile defined in Command Center will take effect.
-   *  If an influence is not defined in Command Center, then the influence will default to 5.
-   *  - `augmentBiases`: If true, the biases defined here will augment biasing profiles defined in Command Center.
-   *  Otherwise, the biases will override the ones defined in command Center. By default, this is set to false.
-   *  - `biases`: A list of biases, which either override or augment biasing profiles defined
-   *  in Command Center. See the documentation for `addBias` for more information.
-   *
-   * JSON Reference:
-   *
-   *     { "biasing": {
-   *          "bringToTop": ["productId1","productId3","productId2"]
-   *          "influence": 5.0,
-   *          "augmentBiases": false,
-   *          "biases": [
-   *               {"name":"brand", "content":"Brand A", "strength":"Medium_Increase"},
-   *               {"name":"brand", "content":"Brand B", "strength":"Strong_Increase"},
-   *               {"name":"material", "content":"Material A", "strength":"Strong_Decrease"}
-   *          ]
-   *     }}
-   *
-   *
-   * </code>
-   *
-   * @param biasing
-   *         The biasing parameters
-   *
-   * @return
-   * @internal
-   */
-  public Query setBiasing(Biasing biasing) {
-    this.biasing = biasing;
-    return this;
-  }
-
-  /**
-   * <code>
    *
    * @see Query#setBiasing(Biasing). This is a convenience method to set which products should be
    * brought to the top of the result set.
@@ -1435,5 +1396,48 @@ public class Query {
    */
   public Biasing getBiasing() {
     return biasing;
+  }
+
+  /**
+   * <code>
+   * Add a biasing profile, which is defined at query time. Possible settings
+   * include:
+   *
+   *  - `bringToTop`: A list of product IDs to bring to the top of the result set. This list
+   *  will ensure that the products are included in the result set and appear in the order
+   *  defined.
+   *  - `influence`: The influence to apply to query-time biases and biases set in Command Center.
+   *  If this field is not defined, then the influence of the biasing profile defined in Command Center will take effect.
+   *  If an influence is not defined in Command Center, then the influence will default to 5.
+   *  - `augmentBiases`: If true, the biases defined here will augment biasing profiles defined in Command Center.
+   *  Otherwise, the biases will override the ones defined in command Center. By default, this is set to false.
+   *  - `biases`: A list of biases, which either override or augment biasing profiles defined
+   *  in Command Center. See the documentation for `addBias` for more information.
+   *
+   * JSON Reference:
+   *
+   *     { "biasing": {
+   *          "bringToTop": ["productId1","productId3","productId2"]
+   *          "influence": 5.0,
+   *          "augmentBiases": false,
+   *          "biases": [
+   *               {"name":"brand", "content":"Brand A", "strength":"Medium_Increase"},
+   *               {"name":"brand", "content":"Brand B", "strength":"Strong_Increase"},
+   *               {"name":"material", "content":"Material A", "strength":"Strong_Decrease"}
+   *          ]
+   *     }}
+   *
+   *
+   * </code>
+   *
+   * @param biasing
+   *         The biasing parameters
+   *
+   * @return
+   * @internal
+   */
+  public Query setBiasing(Biasing biasing) {
+    this.biasing = biasing;
+    return this;
   }
 }

@@ -35,7 +35,7 @@ public class UrlBeautifier {
 
   public static final String PARAM_REPLACEMENT = "z";
   public static final String SEARCH_NAVIGATION_NAME = "search";
-  static final StaticInjector<Map<String, UrlBeautifier>> INJECTOR = new StaticInjectorFactory<Map<String, UrlBeautifier>>().create();
+  protected static final StaticInjector<Map<String, UrlBeautifier>> INJECTOR = new StaticInjectorFactory<Map<String, UrlBeautifier>>().create();
   private static final String REFINEMENTS_PARAM_DEFAULT = "refinements";
   private static final String ID = "id";
   private static final Pattern idPattern = Pattern.compile("(?:\\A|.*&)id=([^&]*).*");
