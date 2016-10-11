@@ -41,6 +41,7 @@ public class Query {
   private boolean wildcardSearchEnabled;
   private List<String> includedNavigations = new ArrayList<String>();
   private List<String> excludedNavigations = new ArrayList<String>();
+  private String sessionId;
   private String visitorId;
   private String query;
   private int skip = 0;
@@ -86,6 +87,7 @@ public class Query {
   private Request populateRequest(String clientKey) {
     Request request = new Request();
 
+    request.setSessionId(sessionId);
     request.setVisitorId(visitorId);
     request.setIncludedNavigations(includedNavigations);
     request.setExcludedNavigations(excludedNavigations);
@@ -1363,6 +1365,38 @@ public class Query {
   }
 
   /**
+   * @return The session ID
+   */
+  public String getSessionId() {
+    return sessionId;
+  }
+
+  /**
+   * <code>
+   *  A unique string identifier of the session that your customer is currently in. The sessionID should be a unique value for a
+   *  given user that persists for them as long as that user is active on the site for that session. We define a session as the
+   *  time that you would consider a duration of an A/B test. In future, A/B testing tools within our solution will leverage
+   *  the session ID to group customers into different experiences. Ensuring that session ID is persistent throughout a measure
+   *  of time will help ensure that the customer experience is consistent as they shop and browse your site. Therefore, the
+   *  sessionID should update only if the user is inactive for some period - we recommend keeping this in alignment for what
+   *  you consider a shopping session for your customers. For example, you can align this to the timeout of items stored in the
+   *  shopping cart. Session ID should not change when the user logs in and can be used to track a user changing from anonymous
+   *  to logged in. Session ID must also be consistent between the Search and Recommendations APIs to ensure correct monitoring of
+   *  conversion metrics.
+   *
+   *  **Important:** Sending raw session IDs is a security risk. Encrypt or hash session IDs prior to transmission.
+   *
+   * </code>
+   * @param sessionId
+   *         The session ID
+   * @return
+   */
+  public Query setSessionId(String sessionId) {
+    this.sessionId = sessionId;
+    return this;
+  }
+
+  /**
    * @return The user ID
    */
   public String getVisitorId() {
@@ -1372,8 +1406,9 @@ public class Query {
   /**
    * <code>
    *
-   *  A unique string identifier of an end customer, if the customer is logged in.  Otherwise, the Visitor ID field
-   *  should be left blank. It is recommended that this value be a hash of the customer's login information.  The
+   *  A unique string identifier of an end customer. Anonymous users (not logged in) should have a visitorID that is
+   *  a randomly generated v4 UUID. This visitorID should stay with the anonymous user for as long as possible or
+   *  until they log in. When a user logs in, their visitorID change to a known globally unique identifier for that customer.
    *  Visitor ID should remain the same for a particular customer over different sessions.  Also, it must be consistent
    *  between the Search and Recommendations APIs to ensure correct monitoring of conversion metrics.
    *
