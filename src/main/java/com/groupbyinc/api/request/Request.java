@@ -22,6 +22,7 @@ public class Request {
   private String clientKey;
   private String collection;
   private String area;
+  private String sessionId;
   private String visitorId;
   private String biasingProfile;
   private String language;
@@ -72,6 +73,15 @@ public class Request {
 
   public Request setCollection(String collection) {
     this.collection = collection;
+    return this;
+  }
+
+  public String getSessionId() {
+    return sessionId;
+  }
+
+  public Request setSessionId(String sessionId) {
+    this.sessionId = sessionId;
     return this;
   }
 
