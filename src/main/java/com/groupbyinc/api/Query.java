@@ -300,7 +300,22 @@ public class Query {
 
   /**
    * <code>
-   * Set a search string. If query is blank all records are considered.
+   * Set a search string. If query is blank all records are considered. There are some limits enforced on the search string, it:
+   *
+   *          - must not exceed 50 characters
+   *          - must not exceed 10 terms.
+   *
+   * If the limits are exceeded, the search string is truncated until all limits are satisfied. For example, the following search string
+   *
+   *      The quick brown fox jumps over the high bridge into the cold river.
+   *
+   * will get truncated to:
+   *
+   *      The quick brown fox jumps over the high bridge
+   *
+   * The terms `the`, `cold`, and `river` were truncated because the term limit was exceed, and `into` was also removed because the
+   * resulting string exceeded the character limit. Stopwords are included in the string when determining if limits are exceeded. If
+   * there is only one term and it exceeds the character limit, the query will fail.
    *
    * JSON Reference:
    *
@@ -309,7 +324,7 @@ public class Query {
    * </code>
    *
    * @param query
-   *         The search term to fire against the engine
+   *         The search string to fire against the engine.
    *
    * @return
    */
