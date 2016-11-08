@@ -314,7 +314,7 @@ public class Query {
    *      The quick brown fox jumps over the high bridge
    *
    * The terms `the`, `cold`, and `river` were truncated because the term limit was exceed, and `into` was also removed because the
-   * resulting string exceeded the character limit. Stopwords are included in the string when determining if limits are exceeded. If
+   * resulting string exceeded the character limit. Stop words are included in the string when determining if limits are exceeded. If
    * there is only one term and it exceeds the character limit, the query will fail.
    *
    * JSON Reference:
