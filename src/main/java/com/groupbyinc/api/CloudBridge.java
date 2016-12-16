@@ -19,20 +19,20 @@ public class CloudBridge extends AbstractBridge {
 
   /**
    * <code>
-   * Constructor to create a bridge object that connects to the search api.
+   * Constructor to create a bridge object that connects to the Search API.
    *
    * JSON Reference:
-   * The key as found in your key management page in the command center
+   * The key as found in your Key Management page in the command center
    *
    *     {"clientKey": "--clientKey--"}
    *
    * </code>
    *
    * @param clientKey
-   *         The key as found in your key management page in the command
-   *         center.
+   *         The key as found in your Key Management page in the Command
+   *         Center.
    * @param customerId
-   *         The name of your subdomain.  For example, https://--customerId--.groupbycloud.com
+   *         The name of your subdomain.  For example, if your Command Center is at https://--customerId--.groupbycloud.com, this should be --customerId--
    */
   public CloudBridge(String clientKey, String customerId) {
     super(clientKey, HTTPS + customerId + URL_SUFFIX);
@@ -43,17 +43,17 @@ public class CloudBridge extends AbstractBridge {
    * Constructor to create a bridge object that connects to the search api.
    *
    * JSON Reference:
-   * The key as found in your key management page in the command center
+   * The key as found in your Key Management page in the command center
    *
    *     {"clientKey": "--clientKey--"}
    *
    * </code>
    *
    * @param clientKey
-   *         The key as found in your key management page in the command
-   *         center.
+   *         The key as found in your Key Management page in the Command
+   *         Center.
    * @param customerId
-   *         The name of your subdomain.  For example, https://--customerId--.groupbycloud.com
+   *         The name of your subdomain.  The name of your subdomain.  For example, if your Command Center at is https://--customerId--.groupbycloud.com, this should be --customerId--
    * @param config
    *         Configuration for the underlying HttpClient instance.
    */
