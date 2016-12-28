@@ -9,8 +9,10 @@ import com.groupbyinc.common.apache.commons.collections4.MapUtils;
 import com.groupbyinc.common.apache.commons.io.Charsets;
 import com.groupbyinc.common.apache.commons.io.IOUtils;
 import com.groupbyinc.common.apache.commons.lang3.StringUtils;
+import com.groupbyinc.common.apache.http.ConnectionClosedException;
 import com.groupbyinc.common.apache.http.Header;
 import com.groupbyinc.common.apache.http.HttpResponse;
+import com.groupbyinc.common.apache.http.NoHttpResponseException;
 import com.groupbyinc.common.apache.http.client.config.RequestConfig;
 import com.groupbyinc.common.apache.http.client.methods.HttpPost;
 import com.groupbyinc.common.apache.http.client.utils.URIBuilder;
@@ -254,8 +256,8 @@ public abstract class AbstractBridge {
     HttpResponse response = null;
     boolean successful = false;
     int tries = 0;
-    SocketException lastError = null;
-    while (!successful && tries < 3) {
+    Exception lastError = null;
+    while (!successful && tries < maxTries) {
       try {
         HttpPost httpPost = new HttpPost(generateURI(url, urlParams, tries));
         for (Header header : headers) {
@@ -268,6 +270,16 @@ public abstract class AbstractBridge {
         LOG.severe("Invalid request, failing");
         break;
       } catch (SocketException e) {
+        ThreadUtils.sleep(retryTimeout);
+        LOG.warning("Connection failed, retrying");
+        lastError = e;
+        tries++;
+      } catch (ConnectionClosedException e) {
+        ThreadUtils.sleep(retryTimeout);
+        LOG.warning("Connection failed, retrying");
+        lastError = e;
+        tries++;
+      } catch (NoHttpResponseException e) {
         ThreadUtils.sleep(retryTimeout);
         LOG.warning("Connection failed, retrying");
         lastError = e;
