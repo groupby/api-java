@@ -77,6 +77,21 @@ public class QueryTest {
   }
 
   @Test
+  public void testWithVisitorIdSessionId() throws Exception {
+    test.setQuery("boston");
+    test.setCollection("docs");
+    test.setArea("staging");
+    test.setSessionId("somesessionhash");
+    test.setVisitorId("somevisitorhash");
+
+    String expected = "{'skip':0, 'area':'staging','clientKey':'aoeu'," +
+                      "'collection':'docs',"+
+                      "'sessionId': 'somesessionhash', 'visitorId':'somevisitorhash',"+
+                      "'query':'boston','pageSize':10,'returnBinary':true}";
+    assertQuery(expected, test);
+  }
+
+  @Test
   public void splitTestRange() {
     String[] split = test.splitRefinements("test=bob~price:10..20");
     assertArrayEquals(new String[]{"test=bob", "price:10..20"}, split);
