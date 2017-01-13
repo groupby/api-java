@@ -44,6 +44,7 @@ public class Results {
   private Request originalRequest;
   private List<String> relatedQueries = new ArrayList<String>();
   private List<String> rewrites = new ArrayList<String>();
+  private ResultsMetadata metadata = new ResultsMetadata();
 
   /**
    * @return An id that uniquely identifies this Results object.
@@ -472,6 +473,24 @@ public class Results {
    */
   public Results setOriginalRequest(Request originalRequest) {
     this.originalRequest = originalRequest;
+    return this;
+  }
+
+  /**
+   * @return The metadata associated to the Results.
+   */
+  public ResultsMetadata getMetadata() {
+    return metadata;
+  }
+
+  /**
+   * @param metadata
+   *         Set the Results metadata
+   *
+   * @return
+   */
+  public Results setMetadata(ResultsMetadata metadata) {
+    this.metadata = metadata;
     return this;
   }
 }
