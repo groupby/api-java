@@ -24,7 +24,7 @@ public class ResultsMetadata {
   }
 
   /**
-   * @return The total time spent.
+   * @return The total time spent in milliseconds.
    */
   public long getTotalTime() {
     return totalTime;
