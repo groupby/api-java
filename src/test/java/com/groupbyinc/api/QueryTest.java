@@ -173,6 +173,15 @@ public class QueryTest {
     assertQuery(expected, test);
   }
 
+  @Test
+  public void testStringSplitterWithNested() throws Exception {
+    test.addRefinementsByString("~variants.subVariant.ProductBrand_Brand=Natrol~variants.subVariant.regularPrice:200.000000..400.000000");
+    Query expected = new Query();
+    expected.addValueRefinement("variants.subVariant.ProductBrand_Brand", "Natrol");
+    expected.addRangeRefinement("variants.subVariant.regularPrice", "200.000000", "400.000000");
+    assertQuery(expected, test);
+  }
+
   private void assertQuery(Query expected, Query actual) throws Exception {
     assertQuery(expected.getBridgeJson("aoeu"), actual);
   }
