@@ -13,6 +13,7 @@ import com.groupbyinc.common.apache.http.ConnectionClosedException;
 import com.groupbyinc.common.apache.http.Header;
 import com.groupbyinc.common.apache.http.HttpResponse;
 import com.groupbyinc.common.apache.http.NoHttpResponseException;
+import com.groupbyinc.common.apache.http.StatusLine;
 import com.groupbyinc.common.apache.http.client.config.RequestConfig;
 import com.groupbyinc.common.apache.http.client.methods.HttpPost;
 import com.groupbyinc.common.apache.http.client.utils.URIBuilder;
@@ -265,7 +266,15 @@ public abstract class AbstractBridge {
         }
         httpPost.setEntity(entity);
         response = httpClient.execute(httpPost);
-        successful = true;
+        StatusLine statusLine = response.getStatusLine();
+        if (statusLine.getStatusCode() == 502) {
+          ThreadUtils.sleep(retryTimeout);
+          LOG.warning("Connection failed, retrying");
+          lastError = new IOException(statusLine.getReasonPhrase());
+          tries++;
+        } else {
+          successful = true;
+        }
       } catch (URISyntaxException e) {
         LOG.severe("Invalid request, failing");
         break;
