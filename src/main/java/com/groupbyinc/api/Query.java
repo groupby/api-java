@@ -657,11 +657,17 @@ public class Query {
    * <code>
    * Specify which fields should be returned on each record that comes back from the engine. You may specify more
    * than one field, if you specify <b>\\*</b> all fields will be returned.
-   * If this parameter is blank the search service will return no attributes with the records.
+   * If this parameter is blank, the search service will return an error.
+   * If this parameter is omitted, the search service will return only the `title` field. 
+   * The `title` field is always returned.
+   * You can exclude fields from being returned using `-`. Exclusion will take precendence over inclusion.
+   * 
+   * 
    *
    * JSON Reference:
    *
    *     { "fields": [ "width", "brand", "height" ] }
+   *     { "fields" : [ "*", "-height", "-price" ] }
    *
    * </code>
    *
