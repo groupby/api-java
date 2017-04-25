@@ -660,7 +660,7 @@ public class Query {
    * If this parameter is blank, the search service will return an error.
    * If this parameter is omitted, the search service will return only the `title` field. 
    * The `title` field is always returned.
-   * You can exclude fields from being returned using `-`. Exclusion will take precendence over inclusion.
+   * You can exclude fields from being returned using `-`. Exclusion will take precedence over inclusion.
    * 
    * 
    *
