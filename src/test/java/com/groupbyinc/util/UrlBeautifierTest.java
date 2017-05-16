@@ -262,9 +262,9 @@ public class UrlBeautifierTest {
     assertNavigation("height", "=20in", navigations.get(1));
   }
 
-  private void assertNavigation(String pExpectedNavigationName, String pExpectedValue, Navigation pNavigation) {
-    assertEquals(pExpectedNavigationName, pNavigation.getName());
-    assertEquals(pExpectedValue, pNavigation.getRefinements()
+    private void assertNavigation(String expectedNavigationName, String expectedValue, Navigation navigation) {
+    assertEquals(expectedNavigationName, navigation.getName());
+    assertEquals(expectedValue, navigation.getRefinements()
         .get(0)
         .toTildeString());
   }

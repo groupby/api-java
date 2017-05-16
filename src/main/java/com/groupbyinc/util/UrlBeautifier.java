@@ -480,21 +480,21 @@ public class UrlBeautifier {
    * The order in which this method is called determines where in the URL the refinements will show up.
    * </code>
    *
-   * @param pToken
+   * @param token
    *         The single letter to represent this refinement in the lookup.
-   * @param pName
+   * @param name
    *         The name of the navigation that will be mapped using this
    *         token.
    */
-  public void addRefinementMapping(char pToken, String pName) {
+  public void addRefinementMapping(char token, String name) {
     Navigation mapping = new Navigation();
-    setValues(mapping, pName, String.valueOf(pToken));
+    setValues(mapping, name, String.valueOf(token));
     addMapping(mapping);
   }
 
-  private void setValues(Navigation pMapping, String pName, String pToken) {
-    pMapping.setName(pName);
-    pMapping.setDisplayName(pToken);
+  private void setValues(Navigation mapping, String name, String token) {
+    mapping.setName(name);
+    mapping.setDisplayName(token);
   }
 
   /**
@@ -528,11 +528,11 @@ public class UrlBeautifier {
    * /index.html
    * </code>
    *
-   * @param pAppend
+   * @param append
    *         The value to append to each beautified URL.
    */
-  public void setAppend(String pAppend) {
-    append = pAppend;
+  public void setAppend(String append) {
+    this.append = append;
   }
 
   /**
@@ -549,18 +549,18 @@ public class UrlBeautifier {
    * This includes ranges which are never mapped to beautified URLs.
    * </code>
    *
-   * @param pRefinementsQueryParameterName
+   * @param refinementsQueryParameterName
    *         The name of the query parameter to use.
    */
-  public void setRefinementsQueryParameterName(String pRefinementsQueryParameterName) {
-    refinementsQueryParameterName = pRefinementsQueryParameterName;
+  public void setRefinementsQueryParameterName(String refinementsQueryParameterName) {
+    this.refinementsQueryParameterName = refinementsQueryParameterName;
   }
 
   /**
    * <code>
    * Adds a new replacement rule that will be applied to the search term and mapped refinements. The original
    * search term and refinements will be put back into the query object.
-   * If pReplacement is null the target character will be removed.
+   * If replacement is null the target character will be removed.
    * Note: Replacements that are chained may still contain the original target character.
    * For example:
    * addReplacementRule('x','y');
@@ -570,20 +570,20 @@ public class UrlBeautifier {
    * after the second replacement.
    * </code>
    *
-   * @param pTarget
+   * @param target
    *         The char values to be replaced
-   * @param pReplacement
+   * @param replacement
    *         The replacement char value
    */
-  public void addReplacementRule(char pTarget, Character pReplacement) {
-    addReplacementRule(pTarget, pReplacement, null);
+  public void addReplacementRule(char target, Character replacement) {
+    addReplacementRule(target, replacement, null);
   }
 
   /**
    * <code>
    * Adds a new replacement rule that will only be applied to the specified refinement. The original
    * search term and refinements will be put back into the query object.
-   * If pReplacement is null the target character will be removed.
+   * If replacement is null the target character will be removed.
    * Note: Replacements that are chained may still contain the original target character.
    * For example:
    * addReplacementRule('x', 'y', "brand");
@@ -593,16 +593,16 @@ public class UrlBeautifier {
    * after the second replacement.
    * </code>
    *
-   * @param pTarget
+   * @param target
    *         The char values to be replaced
-   * @param pReplacement
+   * @param replacement
    *         The replacement char value
-   * @param pRefinementName
+   * @param refinementName
    *         The name of the refinement that this replacement should be applied to.
    */
-  public void addReplacementRule(char pTarget, Character pReplacement, String pRefinementName) {
-    if (!((Character) pTarget).equals(pReplacement)) {
-      replacementRules.add(new UrlReplacementRule(pTarget, pReplacement, pRefinementName));
+  public void addReplacementRule(char target, Character replacement, String refinementName) {
+    if (!((Character) target).equals(replacement)) {
+      replacementRules.add(new UrlReplacementRule(target, replacement, refinementName));
     }
   }
 }
