@@ -14,9 +14,9 @@ public class UrlEncoder {
     }
   }
 
-  public static String decode(String toEncode) {
+  public static String decode(String toDecode) {
     try {
-      return URLDecoder.decode(toEncode, "UTF-8");
+      return URLDecoder.decode(toDecode, "UTF-8");
     } catch (UnsupportedEncodingException e) {
       throw new IllegalStateException("UTF 8 does not seem to be supported on this JVM");
     }
