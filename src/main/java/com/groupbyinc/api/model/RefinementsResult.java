@@ -5,10 +5,20 @@ import com.groupbyinc.common.jackson.annotation.JsonProperty;
 
 public class RefinementsResult {
 
+  private String id;
   private RefinementsRequest originalRequest;
   protected Navigation navigation;
   @JsonProperty protected DebugInfo debugInfo;
   private String errors;
+
+  public String getId() {
+    return id;
+  }
+
+  public RefinementsResult setId(String id) {
+    this.id = id;
+    return this;
+  }
 
   public String getErrors() {
     return errors;
