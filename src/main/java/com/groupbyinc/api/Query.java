@@ -983,13 +983,22 @@ public class Query {
 
   /**
    * <code>
-   * Specifies whether refinements should be pruned from
-   * the available navigation.
-   * A refinement is pruned if the number of results for that refinement is zero.
-   * If all refinements from a navigation are pruned, that
-   * navigation is also pruned.
-   * Defaults to true
-   *
+   * | Parameter | Default State |
+   * |----|----|
+   * |`pruneRefinements` |  `true` |
+   * 
+   * By default, the engine will only return refinements that make a difference in the returned results. This is called <b>pruning</b>.
+   * 
+   * For example, let's say you search for "Nike Red Shoes", and 15 results come back. If we have refinements on Brand and Color, and they show:
+   * 
+   * - `brand: Nike (15)`
+   * - `color: red (15)`
+   * 
+   * ... the engine will <i>not</i> show those refinements by default, as they make no difference.
+   * 
+   * However, if you set `pruneRefinements` to `false`, the engine will return navigations even if they make no difference in the returned set of results.
+   * 
+   * 
    * JSON Reference:
    *
    *     { pruneRefinements: false }
