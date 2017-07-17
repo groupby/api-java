@@ -983,7 +983,7 @@ public class Query {
 
   /**
    * <code>
-   *   | Parameter | Default State |
+   * | Parameter | Default State |
    * |----|----|
    * |`pruneRefinements` |  `true` |
    * 
