@@ -987,14 +987,14 @@ public class Query {
    * |----|----|
    * |`pruneRefinements` |  `true` |
    * 
-   * By default, the engine will only return refinements that make a difference in the returned results. This is called **pruning**.
+   * By default, the engine will only return refinements that make a difference in the returned results. This is called <b>pruning</b>.
    * 
    * For example, let's say you search for "Nike Red Shoes", and 15 results come back. If we have refinements on Brand and Color, and they show:
    * 
    * - `brand: Nike (15)`
    * - `color: red (15)`
    * 
-   * ... the engine will *not* show those refinements by default, as they make no difference.
+   * ... the engine will <i>not</i> show those refinements by default, as they make no difference.
    * 
    * However, if you set `pruneRefinements` to `false`, the engine will return navigations even if they make no difference in the returned set of results.
    * 
