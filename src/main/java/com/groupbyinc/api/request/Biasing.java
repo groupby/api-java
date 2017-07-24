@@ -17,6 +17,8 @@ public class Biasing {
 
   private Float influence = null;
 
+  @JsonInclude(JsonInclude.Include.NON_EMPTY) private List<NumericBoost> numericBoosts = new ArrayList<NumericBoost>();
+
   @JsonInclude(JsonInclude.Include.NON_EMPTY) private List<Bias> biases = new ArrayList<Bias>();
 
   public List<String> getBringToTop() {
@@ -52,6 +54,15 @@ public class Biasing {
 
   public Biasing setInfluence(Float influence) {
     this.influence = influence;
+    return this;
+  }
+
+  public List<NumericBoost> getNumericBoosts() {
+    return numericBoosts;
+  }
+
+  public Biasing setNumericBoosts(List<NumericBoost> numericBoosts) {
+    this.numericBoosts = numericBoosts;
     return this;
   }
 }
