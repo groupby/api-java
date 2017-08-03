@@ -1504,6 +1504,8 @@ public class Query {
    *  Otherwise, the biases will override the ones defined in command Center. By default, this is set to false.
    *  - `biases`: A list of biases, which either override or augment biasing profiles defined
    *  in Command Center. See the documentation for `addBias` for more information.
+   * - `numericBoosts`: A list of numeric boosts, which will override or augment biasing profiles defined in Command Center. 
+   *
    *
    * JSON Reference:
    *
@@ -1515,7 +1517,11 @@ public class Query {
    *               {"name":"brand", "content":"Brand A", "strength":"Medium_Increase"},
    *               {"name":"brand", "content":"Brand B", "strength":"Strong_Increase"},
    *               {"name":"material", "content":"Material A", "strength":"Strong_Decrease"}
-   *          ]
+   *          ],
+   *         "numericBoosts": [
+   *          {"name":"size", "strength":10, "inverted":false},
+   *          {"name":"price", "strength":0.001, "inverted":true}
+   *     ]
    *     }}
    *
    *
