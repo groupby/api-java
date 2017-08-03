@@ -5,6 +5,7 @@ import com.groupbyinc.api.model.Biasing;
 import com.groupbyinc.api.model.CustomUrlParam;
 import com.groupbyinc.api.model.MatchStrategy;
 import com.groupbyinc.api.model.Navigation;
+import com.groupbyinc.api.model.NumericBoost;
 import com.groupbyinc.api.model.PartialMatchRule;
 import com.groupbyinc.api.model.Refinement;
 import com.groupbyinc.api.model.Sort;
@@ -130,17 +131,21 @@ public class Query {
     com.groupbyinc.api.request.Biasing convertedBiasing = new com.groupbyinc.api.request.Biasing();
     boolean hasData = false;
     if (biasing != null) {
+      convertedBiasing.setAugmentBiases(biasing.isAugmentBiases());
       if (CollectionUtils.isNotEmpty(biasing.getBringToTop())) {
         convertedBiasing.setBringToTop(new ArrayList<String>(biasing.getBringToTop()));
         hasData = true;
       }
       if (CollectionUtils.isNotEmpty(biasing.getBiases())) {
         convertedBiasing.setBiases(new ArrayList<com.groupbyinc.api.request.Bias>(convertBiases(biasing.getBiases())));
-        convertedBiasing.setAugmentBiases(biasing.isAugmentBiases());
         hasData = true;
       }
       if (biasing.getInfluence() != null) {
         convertedBiasing.setInfluence(biasing.getInfluence());
+        hasData = true;
+      }
+      if (CollectionUtils.isNotEmpty(biasing.getNumericBoosts())) {
+        convertedBiasing.setNumericBoosts(convertNumericBoosts(biasing.getNumericBoosts()));
         hasData = true;
       }
     }
@@ -232,6 +237,19 @@ public class Query {
     return new com.groupbyinc.api.request.Bias().setName(bias.getName())
         .setContent(bias.getContent())
         .setStrength(convertStrength(bias.getStrength()));
+  }
+
+  private static List<com.groupbyinc.api.request.NumericBoost> convertNumericBoosts(List<NumericBoost> numericBoosts) {
+    List<com.groupbyinc.api.request.NumericBoost> convertedBiases = new ArrayList<com.groupbyinc.api.request.NumericBoost>();
+    for (NumericBoost numericBoost : numericBoosts) {
+      convertedBiases.add(convertNumericBoost(numericBoost));
+    }
+    return convertedBiases;
+  }
+
+  private static com.groupbyinc.api.request.NumericBoost convertNumericBoost(NumericBoost numericBoost) {
+    return new com.groupbyinc.api.request.NumericBoost().setName(numericBoost.getName())
+        .setStrength(numericBoost.getStrength()).setInverted(numericBoost.isInverted());
   }
 
   private static com.groupbyinc.api.request.Bias.Strength convertStrength(Bias.Strength strength) {
