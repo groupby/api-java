@@ -47,8 +47,7 @@ public class UrlReplacement {
       }
       replacements.add(UrlReplacement.fromString(queryString.substring(0, delimiterIndex)));
       queryString.delete(0, delimiterIndex);
-      if (Character.toString(queryString.charAt(0))
-          .equals(REPLACEMENT_DELIMITER)) {
+      if (Character.toString(queryString.charAt(0)).equals(REPLACEMENT_DELIMITER)) {
         queryString.deleteCharAt(0);
       }
     }
@@ -94,8 +93,7 @@ public class UrlReplacement {
 
   public void apply(StringBuilder pathSegment, int offSet) {
     int relativeIndex = index - offSet;
-    if (relativeIndex < 0 || (relativeIndex >= pathSegment.length() && type.equals(OperationType.Swap)) ||
-        (relativeIndex > pathSegment.length() && type.equals(OperationType.Insert))) {
+    if (relativeIndex < 0 || (relativeIndex >= pathSegment.length() && type.equals(OperationType.Swap)) || (relativeIndex > pathSegment.length() && type.equals(OperationType.Insert))) {
       return;
     }
     if (type.equals(OperationType.Insert)) {

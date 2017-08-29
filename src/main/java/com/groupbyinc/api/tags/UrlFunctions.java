@@ -29,11 +29,9 @@ public class UrlFunctions {
   }
 
   private static UrlBeautifier getBeautifier(String identifier) throws JspException {
-    UrlBeautifier urlBeautifier = UrlBeautifier.getUrlBeautifiers()
-        .get(identifier);
+    UrlBeautifier urlBeautifier = UrlBeautifier.getUrlBeautifiers().get(identifier);
     if (urlBeautifier == null) {
-      throw new JspException("Could not find UrlBeautifier named: " + identifier +
-                             ". Please call UrlBeautifier.createUrlBeautifier(String) to instantiate");
+      throw new JspException("Could not find UrlBeautifier named: " + identifier + ". Please call UrlBeautifier.createUrlBeautifier(String) to instantiate");
     }
     return urlBeautifier;
   }
@@ -52,9 +50,7 @@ public class UrlFunctions {
       queryNavigations.put(navigationName, new Navigation().setName(navigationName));
     }
     if (refinement != null) {
-      queryNavigations.get(navigationName)
-          .getRefinements()
-          .add(refinement);
+      queryNavigations.get(navigationName).getRefinements().add(refinement);
     }
     return query;
   }
@@ -85,24 +81,18 @@ public class UrlFunctions {
       throw new IllegalStateException("No existing refinements so cannot remove a refinement");
     }
     if (refinement != null) {
-      Iterator<Map.Entry<String, Navigation>> ni = queryNavigations.entrySet()
-          .iterator();
+      Iterator<Map.Entry<String, Navigation>> ni = queryNavigations.entrySet().iterator();
       while (ni.hasNext()) {
-        Navigation n = ni.next()
-            .getValue();
-        if (n.getName()
-            .equals(navigationName)) {
-          Iterator<Refinement> ri = n.getRefinements()
-              .iterator();
+        Navigation n = ni.next().getValue();
+        if (n.getName().equals(navigationName)) {
+          Iterator<Refinement> ri = n.getRefinements().iterator();
           while (ri.hasNext()) {
             Refinement r = ri.next();
-            if (r.toTildeString()
-                .equals(refinement.toTildeString())) {
+            if (r.toTildeString().equals(refinement.toTildeString())) {
               ri.remove();
             }
           }
-          if (n.getRefinements()
-              .isEmpty()) {
+          if (n.getRefinements().isEmpty()) {
             ni.remove();
           }
         }

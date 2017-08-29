@@ -32,11 +32,9 @@ public class QueryTest {
     test.addValueRefinement("redsox", "suck");
     test.setSort(new Sort().setField("relevance"));
 
-    String expected = "{'skip':0,'area':'staging','clientKey':'aoeu'," +
-                      "'customUrlParams':[{'key':'fromGoogle','value':'true'},{'key':'bigspender','value':'1'}]," +
-                      "'collection':'docs','sort':[{field:'relevance'}]," +
-                      "'refinements':[{'navigationName':'redsox','type':'Value','value':'suck'}]," +
-                      "'query':'boston','pageSize':10,'returnBinary':true}";
+    String expected = "{'skip':0,'area':'staging','clientKey':'aoeu'," + "'customUrlParams':[{'key':'fromGoogle','value':'true'},{'key':'bigspender','value':'1'}],"
+                      + "'collection':'docs','sort':[{field:'relevance'}]," + "'refinements':[{'navigationName':'redsox','type':'Value','value':'suck'}],"
+                      + "'query':'boston','pageSize':10,'returnBinary':true}";
     assertQuery(expected, test);
   }
 
@@ -47,14 +45,11 @@ public class QueryTest {
     test.setCollection("docs");
     test.setArea("staging");
     test.addValueRefinement("redsox", "suck");
-    test.setSort(new Sort().setField("relevance"), new Sort().setField("brand")
-        .setOrder(Sort.Order.Descending));
+    test.setSort(new Sort().setField("relevance"), new Sort().setField("brand").setOrder(Sort.Order.Descending));
 
-    String expected = "{'skip':0,'area':'staging','clientKey':'aoeu'," +
-                      "'customUrlParams':[{'key':'fromGoogle','value':'true'},{'key':'bigspender','value':'1'}]," +
-                      "'collection':'docs','sort':[{field:'relevance'}, {field:'brand', order:'Descending'}]," +
-                      "'refinements':[{'navigationName':'redsox','type':'Value','value':'suck'}]," +
-                      "'query':'boston','pageSize':10,'returnBinary':true}";
+    String expected = "{'skip':0,'area':'staging','clientKey':'aoeu'," + "'customUrlParams':[{'key':'fromGoogle','value':'true'},{'key':'bigspender','value':'1'}],"
+                      + "'collection':'docs','sort':[{field:'relevance'}, {field:'brand', order:'Descending'}]," + "'refinements':[{'navigationName':'redsox','type':'Value','value':'suck'}],"
+                      + "'query':'boston','pageSize':10,'returnBinary':true}";
     assertQuery(expected, test);
   }
 
@@ -65,14 +60,11 @@ public class QueryTest {
     test.setCollection("docs");
     test.setArea("staging");
     test.addValueRefinement("redsox", "suck");
-    test.setSort(Sort.RELEVANCE, new Sort().setField("brand")
-        .setOrder(Sort.Order.Descending));
+    test.setSort(Sort.RELEVANCE, new Sort().setField("brand").setOrder(Sort.Order.Descending));
 
-    String expected = "{'skip':0,'area':'staging','clientKey':'aoeu'," +
-                      "'customUrlParams':[{'key':'fromGoogle','value':'true'},{'key':'bigspender','value':'1'}]," +
-                      "'collection':'docs','sort':[{field:'_relevance'}, {field:'brand', order:'Descending'}]," +
-                      "'refinements':[{'navigationName':'redsox','type':'Value','value':'suck'}]," +
-                      "'query':'boston','pageSize':10,'returnBinary':true}";
+    String expected = "{'skip':0,'area':'staging','clientKey':'aoeu'," + "'customUrlParams':[{'key':'fromGoogle','value':'true'},{'key':'bigspender','value':'1'}],"
+                      + "'collection':'docs','sort':[{field:'_relevance'}, {field:'brand', order:'Descending'}]," + "'refinements':[{'navigationName':'redsox','type':'Value','value':'suck'}],"
+                      + "'query':'boston','pageSize':10,'returnBinary':true}";
     assertQuery(expected, test);
   }
 
@@ -84,10 +76,8 @@ public class QueryTest {
     test.setSessionId("somesessionhash");
     test.setVisitorId("somevisitorhash");
 
-    String expected = "{'skip':0, 'area':'staging','clientKey':'aoeu'," +
-                      "'collection':'docs',"+
-                      "'sessionId': 'somesessionhash', 'visitorId':'somevisitorhash',"+
-                      "'query':'boston','pageSize':10,'returnBinary':true}";
+    String expected = "{'skip':0, 'area':'staging','clientKey':'aoeu'," + "'collection':'docs'," + "'sessionId': 'somesessionhash', 'visitorId':'somevisitorhash',"
+                      + "'query':'boston','pageSize':10,'returnBinary':true}";
     assertQuery(expected, test);
   }
 
@@ -131,12 +121,14 @@ public class QueryTest {
 
   @Test
   public void splitTestCategoryLong() {
-    String reallyLongString = "~category_leaf_expanded=Category Root~Athletics~Men's~Sneakers~category_leaf_id=580003~" + "color=BLUE~color=YELLOW~color=GREY~feature=Lace Up~feature=Light Weight~brand=Nike";
+    String reallyLongString =
+        "~category_leaf_expanded=Category Root~Athletics~Men's~Sneakers~category_leaf_id=580003~" + "color=BLUE~color=YELLOW~color=GREY~feature=Lace Up~feature=Light Weight~brand=Nike";
 
     String[] split = test.splitRefinements(reallyLongString);
 
     assertArrayEquals(new String[]{
-        "category_leaf_expanded=Category Root~Athletics~Men's~Sneakers", "category_leaf_id=580003", "color=BLUE", "color=YELLOW", "color=GREY", "feature=Lace Up", "feature=Light Weight", "brand=Nike"}, split);
+        "category_leaf_expanded=Category Root~Athletics~Men's~Sneakers", "category_leaf_id=580003", "color=BLUE", "color=YELLOW", "color=GREY", "feature=Lace Up", "feature=Light Weight",
+        "brand=Nike"}, split);
   }
 
   @Test
@@ -181,9 +173,7 @@ public class QueryTest {
   public void testQuoteInRefinement() throws Exception {
     test.setPageSize(100);
     test.addRefinementsByString("abc=ab'");
-    String expected = "{'skip':0,'clientKey':'aoeu'," +
-                      "'refinements':[{'navigationName':'abc','type':'Value','value':'ab\\''}]," +
-                      "'pageSize':100,'returnBinary':true}";
+    String expected = "{'skip':0,'clientKey':'aoeu'," + "'refinements':[{'navigationName':'abc','type':'Value','value':'ab\\''}]," + "'pageSize':100,'returnBinary':true}";
     assertQuery(expected, test);
   }
 
@@ -210,10 +200,8 @@ public class QueryTest {
   @Test
   public void testGenWithNoLanguage() throws Exception {
     setupGeneratedQuery();
-    String expected = "{'skip':0,'biasingProfile':'flange','clientKey':'aoeu'," +
-                      "'customUrlParams':[{'key':'fromGoogle','value':'true'},{'key':'bigspender','value':'1'}]," +
-                      "'refinements':[{'navigationName':'redsox','type':'Value','value':'suck'}]," +
-                      "'query':'boston','pageSize':10}";
+    String expected = "{'skip':0,'biasingProfile':'flange','clientKey':'aoeu'," + "'customUrlParams':[{'key':'fromGoogle','value':'true'},{'key':'bigspender','value':'1'}],"
+                      + "'refinements':[{'navigationName':'redsox','type':'Value','value':'suck'}]," + "'query':'boston','pageSize':10}";
     assertQuery(expected, test);
   }
 
@@ -229,10 +217,8 @@ public class QueryTest {
   public void testGenWithNullLanguage() throws Exception {
     setupGeneratedQuery();
     test.setLanguage(null);
-    String expected = "{'skip':0,'biasingProfile':'flange','clientKey':'aoeu'," +
-                      "'customUrlParams':[{'key':'fromGoogle','value':'true'},{'key':'bigspender','value':'1'}]," +
-                      "'refinements':[{'navigationName':'redsox','type':'Value','value':'suck'}]," +
-                      "'query':'boston','pageSize':10}";
+    String expected = "{'skip':0,'biasingProfile':'flange','clientKey':'aoeu'," + "'customUrlParams':[{'key':'fromGoogle','value':'true'},{'key':'bigspender','value':'1'}],"
+                      + "'refinements':[{'navigationName':'redsox','type':'Value','value':'suck'}]," + "'query':'boston','pageSize':10}";
     assertQuery(expected, test);
   }
 
@@ -240,12 +226,9 @@ public class QueryTest {
   public void testGenWithLanguage() throws Exception {
     setupGeneratedQuery();
     test.setLanguage("lang_en");
-    String expected = "{'skip':0,'biasingProfile':'flange','" +
-                      "clientKey':'aoeu','customUrlParams" +
-                      "':[{'key':'fromGoogle','value':'true'},{'key':'bigspender','value':'1'}]," +
-                      "'language':'lang_en'," +
-                      "'refinements':[{'navigationName':'redsox','type':'Value','value':'suck'}]," +
-                      "'query':'boston','pageSize':10}";
+    String expected =
+        "{'skip':0,'biasingProfile':'flange','" + "clientKey':'aoeu','customUrlParams" + "':[{'key':'fromGoogle','value':'true'},{'key':'bigspender','value':'1'}]," + "'language':'lang_en',"
+        + "'refinements':[{'navigationName':'redsox','type':'Value','value':'suck'}]," + "'query':'boston','pageSize':10}";
     assertQuery(expected, test);
   }
 
@@ -257,11 +240,8 @@ public class QueryTest {
     test.setArea("staging");
     test.addValueRefinement("redsox", "suck");
 
-    String expected = "{'skip':0,'area':'staging','clientKey':'aoeu'," +
-                      "'customUrlParams':[{'key':'fromGoogle','value':'true'},{'key':'bigspender','value':'1'}]," +
-                      "'collection':'docs'," +
-                      "'refinements':[{'navigationName':'redsox','type':'Value','value':'suck'}]," +
-                      "'query':'boston','pageSize':10,'returnBinary':true}";
+    String expected = "{'skip':0,'area':'staging','clientKey':'aoeu'," + "'customUrlParams':[{'key':'fromGoogle','value':'true'},{'key':'bigspender','value':'1'}]," + "'collection':'docs',"
+                      + "'refinements':[{'navigationName':'redsox','type':'Value','value':'suck'}]," + "'query':'boston','pageSize':10,'returnBinary':true}";
     assertQuery(expected, test);
   }
 
@@ -274,11 +254,8 @@ public class QueryTest {
     test.addValueRefinement("redsox", "suck");
     test.setPruneRefinements(false);
 
-    String expected = "{'skip':0,'area':'staging','clientKey':'aoeu','customUrlParams'" +
-                      ":[{'key':'fromGoogle','value':'true'},{'key':'bigspender','value':'1'}]," +
-                      "'collection':'docs'," +
-                      "'refinements':[{'navigationName':'redsox','type':'Value','value':'suck'}]," +
-                      "'pruneRefinements':false,'returnBinary':true,'query':'boston','pageSize':10}";
+    String expected = "{'skip':0,'area':'staging','clientKey':'aoeu','customUrlParams'" + ":[{'key':'fromGoogle','value':'true'},{'key':'bigspender','value':'1'}]," + "'collection':'docs',"
+                      + "'refinements':[{'navigationName':'redsox','type':'Value','value':'suck'}]," + "'pruneRefinements':false,'returnBinary':true,'query':'boston','pageSize':10}";
     assertQuery(expected, test);
   }
 
@@ -291,11 +268,8 @@ public class QueryTest {
     test.addValueRefinement("redsox", "suck");
     test.setPruneRefinements(true);
 
-    String expected = "{'skip':0,'area':'staging','clientKey':'aoeu','customUrlParams" +
-                      "':[{'key':'fromGoogle','value':'true'},{'key':'bigspender','value':'1'}]," +
-                      "'collection':'docs'," +
-                      "'refinements':[{'navigationName':'redsox','type':'Value','value':'suck'}]," +
-                      "'returnBinary':true,'query':'boston','pageSize':10}";
+    String expected = "{'skip':0,'area':'staging','clientKey':'aoeu','customUrlParams" + "':[{'key':'fromGoogle','value':'true'},{'key':'bigspender','value':'1'}]," + "'collection':'docs',"
+                      + "'refinements':[{'navigationName':'redsox','type':'Value','value':'suck'}]," + "'returnBinary':true,'query':'boston','pageSize':10}";
     assertQuery(expected, test);
   }
 
@@ -307,12 +281,9 @@ public class QueryTest {
     test.setArea("staging");
     test.addValueRefinement("redsox", "suck");
 
-    String expected = "{'skip':0,'area':'staging'," +
-                      "clientKey:'aoeu'," +
-                      "'customUrlParams':[{'key':'fromGoogle','value':'true'},{'key':'bigspender','value':'1'}],'" +
-                      "collection':'docs',query:'boston'," +
-                      "'refinements':[{'navigationName':'redsox','type':'Value','value':'suck'}]," +
-                      "'returnBinary':true,'pageSize':10}";
+    String expected =
+        "{'skip':0,'area':'staging'," + "clientKey:'aoeu'," + "'customUrlParams':[{'key':'fromGoogle','value':'true'},{'key':'bigspender','value':'1'}],'" + "collection':'docs',query:'boston',"
+        + "'refinements':[{'navigationName':'redsox','type':'Value','value':'suck'}]," + "'returnBinary':true,'pageSize':10}";
     assertQuery(expected, test);
   }
 }

@@ -36,10 +36,7 @@ public class MatchStrategy implements MatchStrategyInterface {
   @Override
   @JsonIgnore
   public void addRule(PartialMatchRuleInterface rule) {
-    rules.add(new PartialMatchRule().setTerms(rule.getTerms())
-                  .setTermsGreaterThan(rule.getTermsGreaterThan())
-                  .setMustMatch(rule.getMustMatch())
-                  .setPercentage(rule.getPercentage()));
+    rules.add(new PartialMatchRule().setTerms(rule.getTerms()).setTermsGreaterThan(rule.getTermsGreaterThan()).setMustMatch(rule.getMustMatch()).setPercentage(rule.getPercentage()));
   }
 
   public String getName() {

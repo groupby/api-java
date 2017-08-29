@@ -122,11 +122,8 @@ public abstract class AbstractBridge {
     }
 
     this.config = config;
-    requestConfig = RequestConfig.custom()
-        .setConnectTimeout(config.getConnectTimeout())
-        .setConnectionRequestTimeout(config.getConnectionRequestTimeout())
-        .setSocketTimeout(config.getSocketTimeout())
-        .build();
+    requestConfig =
+        RequestConfig.custom().setConnectTimeout(config.getConnectTimeout()).setConnectionRequestTimeout(config.getConnectionRequestTimeout()).setSocketTimeout(config.getSocketTimeout()).build();
 
     this.clientKey = clientKey;
     createClient(compressResponse);
@@ -145,9 +142,7 @@ public abstract class AbstractBridge {
     if (!compressResponse) {
       b.disableContentCompression();
     }
-    httpClient = b.setConnectionManager(cm)
-        .setDefaultRequestConfig(requestConfig)
-        .build();
+    httpClient = b.setConnectionManager(cm).setDefaultRequestConfig(requestConfig).build();
   }
 
   /**
@@ -224,12 +219,9 @@ public abstract class AbstractBridge {
 
   protected InputStream fireRequest(String url, Map<String, String> urlParams, String body, boolean returnBinary) throws IOException {
     HttpResponse response = postToBridge(url, urlParams, body);
-    InputStream data = response.getEntity()
-        .getContent();
-    if (response.getStatusLine()
-            .getStatusCode() != 200) {
-      String status = response.getStatusLine()
-          .toString();
+    InputStream data = response.getEntity().getContent();
+    if (response.getStatusLine().getStatusCode() != 200) {
+      String status = response.getStatusLine().toString();
       byte[] bytes = IOUtils.toByteArray(data);
       IOUtils.closeQuietly(data);
       handleErrorStatus(status, bytes, returnBinary);
@@ -306,15 +298,13 @@ public abstract class AbstractBridge {
     try {
       String errors = map(new ByteArrayInputStream(bytes), returnBinary).getErrors();
       if (StringUtils.isNotBlank(errors)) {
-        msg.append(", ")
-            .append(errors);
+        msg.append(", ").append(errors);
       }
     } catch (Exception e) {
       LOG.warning("unable to parse error from response.");
     } finally {
       if (StringUtils.isBlank(msg)) {
-        msg.append(BODY)
-            .append(StringUtils.toEncodedString(bytes, Charsets.UTF_8));
+        msg.append(BODY).append(StringUtils.toEncodedString(bytes, Charsets.UTF_8));
       }
     }
     throw new IOException(EXCEPTION_FROM_BRIDGE + status + msg.toString());
@@ -406,12 +396,8 @@ public abstract class AbstractBridge {
   public RefinementsResult refinements(RefinementsRequest request) throws IOException {
     makeBackwardsCompatible(request.getOriginalQuery());
     String json = getJson(request);
-    Boolean returnBinary = request.getOriginalQuery()
-                               .getReturnBinary() == null ? false : request.getOriginalQuery()
-                               .getReturnBinary();
-    InputStream data = fireRequest(
-        getBridgeRefinementsUrl(), request.getOriginalQuery()
-            .getQueryUrlParams(), json, returnBinary);
+    Boolean returnBinary = request.getOriginalQuery().getReturnBinary() == null ? false : request.getOriginalQuery().getReturnBinary();
+    InputStream data = fireRequest(getBridgeRefinementsUrl(), request.getOriginalQuery().getQueryUrlParams(), json, returnBinary);
     return mapRefinements(data, returnBinary);
   }
 

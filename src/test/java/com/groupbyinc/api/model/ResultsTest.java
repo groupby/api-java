@@ -17,8 +17,7 @@ public class ResultsTest {
     rv.setValue("Ö'=\"");
 
     assertNavigation(
-        "{'name':'A','refinements':[{'type':'Value'," + "'value':\"Ö'=\\\"\"}],'metadata':[],'or':false,'range':false}", new Navigation().setName("A")
-            .setRefinements(singletonList((Refinement) rv)));
+        "{'name':'A','refinements':[{'type':'Value'," + "'value':\"Ö'=\\\"\"}],'metadata':[],'or':false,'range':false}", new Navigation().setName("A").setRefinements(singletonList((Refinement) rv)));
   }
 
   private void assertNavigation(String pExpected, Navigation pNavigation) throws Exception {
@@ -31,9 +30,8 @@ public class ResultsTest {
     rr.setLow("10");
     rr.setHigh("100");
 
-    assertNavigation(
-        "{'name':'A','refinements':[{'type':'Range'," + "'high':'100','low':'10'}],'metadata':[],'or':false,'range':false}", new Navigation().setName("A")
-            .setRefinements(singletonList((Refinement) rr)));
+    assertNavigation("{'name':'A','refinements':[{'type':'Range'," + "'high':'100','low':'10'}],'metadata':[],'or':false,'range':false}",
+                     new Navigation().setName("A").setRefinements(singletonList((Refinement) rr)));
   }
 
   @Test
@@ -45,16 +43,10 @@ public class ResultsTest {
     rr.setLow("10");
     rr.setHigh("100");
 
-    assertNavigation(
-        "{'name':'A','refinements':[{'type':'Value'," +
-        "'value':\"Ö'=\\\"\"},{'type':'Range'," +
-        "'high':'100','low':'10'}],'metadata':[],'or':false,'range':false}", new Navigation().setName("A")
-            .setRefinements(asList((Refinement) rv, rr)));
+    assertNavigation("{'name':'A','refinements':[{'type':'Value'," + "'value':\"Ö'=\\\"\"},{'type':'Range'," + "'high':'100','low':'10'}],'metadata':[],'or':false,'range':false}",
+                     new Navigation().setName("A").setRefinements(asList((Refinement) rv, rr)));
 
-    assertNavigation(
-        "{'name':'A','refinements':[{'type':'Range'," +
-        "'high':'100','low':'10'},{'type':'Value'," +
-        "'value':\"Ö'=\\\"\"}],'metadata':[],'or':false,'range':false}", new Navigation().setName("A")
-            .setRefinements(asList((Refinement) rr, rv)));
+    assertNavigation("{'name':'A','refinements':[{'type':'Range'," + "'high':'100','low':'10'},{'type':'Value'," + "'value':\"Ö'=\\\"\"}],'metadata':[],'or':false,'range':false}",
+                     new Navigation().setName("A").setRefinements(asList((Refinement) rr, rv)));
   }
 }

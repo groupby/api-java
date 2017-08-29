@@ -81,8 +81,7 @@ public class UrlReplacementTest {
     assertEquals(pReplacementString.length, urlReplacements.size());
 
     for (int i = 0; i < urlReplacements.size(); i++) {
-      assertEquals(urlReplacements.get(i)
-                       .toString(), pReplacementString[pReplacementString.length - (i + 1)]);
+      assertEquals(urlReplacements.get(i).toString(), pReplacementString[pReplacementString.length - (i + 1)]);
     }
   }
 

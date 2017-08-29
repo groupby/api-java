@@ -14,11 +14,8 @@ public class RefinementsResultTest {
   public void testResponse() throws Exception {
     RefinementValue rv = new RefinementValue();
     rv.setValue("Ö");
-    RefinementsResult result = new RefinementsResult().setOriginalRequest(new RefinementsRequest().setNavigationName("theNav")
-                                                                              .setOriginalQuery(new Request().setQuery("abc")))
-        .setNavigation(new Navigation().setName("theNav")
-                           .setType(Navigation.Type.Value)
-                           .setRefinements(singletonList((Refinement) rv)));
+    RefinementsResult result = new RefinementsResult().setOriginalRequest(new RefinementsRequest().setNavigationName("theNav").setOriginalQuery(new Request().setQuery("abc")))
+        .setNavigation(new Navigation().setName("theNav").setType(Navigation.Type.Value).setRefinements(singletonList((Refinement) rv)));
 
     assertJsonEquals("{" //
                      + "    'navigation': {" //

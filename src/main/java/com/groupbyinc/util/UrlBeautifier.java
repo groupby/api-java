@@ -133,8 +133,7 @@ public class UrlBeautifier {
     Map<String, Navigation> navigations = query.getNavigations();
     for (Navigation n : navigations.values()) {
       Set<String> names = new HashSet<String>();
-      Iterator<Refinement> iterator = n.getRefinements()
-          .iterator();
+      Iterator<Refinement> iterator = n.getRefinements().iterator();
       while (iterator.hasNext()) {
         Refinement refinement = iterator.next();
         String name = n.getName() + refinement.toTildeString();
@@ -164,8 +163,7 @@ public class UrlBeautifier {
       }
       Navigation n = navigations.get(m.getName());
       if (n != null) {
-        Iterator<Refinement> ri = n.getRefinements()
-            .iterator();
+        Iterator<Refinement> ri = n.getRefinements().iterator();
         while (ri.hasNext()) {
           Refinement r = ri.next();
           switch (r.getType()) {
@@ -174,8 +172,7 @@ public class UrlBeautifier {
               RefinementValue rv = (RefinementValue) r;
               rv.setValue(applyReplacementRule(n, rv.getValue(), indexOffSet, replacements));
               String encodedRefValue = "/" + UrlEncoder.encode(rv.getValue());
-              indexOffSet += rv.getValue()
-                                 .length() + 1;
+              indexOffSet += rv.getValue().length() + 1;
               uri.setPath(uri.getPath() + encodedRefValue);
               ri.remove();
               break;
@@ -185,8 +182,7 @@ public class UrlBeautifier {
               break;
           }
         }
-        if (n.getRefinements()
-            .isEmpty()) {
+        if (n.getRefinements().isEmpty()) {
           navigations.remove(n.getName());
         }
       }
@@ -217,9 +213,7 @@ public class UrlBeautifier {
         if (n == null) {
           distinctRefinements.put(entry.getKey(), entry.getValue());
         } else {
-          n.getRefinements()
-              .addAll(entry.getValue()
-                          .getRefinements());
+          n.getRefinements().addAll(entry.getValue().getRefinements());
         }
       }
       String refinements = query.getRefinementString();
@@ -340,8 +334,7 @@ public class UrlBeautifier {
       throw new UrlBeautifier.UrlBeautificationException("Unable to parse url", e);
     }
     String urlQueryString = uri.getQuery();
-    if (StringUtils.isNotBlank(urlQueryString) && idPattern.matcher(urlQueryString)
-        .matches()) {
+    if (StringUtils.isNotBlank(urlQueryString) && idPattern.matcher(urlQueryString).matches()) {
       Matcher m = idPattern.matcher(urlQueryString);
       m.find();
       return createQuery().addValueRefinement(ID, m.group(1));
@@ -465,8 +458,7 @@ public class UrlBeautifier {
       throw new IllegalStateException("Vowels are not allowed to avoid Dictionary words appearing");
     }
     if (tokenToName.containsKey(token)) {
-      throw new IllegalStateException("This token: " + token + " is already mapped to: " + tokenToName.get(token)
-          .getName());
+      throw new IllegalStateException("This token: " + token + " is already mapped to: " + tokenToName.get(token).getName());
     }
     tokenToName.put(token, mapping);
     nameToToken.put(name, mapping);

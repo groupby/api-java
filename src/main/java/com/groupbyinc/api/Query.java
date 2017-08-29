@@ -166,17 +166,12 @@ public class Query {
         switch (r.getType()) {
           case Range: {
             RefinementRange rr = (RefinementRange) r;
-            refinements.add(new SelectedRefinementRange().setNavigationName(n.getName())
-                                .setLow(rr.getLow())
-                                .setHigh(rr.getHigh())
-                                .setExclude(rr.getExclude()));
+            refinements.add(new SelectedRefinementRange().setNavigationName(n.getName()).setLow(rr.getLow()).setHigh(rr.getHigh()).setExclude(rr.getExclude()));
             break;
           }
           case Value: {
             RefinementValue rv = (RefinementValue) r;
-            refinements.add(new SelectedRefinementValue().setNavigationName(n.getName())
-                                .setValue(rv.getValue())
-                                .setExclude(rv.getExclude()));
+            refinements.add(new SelectedRefinementValue().setNavigationName(n.getName()).setValue(rv.getValue()).setExclude(rv.getExclude()));
             break;
           }
           default:
@@ -188,8 +183,7 @@ public class Query {
   }
 
   private RestrictNavigation convertRestrictNavigation() {
-    return restrictNavigation == null ? null : new RestrictNavigation().setName(restrictNavigation.getName())
-        .setCount(restrictNavigation.getCount());
+    return restrictNavigation == null ? null : new RestrictNavigation().setName(restrictNavigation.getName()).setCount(restrictNavigation.getCount());
   }
 
   public boolean isWildcardSearchEnabled() {
@@ -234,9 +228,7 @@ public class Query {
   }
 
   private static com.groupbyinc.api.request.Bias convertBias(Bias bias) {
-    return new com.groupbyinc.api.request.Bias().setName(bias.getName())
-        .setContent(bias.getContent())
-        .setStrength(convertStrength(bias.getStrength()));
+    return new com.groupbyinc.api.request.Bias().setName(bias.getName()).setContent(bias.getContent()).setStrength(convertStrength(bias.getStrength()));
   }
 
   private static List<com.groupbyinc.api.request.NumericBoost> convertNumericBoosts(List<NumericBoost> numericBoosts) {
@@ -248,8 +240,7 @@ public class Query {
   }
 
   private static com.groupbyinc.api.request.NumericBoost convertNumericBoost(NumericBoost numericBoost) {
-    return new com.groupbyinc.api.request.NumericBoost().setName(numericBoost.getName())
-        .setStrength(numericBoost.getStrength()).setInverted(numericBoost.isInverted());
+    return new com.groupbyinc.api.request.NumericBoost().setName(numericBoost.getName()).setStrength(numericBoost.getStrength()).setInverted(numericBoost.isInverted());
   }
 
   private static com.groupbyinc.api.request.Bias.Strength convertStrength(Bias.Strength strength) {
@@ -440,9 +431,7 @@ public class Query {
       StringBuilder result = new StringBuilder();
       for (Navigation n : navigations.values()) {
         for (Refinement r : n.getRefinements()) {
-          result.append("~")
-              .append(n.getName())
-              .append(r.toTildeString());
+          result.append("~").append(n.getName()).append(r.toTildeString());
         }
       }
       if (result.length() > 0) {
@@ -462,10 +451,7 @@ public class Query {
     }
     StringBuilder result = new StringBuilder();
     for (CustomUrlParam customUrlParam : customUrlParams) {
-      result.append("~")
-          .append(customUrlParam.getKey())
-          .append("=")
-          .append(customUrlParam.getValue());
+      result.append("~").append(customUrlParam.getKey()).append("=").append(customUrlParam.getValue());
     }
     return result.toString();
   }
@@ -551,8 +537,7 @@ public class Query {
   }
 
   protected String[] splitRefinements(String refinementString) {
-    return StringUtils.isBlank(refinementString) ? EMPTY_REFINEMENTS : REFINEMENTS_SPLITTER_PATTERN.tokenizer(refinementString)
-        .split();
+    return StringUtils.isBlank(refinementString) ? EMPTY_REFINEMENTS : REFINEMENTS_SPLITTER_PATTERN.tokenizer(refinementString).split();
   }
 
   /**
@@ -589,8 +574,7 @@ public class Query {
       navigation.setRange(refinement instanceof RefinementRange);
       navigations.put(navigationName, navigation);
     }
-    navigation.getRefinements()
-        .add(refinement);
+    navigation.getRefinements().add(refinement);
     return this;
   }
 
@@ -631,8 +615,7 @@ public class Query {
    * @return
    */
   public Query addCustomUrlParam(String key, String value) {
-    customUrlParams.add(new CustomUrlParam().setKey(key)
-                            .setValue(value));
+    customUrlParams.add(new CustomUrlParam().setKey(key).setValue(value));
     return this;
   }
 
@@ -656,8 +639,7 @@ public class Query {
       if (StringUtils.isNotBlank(value)) {
         String[] keyValue = value.split("=");
         if (keyValue.length == 2 && StringUtils.isNotBlank(keyValue[0]) && StringUtils.isNotBlank(keyValue[1])) {
-          customUrlParams.add(new CustomUrlParam().setKey(keyValue[0])
-                                  .setValue(keyValue[1]));
+          customUrlParams.add(new CustomUrlParam().setKey(keyValue[0]).setValue(keyValue[1]));
         }
       }
     }
@@ -679,8 +661,8 @@ public class Query {
    * If this parameter is omitted, the search service will return only the `title` field. 
    * The `title` field is always returned.
    * You can exclude fields from being returned using `-`. Exclusion will take precedence over inclusion.
-   * 
-   * 
+   *
+   *
    *
    * JSON Reference:
    *
@@ -773,9 +755,7 @@ public class Query {
    * @return
    */
   public Query addRangeRefinement(String navigationName, String low, String high, boolean exclude) {
-    return addRefinement(navigationName, new RefinementRange().setLow(low)
-        .setHigh(high)
-        .setExclude(exclude));
+    return addRefinement(navigationName, new RefinementRange().setLow(low).setHigh(high).setExclude(exclude));
   }
 
   /**
@@ -809,8 +789,7 @@ public class Query {
    * @return
    */
   public Query addValueRefinement(String navigationName, String value, boolean exclude) {
-    return addRefinement(navigationName, new RefinementValue().setValue(value)
-        .setExclude(exclude));
+    return addRefinement(navigationName, new RefinementValue().setValue(value).setExclude(exclude));
   }
 
   /**
@@ -1004,19 +983,19 @@ public class Query {
    * | Parameter | Default State |
    * |----|----|
    * |`pruneRefinements` |  `true` |
-   * 
+   *
    * By default, the engine will only return refinements that make a difference in the returned results. This is called <b>pruning</b>.
-   * 
+   *
    * For example, let's say you search for "Nike Red Shoes", and 15 results come back. If we have refinements on Brand and Color, and they show:
-   * 
+   *
    * - `brand: Nike (15)`
    * - `color: red (15)`
-   * 
+   *
    * ... the engine will <i>not</i> show those refinements by default, as they make no difference.
-   * 
+   *
    * However, if you set `pruneRefinements` to `false`, the engine will return navigations even if they make no difference in the returned set of results.
-   * 
-   * 
+   *
+   *
    * JSON Reference:
    *
    *     { pruneRefinements: false }
@@ -1106,8 +1085,7 @@ public class Query {
    * @return this query
    */
   public Query setRestrictNavigation(String name, int count) {
-    this.restrictNavigation = new RestrictNavigation().setName(name)
-        .setCount(count);
+    this.restrictNavigation = new RestrictNavigation().setName(name).setCount(count);
     return this;
   }
 
@@ -1223,16 +1201,16 @@ public class Query {
   /**
    * <code>
    * An array that specifies which navigations should be returned. 
-   * 
+   *
    * If set, this overrides the navigations defined in Command Center and only returns the navigations specified.
    * If this parameter is blank the Dynamic Navigations from Command Center are returned.
-   * 
+   *
    * The values here must be defined via Command Center or Bulk Upload. If a navigation is specified that has not been defined,
    * it will be ignored. 
    *
    * This means, if this parameter uses a `dummy` navigation that is not real, this will both override any Command Center definitions, and will return nothing, as the navigation does not exist.
-   * 
-   * 
+   *
+   *
    * The field name supports two types of wildcard characters: '?' and '\*'.
    * The '?' wildcard will match one character. For example "????_price" will match "sale_price",
    * but not "sales_price". The '\*' wildcard will match any number of characters. For example, a
@@ -1415,10 +1393,7 @@ public class Query {
    * @return
    */
   public Query addBias(String name, String content, Bias.Strength strength) {
-    biasing.getBiases()
-        .add(new Bias().setName(name)
-                 .setContent(content)
-                 .setStrength(strength));
+    biasing.getBiases().add(new Bias().setName(name).setContent(content).setStrength(strength));
     return this;
   }
 

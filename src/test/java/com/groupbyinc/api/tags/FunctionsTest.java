@@ -41,14 +41,10 @@ public class FunctionsTest {
   @Test
   public void testRefinementSelected() {
     Results r = new Results();
-    r.setSelectedNavigation(asList(new Navigation().setName("a")
-                                       .setOr(true)
-                                       .setRefinements(asList(new RefinementValue().setValue("1"), new RefinementValue().setValue("2"))), new Navigation().setName("b")
-                                       .setRange(true)
-                                       .setRefinements(singletonList((Refinement) new RefinementRange().setLow("0")
-                                           .setHigh("1"))), new Navigation().setName("c")
-                                       .setOr(false)
-                                       .setRefinements(asList(new RefinementValue().setValue("1"), new RefinementValue().setValue("2")))));
+    r.setSelectedNavigation(asList(
+        new Navigation().setName("a").setOr(true).setRefinements(asList(new RefinementValue().setValue("1"), new RefinementValue().setValue("2"))),
+        new Navigation().setName("b").setRange(true).setRefinements(singletonList((Refinement) new RefinementRange().setLow("0").setHigh("1"))),
+        new Navigation().setName("c").setOr(false).setRefinements(asList(new RefinementValue().setValue("1"), new RefinementValue().setValue("2")))));
 
     assertFalse(Functions.isRefinementSelected(r, null, "1"));
     assertFalse(Functions.isRefinementSelected(r, "", "1"));

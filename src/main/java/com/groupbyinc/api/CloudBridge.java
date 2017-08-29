@@ -87,8 +87,7 @@ public class CloudBridge extends AbstractBridge {
 
   private boolean containsSkipCachingHeader() {
     for (Header header : getHeaders()) {
-      if (header.getName()
-          .equalsIgnoreCase("Skip-Caching")) {
+      if (header.getName().equalsIgnoreCase("Skip-Caching")) {
         return true;
       }
     }
@@ -99,8 +98,7 @@ public class CloudBridge extends AbstractBridge {
     Iterator<Header> iterator = getHeaders().iterator();
     while (iterator.hasNext()) {
       Header header = iterator.next();
-      if (header.getName()
-          .equalsIgnoreCase("Skip-Caching")) {
+      if (header.getName().equalsIgnoreCase("Skip-Caching")) {
         iterator.remove();
       }
     }

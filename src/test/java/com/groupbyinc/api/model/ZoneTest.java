@@ -25,29 +25,18 @@ public class ZoneTest {
   public void testRecordZone() throws Exception {
     try {
       List<RefinementMatch> refinementMatches = new ArrayList<RefinementMatch>();
-      refinementMatches.add(new RefinementMatch().setName("a")
-                                .setValues(asList(new RefinementMatch.Value().setValue("c")
-                                                      .setCount(2), new RefinementMatch.Value().setValue("b")
-                                                      .setCount(1))));
+      refinementMatches.add(new RefinementMatch().setName("a").setValues(asList(new RefinementMatch.Value().setValue("c").setCount(2), new RefinementMatch.Value().setValue("b").setCount(1))));
 
-      Record record = new Record().setId("abc")
-          .setUrl("abc")
-          .setTitle("abc")
-          .setSnippet("abc")
-          .setRefinementMatches(refinementMatches);
+      Record record = new Record().setId("abc").setUrl("abc").setTitle("abc").setSnippet("abc").setRefinementMatches(refinementMatches);
 
-      RecordZone zone = new RecordZone().setId("abc")
-          .setName("abc")
-          .setQuery("abc")
-          .setRecords(singletonList(record));
+      RecordZone zone = new RecordZone().setId("abc").setName("abc").setQuery("abc").setRecords(singletonList(record));
 
       String actual = writeValueAsString(zone, true);
       assertCountMatches(1, TYPE_RECORD, actual, "Record");
 
       Map<String, Zone> zones = new HashMap<String, Zone>();
       zones.put("abc", zone);
-      Template template = new Template().setName("abc")
-          .setZones(zones);
+      Template template = new Template().setName("abc").setZones(zones);
       actual = writeValueAsString(template, true);
       assertCountMatches(1, TYPE_RECORD, actual, "Record");
 
@@ -60,8 +49,7 @@ public class ZoneTest {
   }
 
   private void assertCountMatches(int expectedCount, String search, String actual, String type) throws Exception {
-    Matcher m = Pattern.compile(search)
-        .matcher(actual);
+    Matcher m = Pattern.compile(search).matcher(actual);
 
     int count = 0;
     while (m.find()) {

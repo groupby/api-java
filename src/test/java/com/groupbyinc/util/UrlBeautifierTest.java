@@ -25,8 +25,7 @@ public class UrlBeautifierTest {
   public void before() {
     UrlBeautifier.INJECTOR.set(new HashMap<String, UrlBeautifier>());
     UrlBeautifier.createUrlBeautifier("default");
-    test = UrlBeautifier.getUrlBeautifiers()
-        .get("default");
+    test = UrlBeautifier.getUrlBeautifiers().get("default");
     test.clearSavedFields();
   }
 
@@ -49,11 +48,9 @@ public class UrlBeautifierTest {
   @Test
   public void testMultipleBeautifiers() throws Exception {
     UrlBeautifier.createUrlBeautifier("default2");
-    UrlBeautifier test2 = UrlBeautifier.getUrlBeautifiers()
-        .get("default2");
+    UrlBeautifier test2 = UrlBeautifier.getUrlBeautifiers().get("default2");
     test.addRefinementMapping('t', "test");
-    Map<String, Navigation> navigations = new Query().addValueRefinement("test", "value")
-        .getNavigations();
+    Map<String, Navigation> navigations = new Query().addValueRefinement("test", "value").getNavigations();
     assertEquals("/value/t", test.toUrl(null, navigations));
     assertEquals("?refinements=%7Etest%3Dvalue", test2.toUrl(null, navigations));
   }
@@ -68,20 +65,14 @@ public class UrlBeautifierTest {
   @Test
   public void testRefinementsUrl() throws Exception {
     test.addRefinementMapping('t', "test");
-    String url = test.toUrl(
-        null, new Query().addValueRefinement("test", "value")
-            .getNavigations());
+    String url = test.toUrl(null, new Query().addValueRefinement("test", "value").getNavigations());
     assertEquals("/value/t", url);
   }
 
   @Test
   public void testMultipleRefinements() throws Exception {
     setUpTestHeightAndCategoryRefinements();
-    String url = test.toUrl(
-        "", new Query().addValueRefinement("test", "value")
-            .addValueRefinement("height", "20in")
-            .addValueRefinement("category", "computer accessories")
-            .getNavigations());
+    String url = test.toUrl("", new Query().addValueRefinement("test", "value").addValueRefinement("height", "20in").addValueRefinement("category", "computer accessories").getNavigations());
     assertEquals("/value/20in/computer+accessories/thc", url);
   }
 
@@ -95,9 +86,7 @@ public class UrlBeautifierTest {
   public void testFullSearchUrl() throws UrlBeautifier.UrlBeautificationException {
     test.setSearchMapping('q');
     test.addRefinementMapping('t', "test");
-    String url = test.toUrl(
-        "this is a test", new Query().addValueRefinement("test", "value")
-            .getNavigations());
+    String url = test.toUrl("this is a test", new Query().addValueRefinement("test", "value").getNavigations());
     assertEquals("/this+is+a+test/value/qt", url);
   }
 
@@ -114,9 +103,7 @@ public class UrlBeautifierTest {
     test.setAppend("/index.html");
     Query query = test.fromUrl("http://example.com/aoeu/laptop/this+is+a+test/qd/");
     List<Navigation> navigations = toList(query.getNavigations());
-    assertEquals("this is a test", ((RefinementValue) navigations.get(0)
-        .getRefinements()
-        .get(0)).getValue());
+    assertEquals("this is a test", ((RefinementValue) navigations.get(0).getRefinements().get(0)).getValue());
   }
 
   private List<Navigation> toList(Map<String, Navigation> map) {
@@ -148,16 +135,10 @@ public class UrlBeautifierTest {
   @Test
   public void testRange() throws Exception {
     test.addRefinementMapping('t', "test");
-    assertEquals("/bob/t?refinements=%7Eprice%3A10..20", test.toUrl(
-        null, new Query().addValueRefinement("test", "bob")
-            .addRangeRefinement("price", "10", "20")
-            .getNavigations()));
+    assertEquals("/bob/t?refinements=%7Eprice%3A10..20", test.toUrl(null, new Query().addValueRefinement("test", "bob").addRangeRefinement("price", "10", "20").getNavigations()));
     test.addRefinementMapping('p', "price");
     try {
-      assertEquals("/bob/t?refinements=%7Eprice%3A10..20", test.toUrl(
-          null, new Query().addValueRefinement("test", "bob")
-              .addRangeRefinement("price", "10", "20")
-              .getNavigations()));
+      assertEquals("/bob/t?refinements=%7Eprice%3A10..20", test.toUrl(null, new Query().addValueRefinement("test", "bob").addRangeRefinement("price", "10", "20").getNavigations()));
       fail("Should throw exception if trying to map range");
     } catch (UrlBeautifier.UrlBeautificationException e) {
       //expected
@@ -182,11 +163,8 @@ public class UrlBeautifierTest {
     Query query = test.fromUrl(url);
 
     List<Navigation> navigations = toList(query.getNavigations());
-    assertEquals("test", navigations.get(0)
-        .getName());
-    assertEquals("value", ((RefinementValue) navigations.get(0)
-        .getRefinements()
-        .get(0)).getValue());
+    assertEquals("test", navigations.get(0).getName());
+    assertEquals("value", ((RefinementValue) navigations.get(0).getRefinements().get(0)).getValue());
     assertEquals("this is a test", query.getQuery());
   }
 
@@ -228,11 +206,7 @@ public class UrlBeautifierTest {
   public void testAppend() throws Exception {
     test.setAppend(".html");
     setUpTestHeightAndCategoryRefinements();
-    String url = test.toUrl(
-        "", new Query().addValueRefinement("test", "value")
-            .addValueRefinement("height", "20in")
-            .addValueRefinement("category", "computer accessories")
-            .getNavigations());
+    String url = test.toUrl("", new Query().addValueRefinement("test", "value").addValueRefinement("height", "20in").addValueRefinement("category", "computer accessories").getNavigations());
     assertEquals("/value/20in/computer+accessories/thc.html", url);
   }
 
@@ -240,11 +214,7 @@ public class UrlBeautifierTest {
   public void testAppendWithSlash() throws Exception {
     test.setAppend("/index.html");
     setUpTestHeightAndCategoryRefinements();
-    String url = test.toUrl(
-        "", new Query().addValueRefinement("test", "value")
-            .addValueRefinement("height", "20in")
-            .addValueRefinement("category", "computer accessories")
-            .getNavigations());
+    String url = test.toUrl("", new Query().addValueRefinement("test", "value").addValueRefinement("height", "20in").addValueRefinement("category", "computer accessories").getNavigations());
 
     assertEquals("/value/20in/computer+accessories/thc/index.html", url);
   }
@@ -262,11 +232,9 @@ public class UrlBeautifierTest {
     assertNavigation("height", "=20in", navigations.get(1));
   }
 
-    private void assertNavigation(String expectedNavigationName, String expectedValue, Navigation navigation) {
+  private void assertNavigation(String expectedNavigationName, String expectedValue, Navigation navigation) {
     assertEquals(expectedNavigationName, navigation.getName());
-    assertEquals(expectedValue, navigation.getRefinements()
-        .get(0)
-        .toTildeString());
+    assertEquals(expectedValue, navigation.getRefinements().get(0).toTildeString());
   }
 
   @Test
@@ -350,9 +318,7 @@ public class UrlBeautifierTest {
   @Test
   public void testRefinementWithSlash() throws Exception {
     test.addRefinementMapping('t', "test");
-    assertEquals("/photo%252Fcommodity/t", test.toUrl(
-        null, new Query().addValueRefinement("test", "photo/commodity")
-            .getNavigations()));
+    assertEquals("/photo%252Fcommodity/t", test.toUrl(null, new Query().addValueRefinement("test", "photo/commodity").getNavigations()));
   }
 
   @Test
@@ -371,9 +337,7 @@ public class UrlBeautifierTest {
 
     List<Navigation> navigations = toList(query.getNavigations());
     for (int i = 0; i < refinements.length; i++) {
-      assertEquals(refinements[i], ((RefinementValue) navigations.get(i)
-          .getRefinements()
-          .get(0)).getValue());
+      assertEquals(refinements[i], ((RefinementValue) navigations.get(i).getRefinements().get(0)).getValue());
     }
   }
 
@@ -405,9 +369,7 @@ public class UrlBeautifierTest {
     List<Navigation> actualNavigations = toList(query.getNavigations());
     for (int i = 0; i < expectedRefinementsValues.length; i++) {
       String refinement = expectedRefinementsValues[i];
-      assertEquals(refinement, ((RefinementValue) actualNavigations.get(i)
-          .getRefinements()
-          .get(0)).getValue());
+      assertEquals(refinement, ((RefinementValue) actualNavigations.get(i).getRefinements().get(0)).getValue());
     }
   }
 
@@ -437,8 +399,7 @@ public class UrlBeautifierTest {
     test.addReplacementRule('b', 'B');
     String searchString = "123black&decker";
     String expected = "/Black+Decker/q";
-    assertEquals(expected, test.toUrl(searchString, (Map<String, Navigation>) null)
-        .substring(0, expected.length()));
+    assertEquals(expected, test.toUrl(searchString, (Map<String, Navigation>) null).substring(0, expected.length()));
     assertToAndFromUrl(searchString, null);
   }
 
@@ -607,10 +568,7 @@ public class UrlBeautifierTest {
     test.addReplacementRule('/', '-');
     test.addReplacementRule('&', null);
     String searchString = "test&query";
-    Map<String, Navigation> navigations = new Query().addValueRefinement("test", "value")
-        .addValueRefinement("height", "20/in")
-        .addValueRefinement("category", "computer accessories")
-        .getNavigations();
+    Map<String, Navigation> navigations = new Query().addValueRefinement("test", "value").addValueRefinement("height", "20/in").addValueRefinement("category", "computer accessories").getNavigations();
     String url = test.toUrl(searchString, navigations);
     assertEquals("/value/20-in/computer+accessories/testquery/thcq?z=9-%2F-i38-%26", url);
     assertToAndFromUrl(searchString, navigations, "value", "20/in", "computer accessories");
@@ -623,10 +581,7 @@ public class UrlBeautifierTest {
     test.addReplacementRule('-', ' ');
     test.addReplacementRule('&', null);
     String searchString = "test&query";
-    Map<String, Navigation> navigations = new Query().addValueRefinement("test", "value")
-        .addValueRefinement("height", "20-in")
-        .addValueRefinement("category", "computer accessories")
-        .getNavigations();
+    Map<String, Navigation> navigations = new Query().addValueRefinement("test", "value").addValueRefinement("height", "20-in").addValueRefinement("category", "computer accessories").getNavigations();
     String url = test.toUrl(searchString, navigations);
     assertEquals("/value/20+in/computer+accessories/testquery/thcq?z=9---i38-%26", url);
     assertToAndFromUrl(searchString, navigations, "value", "20-in", "computer accessories");
@@ -637,10 +592,8 @@ public class UrlBeautifierTest {
     setUpTestHeightCategoryAndSearch();
     test.addReplacementRule('/', ' ');
     test.addReplacementRule('&', ' ', UrlBeautifier.SEARCH_NAVIGATION_NAME);
-    Map<String, Navigation> navigations = new Query().addValueRefinement("test", "val&ue")
-        .addValueRefinement("height", "20/in")
-        .addValueRefinement("category", "computer accessories")
-        .getNavigations();
+    Map<String, Navigation> navigations =
+        new Query().addValueRefinement("test", "val&ue").addValueRefinement("height", "20/in").addValueRefinement("category", "computer accessories").getNavigations();
     assertToAndFromUrl("test&query", navigations, "val&ue", "20/in", "computer accessories");
   }
 
@@ -659,10 +612,7 @@ public class UrlBeautifierTest {
     test.addReplacementRule('-', ' ');
     test.addReplacementRule('&', null);
     String searchString = "test&query";
-    Map<String, Navigation> navigations = new Query().addValueRefinement("test", "value")
-        .addValueRefinement("height", "20-in")
-        .addValueRefinement("category", "computer accessories")
-        .getNavigations();
+    Map<String, Navigation> navigations = new Query().addValueRefinement("test", "value").addValueRefinement("height", "20-in").addValueRefinement("category", "computer accessories").getNavigations();
     String url = test.toUrl(searchString, navigations);
     assertEquals("/20+in/computer+accessories/testquery/hcq?z=3---i32-%26&refinements=%7Etest%3Dvalue", url);
     assertToAndFromUrl(searchString, navigations, "20-in", "computer accessories", "value");
@@ -674,10 +624,8 @@ public class UrlBeautifierTest {
     test.setAppend("/index.html");
     test.addReplacementRule('&', ' ', UrlBeautifier.SEARCH_NAVIGATION_NAME);
     String searchString = "test&query";
-    Map<String, Navigation> navigations = new Query().addValueRefinement("test", "val&ue")
-        .addValueRefinement("height", "20-in")
-        .addValueRefinement("category", "computer accessories")
-        .getNavigations();
+    Map<String, Navigation> navigations =
+        new Query().addValueRefinement("test", "val&ue").addValueRefinement("height", "20-in").addValueRefinement("category", "computer accessories").getNavigations();
     String url = test.toUrl(searchString, navigations);
     String expected = "/test+query/val%2526ue";
     assertEquals(expected, url.substring(0, expected.length()));
@@ -692,10 +640,8 @@ public class UrlBeautifierTest {
     test.addReplacementRule('i', 'm', "height");
     test.addReplacementRule('e', 'a', "category");
     String searchString = "test&query";
-    Map<String, Navigation> navigations = new Query().addValueRefinement("test", "val&ue")
-        .addValueRefinement("height", "20-in")
-        .addValueRefinement("category", "computer accessories")
-        .getNavigations();
+    Map<String, Navigation> navigations =
+        new Query().addValueRefinement("test", "val&ue").addValueRefinement("height", "20-in").addValueRefinement("category", "computer accessories").getNavigations();
     String url = test.toUrl(searchString, navigations);
     String expected = "/test+query/val%2526ue/20-mn/computar+accassorias";
     assertEquals(expected, url.substring(0, expected.length()));
@@ -708,10 +654,8 @@ public class UrlBeautifierTest {
     test.setAppend("/index.html");
     test.addReplacementRule('e', '/');
     test.addReplacementRule('a', '\\');
-    Map<String, Navigation> navigations = new Query().addValueRefinement("test", "val&ue")
-        .addValueRefinement("height", "20-in")
-        .addValueRefinement("category", "computer accessories")
-        .getNavigations();
+    Map<String, Navigation> navigations =
+        new Query().addValueRefinement("test", "val&ue").addValueRefinement("height", "20-in").addValueRefinement("category", "computer accessories").getNavigations();
     assertToAndFromUrl("test&query", navigations, "val&ue", "20-in", "computer accessories");
   }
 
@@ -720,10 +664,8 @@ public class UrlBeautifierTest {
     setUpTestHeightCategoryAndSearch();
     test.setAppend("/index.html");
     test.addReplacementRule('e', '%');
-    Map<String, Navigation> navigations = new Query().addValueRefinement("test", "val&ue")
-        .addValueRefinement("height", "20-in")
-        .addValueRefinement("category", "computer accessories")
-        .getNavigations();
+    Map<String, Navigation> navigations =
+        new Query().addValueRefinement("test", "val&ue").addValueRefinement("height", "20-in").addValueRefinement("category", "computer accessories").getNavigations();
     assertToAndFromUrl("test&qu%ery", navigations, "val&ue", "20-in", "computer accessories");
   }
 
@@ -732,10 +674,8 @@ public class UrlBeautifierTest {
     setUpTestHeightCategoryAndSearch();
     test.setAppend("/index.html");
     test.addReplacementRule('.', '%');
-    Map<String, Navigation> navigations = new Query().addValueRefinement("test", "val&ue")
-        .addValueRefinement("height", "20-in")
-        .addValueRefinement("category", "computer accessories")
-        .getNavigations();
+    Map<String, Navigation> navigations =
+        new Query().addValueRefinement("test", "val&ue").addValueRefinement("height", "20-in").addValueRefinement("category", "computer accessories").getNavigations();
     assertToAndFromUrl("test&qu%ery", navigations, "val&ue", "20-in", "computer accessories");
   }
 
@@ -744,10 +684,8 @@ public class UrlBeautifierTest {
     setUpTestHeightCategoryAndSearch();
     test.setAppend("/index.html");
     test.addReplacementRule('e', '.');
-    Map<String, Navigation> navigations = new Query().addValueRefinement("test", "val&ue")
-        .addValueRefinement("height", "20-in")
-        .addValueRefinement("category", "computer accessories")
-        .getNavigations();
+    Map<String, Navigation> navigations =
+        new Query().addValueRefinement("test", "val&ue").addValueRefinement("height", "20-in").addValueRefinement("category", "computer accessories").getNavigations();
     assertToAndFromUrl("test&qu%ery", navigations, "val&ue", "20-in", "computer accessories");
   }
 
@@ -756,10 +694,8 @@ public class UrlBeautifierTest {
     setUpTestHeightCategoryAndSearch();
     test.setAppend("/index.html");
     test.addReplacementRule('e', 'e');
-    Map<String, Navigation> navigations = new Query().addValueRefinement("test", "val&ue")
-        .addValueRefinement("height", "20-in")
-        .addValueRefinement("category", "computer accessories")
-        .getNavigations();
+    Map<String, Navigation> navigations =
+        new Query().addValueRefinement("test", "val&ue").addValueRefinement("height", "20-in").addValueRefinement("category", "computer accessories").getNavigations();
     assertToAndFromUrl("test&qu%ery", navigations, "val&ue", "20-in", "computer accessories");
   }
 
@@ -768,10 +704,7 @@ public class UrlBeautifierTest {
     setUpTestHeightCategoryAndSearch();
     test.setAppend("/index.html");
     test.addReplacementRule('e', 'e');
-    Map<String, Navigation> navigations = new Query().addValueRefinement("test", "")
-        .addValueRefinement("height", "20-in")
-        .addValueRefinement("category", "computer accessories")
-        .getNavigations();
+    Map<String, Navigation> navigations = new Query().addValueRefinement("test", "").addValueRefinement("height", "20-in").addValueRefinement("category", "computer accessories").getNavigations();
     assertToAndFromUrl(null, navigations, "", "20-in", "computer accessories");
   }
 }

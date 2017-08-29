@@ -48,6 +48,4 @@ public class PartialMatchRule implements PartialMatchRuleInterface {
     this.percentage = percentage;
     return this;
   }
-
-
 }

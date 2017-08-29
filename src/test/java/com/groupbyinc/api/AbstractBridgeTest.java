@@ -28,16 +28,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class AbstractBridgeTest {
 
   protected String clientKey = "clientKey";
 
-  private PseudoServer server ;
+  private PseudoServer server;
 
   @Before
-  public void setUp(){
+  public void setUp() {
     server = new PseudoServer();
   }
 
@@ -45,7 +47,6 @@ public class AbstractBridgeTest {
   public void tearDown() {
     server.shutDown();
   }
-
 
   @Test
   public void testBridgeWithRequest() throws IOException {
@@ -58,7 +59,8 @@ public class AbstractBridgeTest {
         return new WebResource("{}");
       }
     });
-    AbstractBridge bridge = new AbstractBridge(clientKey, bridgeUrl, true) {    };
+    AbstractBridge bridge = new AbstractBridge(clientKey, bridgeUrl, true) {
+    };
     Query query = new Query();
     query.setReturnBinary(false);
     query.addValueRefinement("name", "value", true);
@@ -86,7 +88,8 @@ public class AbstractBridgeTest {
         return new WebResource("{}");
       }
     });
-    AbstractBridge bridge = new AbstractBridge(clientKey, bridgeUrl, true) {    };
+    AbstractBridge bridge = new AbstractBridge(clientKey, bridgeUrl, true) {
+    };
     Query query = new Query();
     query.setReturnBinary(false);
     query.addValueRefinement("name", "value", true);
@@ -136,31 +139,26 @@ public class AbstractBridgeTest {
     httpClientField.setAccessible(true);
 
     CloseableHttpClient httpClient = (CloseableHttpClient) httpClientField.get(bridge);
-    Field execChainField = httpClient.getClass()
-        .getDeclaredField("execChain");
+    Field execChainField = httpClient.getClass().getDeclaredField("execChain");
     execChainField.setAccessible(true);
 
     ClientExecChain execChain = (ClientExecChain) execChainField.get(httpClient);
-    Field requestExecutorField = execChain.getClass()
-        .getDeclaredField("requestExecutor");
+    Field requestExecutorField = execChain.getClass().getDeclaredField("requestExecutor");
     requestExecutorField.setAccessible(true);
 
     RetryExec executor = (RetryExec) requestExecutorField.get(execChain);
-    requestExecutorField = executor.getClass()
-        .getDeclaredField("requestExecutor");
+    requestExecutorField = executor.getClass().getDeclaredField("requestExecutor");
     requestExecutorField.setAccessible(true);
 
     ClientExecChain clientExecChain = (ClientExecChain) requestExecutorField.get(executor);
-    Field httpProcessorField = clientExecChain.getClass()
-        .getDeclaredField("httpProcessor");
+    Field httpProcessorField = clientExecChain.getClass().getDeclaredField("httpProcessor");
     httpProcessorField.setAccessible(true);
 
     return (ImmutableHttpProcessor) httpProcessorField.get(clientExecChain);
   }
 
   private HttpRequestInterceptor[] getHttpRequestInterceptors(ImmutableHttpProcessor httpProcessor) throws NoSuchFieldException, IllegalAccessException {
-    Field requestInterceptorsField = httpProcessor.getClass()
-        .getDeclaredField("requestInterceptors");
+    Field requestInterceptorsField = httpProcessor.getClass().getDeclaredField("requestInterceptors");
     requestInterceptorsField.setAccessible(true);
     return (HttpRequestInterceptor[]) requestInterceptorsField.get(httpProcessor);
   }
@@ -176,8 +174,7 @@ public class AbstractBridgeTest {
   }
 
   private HttpResponseInterceptor[] getHttpResponseInterceptors(ImmutableHttpProcessor httpProcessor) throws NoSuchFieldException, IllegalAccessException {
-    Field responseInterceptorsField = httpProcessor.getClass()
-        .getDeclaredField("responseInterceptors");
+    Field responseInterceptorsField = httpProcessor.getClass().getDeclaredField("responseInterceptors");
     responseInterceptorsField.setAccessible(true);
     return (HttpResponseInterceptor[]) responseInterceptorsField.get(httpProcessor);
   }
@@ -245,8 +242,7 @@ public class AbstractBridgeTest {
     String bridgeUrl = "https://bridgeUrl:5000";
     AbstractBridge bridge = new AbstractBridge(clientKey, bridgeUrl, true) {
     };
-    assertEquals(expectedUri, bridge.generateURI(bridge.getBridgeUrl(), params, tries)
-        .toASCIIString());
+    assertEquals(expectedUri, bridge.generateURI(bridge.getBridgeUrl(), params, tries).toASCIIString());
   }
 
   @Test
@@ -267,18 +263,14 @@ public class AbstractBridgeTest {
     try {
       bridge.handleErrorStatus(status, content.getBytes(), false);
     } catch (IOException e) {
-      assertEquals("Exception from bridge: status\n" +
-          "body:\n" +
-          "non-json error message", e.getMessage());
+      assertEquals("Exception from bridge: status\n" + "body:\n" + "non-json error message", e.getMessage());
     }
 
     byte[] bytes = new byte[]{0x38, 0x29, 0x49};
     try {
       bridge.handleErrorStatus(status, bytes, false);
     } catch (IOException e) {
-      assertEquals("Exception from bridge: status\n" +
-          "body:\n" +
-          "8)I", e.getMessage());
+      assertEquals("Exception from bridge: status\n" + "body:\n" + "8)I", e.getMessage());
     }
   }
 }
