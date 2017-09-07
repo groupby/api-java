@@ -89,9 +89,7 @@ public class Functions {
 
   public static <T> List<T> reverse(List<T> list) {
     List<T> copy = new ArrayList<T>(list.size());
-    for (T t : list) {
-      copy.add(t);
-    }
+    copy.addAll(list);
     Collections.reverse(copy);
     return copy;
   }
@@ -109,6 +107,9 @@ public class Functions {
           return false;
         }
         for (Refinement r : n.getRefinements()) {
+          if (r.isRange()) {
+            continue;
+          }
           RefinementValue rv = (RefinementValue) r;
           if (value.equals(rv.getValue())) {
             return true;
