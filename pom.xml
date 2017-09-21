@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>com.groupbyinc</groupId>
     <artifactId>parent-oss</artifactId>
     <version>8</version>
-    <relativePath />
+    <relativePath/>
   </parent>
 
   <artifactId>api-java-flux</artifactId>
@@ -31,7 +32,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.build.locale>en_US</project.build.locale>
     <repo.upload.retryAttempts>3</repo.upload.retryAttempts>
-    <log4j.properties />
+    <log4j.properties/>
 
     <!-- ### Versions -->
     <groupbyinc.common.version>104</groupbyinc.common.version>
@@ -93,6 +94,12 @@
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>common-test</artifactId>
+      <version>${groupbyinc.common.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>common-logging-internal</artifactId>
       <version>${groupbyinc.common.version}</version>
       <scope>test</scope>
     </dependency>
@@ -202,7 +209,7 @@
               <manifest>
                 <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                 <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                <packageName />
+                <packageName/>
               </manifest>
               <manifestEntries>
                 <Jdk-Compatibility-Version>${project.build.jdkVersion}</Jdk-Compatibility-Version>
@@ -229,7 +236,7 @@
               <manifest>
                 <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                 <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                <packageName />
+                <packageName/>
               </manifest>
               <manifestEntries>
                 <Jdk-Compatibility-Version>${project.build.jdkVersion}</Jdk-Compatibility-Version>
