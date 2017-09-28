@@ -23,6 +23,7 @@ import com.groupbyinc.common.apache.commons.collections4.CollectionUtils;
 import com.groupbyinc.common.apache.commons.lang3.StringUtils;
 import com.groupbyinc.common.jackson.Mappers;
 import com.groupbyinc.common.jregex.Pattern;
+import com.groupbyinc.common.security.AesContent;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,6 +48,7 @@ public class Query {
   private String sessionId;
   private String visitorId;
   private String query;
+  private AesContent securedPayload;
   private int skip = 0;
   private int pageSize = 10;
   private String collection;
@@ -111,6 +113,7 @@ public class Query {
     request.setRefinements(generateSelectedRefinements(navigations));
     request.setRestrictNavigation(convertRestrictNavigation());
     request.setWildcardSearchEnabled(isWildcardSearchEnabled());
+    request.setSecuredPayload(securedPayload);
     if (CollectionUtils.isNotEmpty(sort)) {
       for (Sort s : sort) {
         request.setSort(convertSort(s));
@@ -487,6 +490,7 @@ public class Query {
     request.setArea(area);
     request.setRefinementQuery(query);
     request.setWildcardSearchEnabled(isWildcardSearchEnabled());
+    request.setSecuredPayload(securedPayload);
     if (CollectionUtils.isNotEmpty(sort)) {
       for (Sort s : sort) {
         request.setSort(convertSort(s));
@@ -1563,6 +1567,35 @@ public class Query {
    */
   public Query setBiasing(Biasing biasing) {
     this.biasing = biasing;
+    return this;
+  }
+
+  /**
+   * <code>
+   * Add a secured payload to the query.
+   *
+   *
+   * JSON Reference:
+   *
+   *     {
+   *       "securedPayload": {
+   *          "cipherText":"",
+   *          "initialValue":"",
+   *          "messageAuthenticationCode":""
+   *       }
+   *     }
+   *
+   *
+   * </code>
+   *
+   * @param securedPayload
+   *         The secured payload received at login
+   *
+   * @return
+   * @internal
+   */
+  public Query setSecuredPayload(AesContent securedPayload) {
+    this.securedPayload = securedPayload;
     return this;
   }
 }
