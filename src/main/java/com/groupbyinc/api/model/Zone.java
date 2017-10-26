@@ -1,6 +1,5 @@
 package com.groupbyinc.api.model;
 
-import com.groupbyinc.api.model.zone.BannerZone;
 import com.groupbyinc.api.model.zone.ContentZone;
 import com.groupbyinc.api.model.zone.RecordZone;
 import com.groupbyinc.api.model.zone.RichContentZone;
@@ -14,14 +13,14 @@ import com.groupbyinc.common.jackson.annotation.JsonTypeInfo;
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
-    @JsonSubTypes.Type(value = ContentZone.class, name = "Content"), @JsonSubTypes.Type(value = RecordZone.class, name = "Record"), @JsonSubTypes.Type(value = BannerZone.class, name = "Banner"),
+    @JsonSubTypes.Type(value = ContentZone.class, name = "Content"), //
+    @JsonSubTypes.Type(value = RecordZone.class, name = "Record"), //
     @JsonSubTypes.Type(value = RichContentZone.class, name = "Rich_Content")})
 public abstract class Zone<Z extends Zone<Z>> {
 
   public enum Type {
     Content,
     Record,
-    Banner,
     Rich_Content
   }
 
@@ -32,7 +31,7 @@ public abstract class Zone<Z extends Zone<Z>> {
    * <code>
    * Zones support the following content types:
    *
-   *     Content, Record, Banner, Rich_Content
+   *     Content, Record, Rich_Content
    *
    * </code>
    *
