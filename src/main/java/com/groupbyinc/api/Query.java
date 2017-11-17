@@ -59,6 +59,7 @@ public class Query {
   private LinkedHashMap<String, Navigation> navigations = new LinkedHashMap<String, Navigation>();
   private List<String> fields = new ArrayList<String>();
   private List<String> orFields = new ArrayList<String>();
+  private List<String> subsetIds = new ArrayList<String>();
   private boolean pruneRefinements = true;
   private boolean returnBinary = true;
   private boolean disableAutocorrection = false;
@@ -134,6 +135,10 @@ public class Query {
     boolean hasData = false;
     if (biasing != null) {
       convertedBiasing.setAugmentBiases(biasing.isAugmentBiases());
+      if (CollectionUtils.isNotEmpty(biasing.getRestrictToIds())) {
+        convertedBiasing.setRestrictToIds(new ArrayList<String>(biasing.getRestrictToIds()));
+        hasData = true;
+      }
       if (CollectionUtils.isNotEmpty(biasing.getBringToTop())) {
         convertedBiasing.setBringToTop(new ArrayList<String>(biasing.getBringToTop()));
         hasData = true;
@@ -1354,6 +1359,24 @@ public class Query {
   /**
    * <code>
    *
+   * @see Query#setBiasing(Biasing). This is a convenience method to set the list of products IDs that will be
+   * used for `restrictToIds`.
+   *
+   * </code>
+   *
+   * @param restrictToIds
+   *         Any number of product IDs to bring to the top of the result set.
+   *
+   * @return
+   */
+  public Query setRestrictToIds(String... restrictToIds) {
+    CollectionUtils.addAll(this.biasing.getRestrictToIds(), restrictToIds);
+    return this;
+  }
+
+  /**
+   * <code>
+   *
    * @see Query#setBiasing(Biasing). This is a convenience method to set the biasing augment status.
    *
    * </code>
@@ -1426,7 +1449,8 @@ public class Query {
    *  to logged in. Session ID must also be consistent between the Search and Recommendations APIs to ensure correct monitoring of
    *  conversion metrics.
    *
-   *  **Important:** Sending raw session IDs is a security risk. Encrypt or hash session IDs prior to transmission.
+   * |@warn
+   * | Sending raw session IDs is a security risk. Encrypt or hash session IDs prior to transmission.
    *
    * </code>
    * @param sessionId
@@ -1454,7 +1478,8 @@ public class Query {
    *  Visitor ID should remain the same for a particular customer over different sessions.  Also, it must be consistent
    *  between the Search and Recommendations APIs to ensure correct monitoring of conversion metrics.
    *
-   *  **Important:** Sending raw session IDs is a security risk. Encrypt or hash session IDs prior to transmission.
+   * |@warn
+   * | Sending raw session IDs is a security risk. Encrypt or hash session IDs prior to transmission.
    *
    * </code>
    * @param visitorId
@@ -1481,6 +1506,9 @@ public class Query {
    *  - `bringToTop`: A list of product IDs to bring to the top of the result set. This list
    *  will ensure that the products are included in the result set and appear in the order
    *  defined.
+   *  - `restrictToIds`: A list of product IDs that will be used as the subset on which any subsequent refinements, search, sort,
+   *  and/or bias will be conducted on. For example, you can pass in a list of IDs within which to search. The list is not order sensitive.
+   *  Records will only return if their ID is defined in this list *and* exist in the queried result set. This operation has a 1000 ID limit.
    *  - `influence`: The influence to apply to query-time biases and biases set in Command Center.
    *  If this field is not defined, then the influence of the biasing profile defined in Command Center will take effect.
    *  If an influence is not defined in Command Center, then the influence will default to 5.
@@ -1490,11 +1518,21 @@ public class Query {
    *  in Command Center. See the documentation for `addBias` for more information.
    * - `numericBoosts`: A list of numeric boosts, which will override or augment biasing profiles defined in Command Center. 
    *
+   * |@tip
+   * | #### When to use it
+   * |
+   * | `restrictToIds` is especially useful when you need to request a subset of your records due to information from a 3rd party source.
+   * | All the typical search operations: search, navigation, biasing, sort, and so on - can be conducted on this set.
+   *
+   * |@warn
+   * | When both `bringToTop` and `restrctToIds` are used, the ids specified in `bringToTop` will be first,
+   * | followed by the ids in the second set, with any subsequent biasing, sort, refinements, and query operations applied to them.
    *
    * JSON Reference:
    *
    *     { "biasing": {
    *          "bringToTop": ["productId1","productId3","productId2"]
+   *          "restrictToIds": ["productId1","productId3","productId2"]
    *          "influence": 5.0,
    *          "augmentBiases": false,
    *          "biases": [
