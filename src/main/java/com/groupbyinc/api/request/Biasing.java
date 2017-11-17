@@ -11,6 +11,8 @@ import java.util.List;
  */
 public class Biasing {
 
+  @JsonInclude(JsonInclude.Include.NON_EMPTY) private List<String> restrictToIds = new ArrayList<String>();
+
   @JsonInclude(JsonInclude.Include.NON_EMPTY) private List<String> bringToTop = new ArrayList<String>();
 
   @JsonInclude(JsonInclude.Include.NON_DEFAULT) private boolean augmentBiases = false;
@@ -20,6 +22,15 @@ public class Biasing {
   @JsonInclude(JsonInclude.Include.NON_EMPTY) private List<NumericBoost> numericBoosts = new ArrayList<NumericBoost>();
 
   @JsonInclude(JsonInclude.Include.NON_EMPTY) private List<Bias> biases = new ArrayList<Bias>();
+
+  public List<String> getRestrictToIds() {
+    return restrictToIds;
+  }
+
+  public Biasing setRestrictToIds(List<String> restrictToIds) {
+    this.restrictToIds = restrictToIds;
+    return this;
+  }
 
   public List<String> getBringToTop() {
     return bringToTop;

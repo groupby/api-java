@@ -14,7 +14,6 @@ import java.util.Map;
 /**
  * Request object for the api to send search service requests
  *
- * @author lonell
  * @internal
  */
 public class Request {

@@ -13,6 +13,8 @@ import java.util.List;
  */
 public class Biasing {
 
+  @JsonInclude(JsonInclude.Include.NON_EMPTY) private List<String> restrictToIds = new ArrayList<String>();
+
   @JsonInclude(JsonInclude.Include.NON_EMPTY) private List<String> bringToTop = new ArrayList<String>();
 
   @JsonInclude(JsonInclude.Include.NON_DEFAULT) private boolean augmentBiases = false;
@@ -22,6 +24,28 @@ public class Biasing {
   @JsonInclude(JsonInclude.Include.NON_EMPTY) private List<NumericBoost> numericBoosts = new ArrayList<NumericBoost>();
 
   @JsonInclude(JsonInclude.Include.NON_EMPTY) private List<Bias> biases = new ArrayList<Bias>();
+
+  /**
+   * @return The list of product IDs
+   */
+  public List<String> getRestrictToIds() {
+    return restrictToIds;
+  }
+
+  /**
+   * <code>
+   * A list of product IDs to restrict the result set. This list
+   * will ensure that the search query and refinements only apply the list of products included.
+   * </code>
+   *
+   * @param restrictToIds
+   *      The list of productIds.
+   * @return
+   */
+  public Biasing setRestrictToIds(List<String> restrictToIds) {
+    this.restrictToIds = restrictToIds;
+    return this;
+  }
 
   /**
    * @return The list of product IDs
