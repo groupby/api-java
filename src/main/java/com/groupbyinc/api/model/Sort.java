@@ -1,59 +1,25 @@
 package com.groupbyinc.api.model;
 
-import com.groupbyinc.common.jackson.annotation.JsonInclude;
+import com.groupbyinc.api.model.sort.FieldSort;
+import com.groupbyinc.api.model.sort.SortByIds;
+import com.groupbyinc.common.jackson.annotation.JsonSubTypes;
+import com.groupbyinc.common.jackson.annotation.JsonTypeInfo;
 
 /**
  * <code>
- * Object that specifies sort field and direction
+ * Interface for Sorts
  * </code>
- * Created by groupby on 11/11/14.
  */
-public class Sort {
 
-  public static final Sort RELEVANCE = new Sort().setField("_relevance");
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", defaultImpl = FieldSort.class)
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = FieldSort.class, name = "Field"), //
+    @JsonSubTypes.Type(value = SortByIds.class, name = "ByIds") //
+})
+public interface Sort {
 
-  public enum Order {
+  enum Order {
     Ascending,
     Descending
-  }
-
-  private String field;
-
-  @JsonInclude(JsonInclude.Include.NON_DEFAULT) private Order order = Sort.Order.Ascending;
-
-  public String getField() {
-    return field;
-  }
-
-  /**
-   *
-   * @param field
-   *      The source field name to sort by.
-   * @return
-   */
-  public Sort setField(String field) {
-    this.field = field;
-    return this;
-  }
-
-  /**
-   *
-   * @return The order Ascending or Descending
-   */
-  public Order getOrder() {
-    return order;
-  }
-
-  /**
-   * <code>
-   *     Order in which the field will be applied.  Takes either
-   *     `Ascending` or `Descending`
-   * </code>
-   * @param order
-   * @return
-   */
-  public Sort setOrder(Order order) {
-    this.order = order;
-    return this;
   }
 }

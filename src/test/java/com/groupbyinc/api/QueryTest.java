@@ -1,6 +1,7 @@
 package com.groupbyinc.api;
 
 import com.groupbyinc.api.model.Sort;
+import com.groupbyinc.api.model.sort.FieldSort;
 import com.groupbyinc.common.apache.commons.lang3.ArrayUtils;
 import com.groupbyinc.common.test.util.AssertUtils;
 import org.junit.Assert;
@@ -30,7 +31,7 @@ public class QueryTest {
     test.setCollection("docs");
     test.setArea("staging");
     test.addValueRefinement("redsox", "suck");
-    test.setSort(new Sort().setField("relevance"));
+    test.setSort(new FieldSort().setField("relevance"));
 
     String expected = "{'skip':0,'area':'staging','clientKey':'aoeu'," + "'customUrlParams':[{'key':'fromGoogle','value':'true'},{'key':'bigspender','value':'1'}],"
                       + "'collection':'docs','sort':[{field:'relevance'}]," + "'refinements':[{'navigationName':'redsox','type':'Value','value':'suck'}],"
@@ -45,7 +46,7 @@ public class QueryTest {
     test.setCollection("docs");
     test.setArea("staging");
     test.addValueRefinement("redsox", "suck");
-    test.setSort(new Sort().setField("relevance"), new Sort().setField("brand").setOrder(Sort.Order.Descending));
+    test.setSort(new FieldSort().setField("relevance"), new FieldSort().setField("brand").setOrder(Sort.Order.Descending));
 
     String expected = "{'skip':0,'area':'staging','clientKey':'aoeu'," + "'customUrlParams':[{'key':'fromGoogle','value':'true'},{'key':'bigspender','value':'1'}],"
                       + "'collection':'docs','sort':[{field:'relevance'}, {field:'brand', order:'Descending'}]," + "'refinements':[{'navigationName':'redsox','type':'Value','value':'suck'}],"
@@ -60,7 +61,7 @@ public class QueryTest {
     test.setCollection("docs");
     test.setArea("staging");
     test.addValueRefinement("redsox", "suck");
-    test.setSort(Sort.RELEVANCE, new Sort().setField("brand").setOrder(Sort.Order.Descending));
+    test.setSort(FieldSort.RELEVANCE, new FieldSort().setField("brand").setOrder(Sort.Order.Descending));
 
     String expected = "{'skip':0,'area':'staging','clientKey':'aoeu'," + "'customUrlParams':[{'key':'fromGoogle','value':'true'},{'key':'bigspender','value':'1'}],"
                       + "'collection':'docs','sort':[{field:'_relevance'}, {field:'brand', order:'Descending'}]," + "'refinements':[{'navigationName':'redsox','type':'Value','value':'suck'}],"

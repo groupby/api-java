@@ -11,6 +11,8 @@ import com.groupbyinc.api.model.Refinement;
 import com.groupbyinc.api.model.Sort;
 import com.groupbyinc.api.model.refinement.RefinementRange;
 import com.groupbyinc.api.model.refinement.RefinementValue;
+import com.groupbyinc.api.model.sort.FieldSort;
+import com.groupbyinc.api.model.sort.SortByIds;
 import com.groupbyinc.api.request.RefinementsRequest;
 import com.groupbyinc.api.request.Request;
 import com.groupbyinc.api.request.RestrictNavigation;
@@ -193,16 +195,23 @@ public class Query {
   protected static com.groupbyinc.api.request.Sort convertSort(Sort sort) {
     com.groupbyinc.api.request.Sort convertedSort = null;
     if (sort != null) {
-      convertedSort = new com.groupbyinc.api.request.Sort().setField(sort.getField());
-      switch (sort.getOrder()) {
-        case Ascending:
-          convertedSort.setOrder(com.groupbyinc.api.request.Sort.Order.Ascending);
-          break;
-        case Descending:
-          convertedSort.setOrder(com.groupbyinc.api.request.Sort.Order.Descending);
-          break;
-        default:
-          break;
+      if (sort instanceof FieldSort) {
+        FieldSort fieldSort = (FieldSort) sort;
+        com.groupbyinc.api.request.sort.FieldSort converted = new com.groupbyinc.api.request.sort.FieldSort().setField(fieldSort.getField());
+        switch (fieldSort.getOrder()) {
+          case Ascending:
+            converted.setOrder(com.groupbyinc.api.request.Sort.Order.Ascending);
+            break;
+          case Descending:
+            converted.setOrder(com.groupbyinc.api.request.Sort.Order.Descending);
+            break;
+          default:
+            break;
+        }
+        convertedSort = converted;
+      } else if (sort instanceof SortByIds) {
+        SortByIds sortByIds = (SortByIds) sort;
+        convertedSort = new com.groupbyinc.api.request.sort.SortByIds().setIds(sortByIds.getIds());
       }
     }
     return convertedSort;

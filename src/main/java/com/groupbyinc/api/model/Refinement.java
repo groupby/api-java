@@ -17,7 +17,7 @@ import com.groupbyinc.common.jackson.annotation.JsonTypeInfo;
  * @author will
  * @internal
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", defaultImpl = RefinementValue.class)
 @JsonSubTypes({
     @JsonSubTypes.Type(value = RefinementValue.class, name = "Value"), @JsonSubTypes.Type(value = RefinementRange.class, name = "Range")})
 public abstract class Refinement<T extends Refinement<T>> {
