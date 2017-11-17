@@ -15,7 +15,6 @@ import com.groupbyinc.api.model.Refinement;
  *
  * </code>
  *
- * @author will
  */
 public class RefinementValue extends Refinement<RefinementValue> {
 
