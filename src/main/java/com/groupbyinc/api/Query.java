@@ -1117,7 +1117,11 @@ public class Query {
    * relevance. It is possible to specify multiple sort criteria. The criteria order matters, as the records will be
    * sorted by the first criteria and then any matches will be tie-broken using the next criteria. Given an example
    * where the sort is specified as `category` then `_relevance`, results will be sorted first by `category` and
-   * relevance will only affect the order between records that have the same category.
+   * relevance will only affect the order between records that have the same category. Records can also be sorted by
+   * a specific ID as well when you want to return items in a specific order. If a record ID is included as a sort,
+   * but that record not a part of the result set, that item will not be included (unlike push to top). There is a limit
+   * of 1000 id's that you can sort by. Any ID's beyond this limit will be ignored. ID sort can also be used with
+   * other types of sorts.
    *
    * Please note, sorting is based on the actual value in the record. For example, if sorting on `price`, and
    * `price` is a `Range` navigation, the records will be sorted according to the actual price value in the record
@@ -1131,6 +1135,8 @@ public class Query {
    *     { "sort": { "field": "price", "order": "Descending" } }
    *     { "sort": [{ "field": "_relevance" }, { "field": "price", "order": "Descending" }] }
    *     { "sort": [{ "field": "brand", "order":"Ascending" }, { "field": "_relevance" }, { "field": "price" }] }
+   *     { "sort": [{ "type": "ByIds", "ids": ["1234"," 5678"]}] }
+   *     { "sort": [{ "type": "ByIds", "ids": ["1234"," 5678"]}, { "field": "price", "order": "Descending" }] }
    *
    * </code>
    *
