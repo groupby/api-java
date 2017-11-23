@@ -34,7 +34,7 @@ public class QueryTest {
     test.setSort(new FieldSort().setField("relevance"));
 
     String expected = "{'skip':0,'area':'staging','clientKey':'aoeu'," + "'customUrlParams':[{'key':'fromGoogle','value':'true'},{'key':'bigspender','value':'1'}],"
-                      + "'collection':'docs','sort':[{field:'relevance'}]," + "'refinements':[{'navigationName':'redsox','type':'Value','value':'suck'}],"
+                      + "'collection':'docs','sort':[{type:'Field',field:'relevance'}]," + "'refinements':[{'navigationName':'redsox','type':'Value','value':'suck'}],"
                       + "'query':'boston','pageSize':10,'returnBinary':true}";
     assertQuery(expected, test);
   }
@@ -49,8 +49,8 @@ public class QueryTest {
     test.setSort(new FieldSort().setField("relevance"), new FieldSort().setField("brand").setOrder(Sort.Order.Descending));
 
     String expected = "{'skip':0,'area':'staging','clientKey':'aoeu'," + "'customUrlParams':[{'key':'fromGoogle','value':'true'},{'key':'bigspender','value':'1'}],"
-                      + "'collection':'docs','sort':[{field:'relevance'}, {field:'brand', order:'Descending'}]," + "'refinements':[{'navigationName':'redsox','type':'Value','value':'suck'}],"
-                      + "'query':'boston','pageSize':10,'returnBinary':true}";
+                      + "'collection':'docs','sort':[{type:'Field',field:'relevance'}, {type:'Field',field:'brand', order:'Descending'}],"
+                      + "'refinements':[{'navigationName':'redsox','type':'Value','value':'suck'}]," + "'query':'boston','pageSize':10,'returnBinary':true}";
     assertQuery(expected, test);
   }
 
@@ -64,8 +64,8 @@ public class QueryTest {
     test.setSort(FieldSort.RELEVANCE, new FieldSort().setField("brand").setOrder(Sort.Order.Descending));
 
     String expected = "{'skip':0,'area':'staging','clientKey':'aoeu'," + "'customUrlParams':[{'key':'fromGoogle','value':'true'},{'key':'bigspender','value':'1'}],"
-                      + "'collection':'docs','sort':[{field:'_relevance'}, {field:'brand', order:'Descending'}]," + "'refinements':[{'navigationName':'redsox','type':'Value','value':'suck'}],"
-                      + "'query':'boston','pageSize':10,'returnBinary':true}";
+                      + "'collection':'docs','sort':[{type:'Field', field:'_relevance'}, {type:'Field', field:'brand', order:'Descending'}],"
+                      + "'refinements':[{'navigationName':'redsox','type':'Value','value':'suck'}]," + "'query':'boston','pageSize':10,'returnBinary':true}";
     assertQuery(expected, test);
   }
 
