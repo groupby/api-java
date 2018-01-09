@@ -46,7 +46,7 @@ public class Request {
   @JsonInclude(JsonInclude.Include.NON_DEFAULT) private Boolean wildcardSearchEnabled = false;
   @JsonInclude(JsonInclude.Include.NON_EMPTY) private List<String> includedNavigations = new ArrayList<String>();
   @JsonInclude(JsonInclude.Include.NON_EMPTY) private List<String> excludedNavigations = new ArrayList<String>();
-  @JsonInclude(JsonInclude.Include.NON_DEFAULT) private Boolean pruneRefinements = true;
+  private Boolean pruneRefinements = true;
 
   public String getClientKey() {
     return clientKey;

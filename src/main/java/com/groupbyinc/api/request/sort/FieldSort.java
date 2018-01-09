@@ -2,6 +2,7 @@ package com.groupbyinc.api.request.sort;
 
 import com.groupbyinc.api.request.Sort;
 import com.groupbyinc.common.jackson.annotation.JsonInclude;
+import com.groupbyinc.util.defaults.FieldSortOrderDefault;
 
 /**
  * <code>
@@ -14,7 +15,7 @@ public class FieldSort implements Sort {
 
   private String field;
 
-  @JsonInclude(JsonInclude.Include.NON_DEFAULT) private Order order = Sort.Order.Ascending;
+  @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = FieldSortOrderDefault.class) private Order order = Sort.Order.Ascending;
 
   public String getField() {
     return field;
