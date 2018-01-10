@@ -31,7 +31,7 @@ public class RefinementsResultTest {
                      + "    }," //
                      + "    'originalRequest': {" //
                      + "        'navigationName': 'theNav'," //
-                     + "        'originalQuery': {'query': 'abc'}" //
+                     + "        'originalQuery': {'query': 'abc','pruneRefinements': true}" //
                      + "    }" //
                      + "}", result);
   }
