@@ -52,4 +52,40 @@ public class RefinementValue extends Refinement<RefinementValue> {
     this.value = value;
     return this;
   }
+
+  /**
+   * @param obj the reference object with which to compare.
+   * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise.
+   */
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    } else if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    RefinementValue that = (RefinementValue) o;
+    if (getCount() != that.getCount()) {
+      return false;
+    } else if (getId() != null ? !getId().equals(that.getId()) : that.getId() != null) {
+      return false;
+    } else if (getExclude() != null ? !getExclude().equals(that.getExclude()) : that.getExclude() != null) {
+      return false;
+    }
+
+    return value != null ? value.equals(that.value) : that.value == null;
+  }
+
+  /**
+   * @return a hash code value for this object.
+   */
+  @Override
+  public int hashCode() {
+    int result = value != null ? value.hashCode() : 0;
+    result = 31 * result + getCount();
+    result = 31 * result + (getExclude() != null ? getExclude().hashCode() : 0);
+    result = 31 * result + (getId() != null ? getId().hashCode() : 0);
+    return result;
+  }
 }
