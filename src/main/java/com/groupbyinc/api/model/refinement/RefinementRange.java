@@ -70,4 +70,46 @@ public class RefinementRange extends Refinement<RefinementRange> {
     this.high = high;
     return this;
   }
+
+  /**
+   * @param obj the reference object with which to compare.
+   * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise.
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    } else if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    } else if (!super.equals(obj)) {
+      return false;
+    }
+
+    RefinementRange that = (RefinementRange) obj;
+
+    if (getCount() != that.getCount()) {
+      return false;
+    } else if (getId() != null ? !getId().equals(that.getId()) : that.getId() != null) {
+      return false;
+    } else if (getExclude() != null ? !getExclude().equals(that.getExclude()) : that.getExclude() != null) {
+      return false;
+    } else if (high != null ? !high.equals(that.high) : that.high != null) {
+      return false;
+    }
+    return low != null ? low.equals(that.low) : that.low == null;
+  }
+
+  /**
+   * @return a hash code value for this object.
+   */
+  @Override
+  public int hashCode() {
+    int result = super.hashCode();
+    result = 31 * result + (high != null ? high.hashCode() : 0);
+    result = 31 * result + (low != null ? low.hashCode() : 0);
+    result = 31 * result + getCount();
+    result = 31 * result + (getExclude() != null ? getExclude().hashCode() : 0);
+    result = 31 * result + (getId() != null ? getId().hashCode() : 0);
+    return result;
+  }
 }
