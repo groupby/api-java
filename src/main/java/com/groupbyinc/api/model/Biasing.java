@@ -7,8 +7,8 @@ import java.util.List;
 
 /**
  * <code>
- * A biasing profile defined at query time.
- + </code>
+ * A biasing profile can be defined at query time.
+ * </code>
  * Created by groupby on 1/12/16.
  */
 public class Biasing {
