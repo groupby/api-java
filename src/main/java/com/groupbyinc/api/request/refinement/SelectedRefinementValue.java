@@ -54,4 +54,33 @@ public class SelectedRefinementValue extends SelectedRefinement<SelectedRefineme
     this.value = value;
     return this;
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    } else if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    SelectedRefinementValue that = (SelectedRefinementValue) o;
+
+    if (value != null ? !value.equals(that.value) : that.value != null) {
+      return false;
+    } else if (getId() != null ? !getId().equals(that.getId()) : that.getId() != null) {
+      return false;
+    } else if (getNavigationName() != null ? !getNavigationName().equals(that.getNavigationName()) : that.getNavigationName() != null) {
+      return false;
+    }
+    return getExclude() != null ? getExclude().equals(that.getExclude()) : that.getExclude() == null;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = value != null ? value.hashCode() : 0;
+    result = 31 * result + (getId() != null ? getId().hashCode() : 0);
+    result = 31 * result + (getNavigationName() != null ? getNavigationName().hashCode() : 0);
+    result = 31 * result + (getExclude() != null ? getExclude().hashCode() : 0);
+    return result;
+  }
 }
