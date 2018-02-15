@@ -72,4 +72,36 @@ public class SelectedRefinementRange extends SelectedRefinement<SelectedRefineme
     this.high = high;
     return this;
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    } else if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    SelectedRefinementRange that = (SelectedRefinementRange) o;
+
+    if (high != null ? !high.equals(that.high) : that.high != null) {
+      return false;
+    } else if (low != null ? !low.equals(that.low) : that.low != null) {
+      return false;
+    } else if (getId() != null ? !getId().equals(that.getId()) : that.getId() != null) {
+      return false;
+    } else if (getNavigationName() != null ? !getNavigationName().equals(that.getNavigationName()) : that.getNavigationName() != null) {
+      return false;
+    }
+    return getExclude() != null ? getExclude().equals(that.getExclude()) : that.getExclude() == null;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = high != null ? high.hashCode() : 0;
+    result = 31 * result + (low != null ? low.hashCode() : 0);
+    result = 31 * result + (getId() != null ? getId().hashCode() : 0);
+    result = 31 * result + (getNavigationName() != null ? getNavigationName().hashCode() : 0);
+    result = 31 * result + (getExclude() != null ? getExclude().hashCode() : 0);
+    return result;
+  }
 }
