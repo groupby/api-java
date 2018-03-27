@@ -22,6 +22,8 @@ import com.groupbyinc.common.apache.http.impl.client.CloseableHttpClient;
 import com.groupbyinc.common.apache.http.impl.client.HttpClientBuilder;
 import com.groupbyinc.common.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import com.groupbyinc.common.jackson.Mappers;
+import com.groupbyinc.common.security.AesContent;
+import com.groupbyinc.common.security.AesEncryption;
 import com.groupbyinc.common.util.ThreadUtils;
 
 import java.io.ByteArrayInputStream;
@@ -31,6 +33,7 @@ import java.net.SocketException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -444,5 +447,41 @@ public abstract class AbstractBridge {
    */
   public void setHeaders(List<Header> headers) {
     this.headers = headers;
+  }
+
+  /**
+   * <code>
+   * Generates a secured payload
+   * </code>
+   * @param customerId The customerId as seen in Command Center. Ensure this is not the subdomain, which can be `customerId-cors.groupbycloud.com`
+   * @param clientKey The customerId as seen in Command Center
+   * @param query The query to encrypt
+   */
+  public static AesContent generateSecuredPayload(String customerId, String clientKey, Query query) throws GeneralSecurityException {
+    return generateSecuredPayload(customerId, clientKey, query.getBridgeJson(null));
+  }
+
+  /**
+   * <code>
+   * Generates a secured payload
+   * </code>
+   * @param customerId The customerId as seen in Command Center. Ensure this is not the subdomain, which can be `customerId-cors.groupbycloud.com`
+   * @param clientKey The customerId as seen in Command Center
+   * @param requestJson The query to encrypt
+   */
+  public static AesContent generateSecuredPayload(String customerId, String clientKey, String requestJson) throws GeneralSecurityException {
+    AesEncryption encryption = new AesEncryption(clientKey, customerId);
+    return encryption.encrypt(requestJson);
+  }
+
+  /**
+   * <code>
+   * Generates a secured payload
+   * </code>
+   * @param customerId The customerId as seen in Command Center. Ensure this is not the subdomain, which can be `customerId-cors.groupbycloud.com`
+   * @param query The query to encrypt
+   */
+  public AesContent generateSecuredPayload(String customerId, Query query) throws GeneralSecurityException {
+    return generateSecuredPayload(customerId, clientKey, query);
   }
 }

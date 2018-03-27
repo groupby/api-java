@@ -5,6 +5,7 @@ import com.groupbyinc.common.apache.commons.collections4.CollectionUtils;
 import com.groupbyinc.common.jackson.annotation.JsonIgnore;
 import com.groupbyinc.common.jackson.annotation.JsonInclude;
 import com.groupbyinc.common.jackson.annotation.JsonProperty;
+import com.groupbyinc.common.security.AesContent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +36,7 @@ public class Request {
   private Integer pageSize;
   private Boolean returnBinary;
   private Boolean disableAutocorrection;
+  private AesContent securedPayload;
   @JsonIgnore private Map<String, String> queryUrlParams = new HashMap<String, String>();
   @JsonProperty
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -294,6 +296,15 @@ public class Request {
 
   public Request setQueryUrlParams(Map<String, String> queryUrlParams) {
     this.queryUrlParams = queryUrlParams;
+    return this;
+  }
+
+  public AesContent getSecuredPayload() {
+    return securedPayload;
+  }
+
+  public Request setSecuredPayload(AesContent securedPayload) {
+    this.securedPayload = securedPayload;
     return this;
   }
 }
