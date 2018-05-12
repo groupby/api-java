@@ -1541,8 +1541,8 @@ public class Query {
    * JSON Reference:
    *
    *     { "biasing": {
-   *          "bringToTop": ["productId1","productId3","productId2"]
-   *          "restrictToIds": ["productId1","productId3","productId2"]
+   *          "bringToTop": ["productId1","productId3","productId2"],
+   *          "restrictToIds": ["productId1","productId3","productId2"],
    *          "influence": 5.0,
    *          "augmentBiases": false,
    *          "biases": [
