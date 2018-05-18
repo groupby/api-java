@@ -7,6 +7,7 @@ package com.groupbyinc.api.model;
  */
 public class ResultsMetadata {
 
+  private boolean cached = false;
   private boolean recordLimitReached;
   private long totalTime;
 
@@ -32,6 +33,15 @@ public class ResultsMetadata {
 
   public ResultsMetadata setTotalTime(long totalTime) {
     this.totalTime = totalTime;
+    return this;
+  }
+
+  public boolean isCached(){
+    return cached;
+  }
+
+  public ResultsMetadata setCached(boolean cached){
+    this.cached = cached;
     return this;
   }
 }
