@@ -43,7 +43,7 @@ public class ResultsMetadata {
 
   public ResultsMetadata setCached(boolean cached) {
     this.isCache = cached;
-    this.fromCache = !isCached();
+    this.fromCache = !this.isCache;
     return this;
   }
 }
