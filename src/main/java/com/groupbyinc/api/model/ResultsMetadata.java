@@ -7,7 +7,8 @@ package com.groupbyinc.api.model;
  */
 public class ResultsMetadata {
 
-  private boolean cached = false;
+  private boolean isCache;
+  private boolean fromCache;
   private boolean recordLimitReached;
   private long totalTime;
 
@@ -36,12 +37,14 @@ public class ResultsMetadata {
     return this;
   }
 
-  public boolean isCached(){
-    return cached;
+  public boolean isCached() {
+    return isCache;
   }
 
-  public ResultsMetadata setCached(boolean cached){
-    this.cached = cached;
+  public ResultsMetadata setCached(boolean cached) {
+    this.isCache = cached;
+    this.fromCache = !isCached();
     return this;
   }
 }
+
