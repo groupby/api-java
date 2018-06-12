@@ -216,12 +216,12 @@ public abstract class AbstractBridge {
    * @throws IOException
    */
   public Results search(Query query) throws IOException {
-    InputStream data = fireRequest(getBridgeUrl(), query.getQueryUrlParams(), query.getBridgeJson(clientKey), query.isReturnBinary());
+    InputStream data = fireRequest(getBridgeUrl(), query.getQueryUrlParams(), query.getBridgeJson(clientKey), query.isReturnBinary(), null);
     return map(data, query.isReturnBinary());
   }
 
-  protected InputStream fireRequest(String url, Map<String, String> urlParams, String body, boolean returnBinary) throws IOException {
-    HttpResponse response = postToBridge(url, urlParams, body);
+  protected InputStream fireRequest(String url, Map<String, String> urlParams, String body, boolean returnBinary, List<Header> headers) throws IOException {
+    HttpResponse response = postToBridge(url, urlParams, body, headers);
     InputStream data = response.getEntity().getContent();
     if (response.getStatusLine().getStatusCode() != 200) {
       String status = response.getStatusLine().toString();
@@ -245,7 +245,7 @@ public abstract class AbstractBridge {
     return Mappers.readValue(data, Results.class, returnBinary);
   }
 
-  private HttpResponse postToBridge(String url, Map<String, String> urlParams, String bridgeJson) throws IOException {
+  private HttpResponse postToBridge(String url, Map<String, String> urlParams, String bridgeJson, List<Header> headers) throws IOException {
     StringEntity entity = new StringEntity(bridgeJson, Charset.forName("UTF-8"));
     entity.setContentType("application/json");
 
@@ -256,8 +256,13 @@ public abstract class AbstractBridge {
     while (!successful && tries < maxTries) {
       try {
         HttpPost httpPost = new HttpPost(generateURI(url, urlParams, tries));
-        for (Header header : headers) {
+        for (Header header : this.headers) {
           httpPost.addHeader(header);
+        }
+        if (headers != null) {
+          for (Header header : headers) {
+            httpPost.addHeader(header);
+          }
         }
         httpPost.setEntity(entity);
         response = httpClient.execute(httpPost);
@@ -329,10 +334,14 @@ public abstract class AbstractBridge {
    * using the request object instead of the query object.
    */
   public Results search(Request request) throws IOException {
+    return search(request, null);
+  }
+
+  public Results search(Request request, List<Header> headers) throws IOException {
     makeBackwardsCompatible(request);
     String json = getJson(request);
     Boolean returnBinary = request.getReturnBinary() == null ? false : request.getReturnBinary();
-    InputStream data = fireRequest(getBridgeUrl(), request.getQueryUrlParams(), json, returnBinary);
+    InputStream data = fireRequest(getBridgeUrl(), request.getQueryUrlParams(), json, returnBinary, headers);
     return map(data, returnBinary);
   }
 
@@ -375,7 +384,7 @@ public abstract class AbstractBridge {
    * @throws IOException
    */
   public RefinementsResult refinements(Query query, String navigationName) throws IOException {
-    InputStream data = fireRequest(getBridgeRefinementsUrl(), query.getQueryUrlParams(), query.getBridgeRefinementsJson(clientKey, navigationName), query.isReturnBinary());
+    InputStream data = fireRequest(getBridgeRefinementsUrl(), query.getQueryUrlParams(), query.getBridgeRefinementsJson(clientKey, navigationName), query.isReturnBinary(), null);
     return mapRefinements(data, query.isReturnBinary());
   }
 
@@ -397,10 +406,18 @@ public abstract class AbstractBridge {
    * use RefinementsRequest object for refinement searches
    */
   public RefinementsResult refinements(RefinementsRequest request) throws IOException {
+    return refinements(request, null);
+  }
+
+  /**
+   * @internal
+   * use RefinementsRequest object for refinement searches
+   */
+  public RefinementsResult refinements(RefinementsRequest request, List<Header> headers) throws IOException {
     makeBackwardsCompatible(request.getOriginalQuery());
     String json = getJson(request);
     Boolean returnBinary = request.getOriginalQuery().getReturnBinary() == null ? false : request.getOriginalQuery().getReturnBinary();
-    InputStream data = fireRequest(getBridgeRefinementsUrl(), request.getOriginalQuery().getQueryUrlParams(), json, returnBinary);
+    InputStream data = fireRequest(getBridgeRefinementsUrl(), request.getOriginalQuery().getQueryUrlParams(), json, returnBinary, headers);
     return mapRefinements(data, returnBinary);
   }
 

@@ -73,6 +73,7 @@ public class CloudBridge extends AbstractBridge {
    *
    * @internal
    */
+  @Deprecated
   public void setCachingEnabled(boolean cachingEnabled) {
     if (containsSkipCachingHeader()) {
       if (cachingEnabled) {
@@ -85,6 +86,7 @@ public class CloudBridge extends AbstractBridge {
     }
   }
 
+  @Deprecated
   private boolean containsSkipCachingHeader() {
     for (Header header : getHeaders()) {
       if (header.getName().equalsIgnoreCase("Skip-Caching")) {
@@ -94,6 +96,7 @@ public class CloudBridge extends AbstractBridge {
     return false;
   }
 
+  @Deprecated
   private void removeSkipCachingHeader() {
     Iterator<Header> iterator = getHeaders().iterator();
     while (iterator.hasNext()) {

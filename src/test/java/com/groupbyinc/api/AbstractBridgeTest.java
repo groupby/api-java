@@ -5,6 +5,7 @@ import com.groupbyinc.api.model.Results;
 import com.groupbyinc.api.request.RefinementsRequest;
 import com.groupbyinc.api.request.Request;
 import com.groupbyinc.api.request.refinement.SelectedRefinementValue;
+import com.groupbyinc.common.apache.http.Header;
 import com.groupbyinc.common.apache.http.HttpRequestInterceptor;
 import com.groupbyinc.common.apache.http.HttpResponseInterceptor;
 import com.groupbyinc.common.apache.http.client.protocol.RequestAcceptEncoding;
@@ -12,6 +13,7 @@ import com.groupbyinc.common.apache.http.client.protocol.ResponseContentEncoding
 import com.groupbyinc.common.apache.http.impl.client.CloseableHttpClient;
 import com.groupbyinc.common.apache.http.impl.execchain.ClientExecChain;
 import com.groupbyinc.common.apache.http.impl.execchain.RetryExec;
+import com.groupbyinc.common.apache.http.message.BasicHeader;
 import com.groupbyinc.common.apache.http.protocol.ImmutableHttpProcessor;
 import com.meterware.pseudoserver.PseudoServer;
 import com.meterware.pseudoserver.PseudoServlet;
@@ -272,5 +274,32 @@ public class AbstractBridgeTest {
     } catch (IOException e) {
       assertEquals("Exception from bridge: status\n" + "body:\n" + "8)I", e.getMessage());
     }
+  }
+
+  @Test
+  public void testHeadersShouldBePassedAlong() throws Exception {
+    final String acceptedHeaderName = "accept-encoding";
+    final String skipCacheName = "skip-caching";
+    final List<String> headerValues = new ArrayList<String>();
+    String bridgeUrl = "http://localhost:" + server.getConnectedPort();
+    server.setResource("/search?retry=0", new PseudoServlet() {
+      @Override
+      public WebResource getResponse(String methodType) throws IOException {
+        headerValues.add(getHeader(skipCacheName));
+        headerValues.add(getHeader(acceptedHeaderName));
+        return new WebResource("{}");
+      }
+    });
+    AbstractBridge bridge = new AbstractBridge(clientKey, bridgeUrl, true) {
+    };
+
+    Request request = new Request();
+    request.setQuery("hello world");
+    bridge.getHeaders().add(new BasicHeader(acceptedHeaderName, "application/json"));
+    List<Header> headers = new ArrayList<Header>();
+    headers.add(new BasicHeader(skipCacheName, "true"));
+    bridge.search(request, headers);
+    assertEquals("true",headerValues.get(0));
+    assertEquals("application/json",headerValues.get(1));
   }
 }
