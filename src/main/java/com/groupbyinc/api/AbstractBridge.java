@@ -73,7 +73,7 @@ public abstract class AbstractBridge {
   private CloseableHttpClient httpClient;
   private long retryTimeout = DEFAULT_RETRY_TIMEOUT;
   private long maxTries = DEFAULT_MAX_TRIES;
-  private List<Header> headers = new ArrayList<Header>();
+  private volatile List<Header> headers = new ArrayList<Header>();
 
   /**
    * <code>

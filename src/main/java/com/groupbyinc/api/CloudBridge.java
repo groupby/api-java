@@ -73,7 +73,7 @@ public class CloudBridge extends AbstractBridge {
    *
    * @internal
    */
-  public void setCachingEnabled(boolean cachingEnabled) {
+  public synchronized void  setCachingEnabled(boolean cachingEnabled) {
     if (containsSkipCachingHeader()) {
       if (cachingEnabled) {
         removeSkipCachingHeader();
