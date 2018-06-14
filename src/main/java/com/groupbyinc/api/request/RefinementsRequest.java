@@ -3,7 +3,6 @@ package com.groupbyinc.api.request;
 /**
  * Request object for the api to send search service requests
  *
- * @author lonell
  * @internal
  */
 public class RefinementsRequest {

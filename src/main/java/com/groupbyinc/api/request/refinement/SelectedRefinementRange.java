@@ -17,8 +17,6 @@ import com.groupbyinc.api.request.SelectedRefinement;
  * - `type`: - the type of refinement, Value or Range
  *
  * </code>
- *
- * @author will
  */
 public class SelectedRefinementRange extends SelectedRefinement<SelectedRefinementRange> {
 

@@ -7,8 +7,6 @@ import java.util.List;
  * <code>
  * A cluster represents a set of documents that are considered closely related based on a search term.
  * </code>
- *
- * @author user
  */
 public class Cluster {
 

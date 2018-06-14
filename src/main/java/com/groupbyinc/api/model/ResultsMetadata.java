@@ -1,10 +1,5 @@
 package com.groupbyinc.api.model;
 
-/**
- * ResultsMetadata
- *
- * @author groupby
- */
 public class ResultsMetadata {
 
   private boolean cached;

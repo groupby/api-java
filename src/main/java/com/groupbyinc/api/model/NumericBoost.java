@@ -6,8 +6,6 @@ package com.groupbyinc.api.model;
  * to apply to that field. The position of records in the page of results
  * is adjusted by the value of the field multiplied by the weight.
  * </code>
- *
- * @author groupby
  */
 public class NumericBoost {
 

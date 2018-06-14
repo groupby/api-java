@@ -28,9 +28,6 @@ import java.util.regex.Pattern;
 
 import static java.util.Arrays.asList;
 
-/**
- * @author will
- */
 public class UrlBeautifier {
 
   public static final String PARAM_REPLACEMENT = "z";

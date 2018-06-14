@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author osman
  * @internal
  */
 public class MatchStrategy implements MatchStrategyInterface {

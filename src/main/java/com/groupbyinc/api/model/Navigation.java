@@ -21,8 +21,6 @@ import java.util.List;
  * - `sort`: If specified, an object detailing the sort field and sort order
  *
  * </code>
- *
- * @author will
  */
 public class Navigation {
 

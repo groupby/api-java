@@ -5,10 +5,6 @@ import com.groupbyinc.common.jackson.annotation.JsonInclude;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author osman
- */
 public class Biasing {
 
   @JsonInclude(JsonInclude.Include.NON_EMPTY) private List<String> restrictToIds = new ArrayList<String>();

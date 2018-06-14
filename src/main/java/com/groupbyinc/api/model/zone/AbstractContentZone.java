@@ -5,7 +5,6 @@ import com.groupbyinc.common.jackson.annotation.JsonIgnore;
 
 /**
  * @internal
- * @author will
  */
 public abstract class AbstractContentZone<T extends AbstractContentZone<T>> extends Zone<T> {
 

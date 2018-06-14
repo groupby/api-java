@@ -6,9 +6,6 @@ import com.groupbyinc.common.apache.http.message.BasicHeader;
 
 import java.util.Iterator;
 
-/**
- * @author Ben Teichman
- */
 public class CloudBridge extends AbstractBridge {
 
   private static final String DOT = ".";

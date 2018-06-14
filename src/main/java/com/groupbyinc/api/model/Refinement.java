@@ -14,7 +14,6 @@ import com.groupbyinc.common.jackson.annotation.JsonTypeInfo;
  * Abstract Refinement class holding common methods for RefinementRange and RefinementValue.
  * </code>
  *
- * @author will
  * @internal
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", defaultImpl = RefinementValue.class)

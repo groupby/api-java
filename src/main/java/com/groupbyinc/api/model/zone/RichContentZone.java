@@ -14,7 +14,6 @@ import com.groupbyinc.common.jackson.annotation.JsonProperty;
  * - `name`: the zone name
  * - `type`: `Rich_Content`: a string of HTML text.
  * </code>
- * @author will
  */
 public class RichContentZone extends AbstractContentZone<RichContentZone> {
 

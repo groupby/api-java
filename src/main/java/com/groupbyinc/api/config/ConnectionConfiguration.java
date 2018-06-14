@@ -2,11 +2,6 @@ package com.groupbyinc.api.config;
 
 import com.groupbyinc.common.apache.http.client.config.RequestConfig;
 
-/**
- * ConnectionConfiguration
- *
- * @author Ben Teichman
- */
 public class ConnectionConfiguration {
 
   /**

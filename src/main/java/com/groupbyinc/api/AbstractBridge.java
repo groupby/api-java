@@ -47,8 +47,6 @@ import java.util.logging.Logger;
  * <b>Do not create a new bridge object for each request as you will incur overhead that will
  * bring down your UI servers when under heavy load!</b>
  * </code>
- *
- * @author Will Warren
  */
 public abstract class AbstractBridge {
 

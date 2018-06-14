@@ -7,8 +7,6 @@ package com.groupbyinc.api.model;
  * For example, if you know that a user is signed in, and is a high net worth client,
  * then a Custom URL Parameter can be used to fire a rule exclusively for high net worth clients.
  * </code>
- *
- * @author will
  */
 public class CustomUrlParam {
 

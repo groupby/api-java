@@ -8,8 +8,6 @@ import com.groupbyinc.common.jackson.annotation.JsonProperty;
  * A bias specifies a field and value to match in a search. If a record matches the bias,
  * the position of the record in the page of results is adjusted based on the strength provided.
  * </code>
- *
- * @author osman
  */
 public class Bias {
 

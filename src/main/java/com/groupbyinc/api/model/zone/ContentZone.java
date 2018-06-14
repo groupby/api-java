@@ -15,8 +15,6 @@ import com.groupbyinc.common.jackson.annotation.JsonProperty;
  * - `type`: `Content`: a string of text.
  *
  * </code>
- *
- * @author will
  */
 public class ContentZone extends AbstractContentZone<ContentZone> {
 

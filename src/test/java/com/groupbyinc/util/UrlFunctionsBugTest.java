@@ -13,9 +13,6 @@ import java.util.List;
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 
-/**
- * @author Ferron Hanse
- */
 public class UrlFunctionsBugTest {
 
   private final String DEFAULT_BEAUTIFIER = "default";

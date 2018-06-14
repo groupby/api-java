@@ -5,8 +5,6 @@ package com.groupbyinc.api.model;
  * The Cluster record is a simpler record type than a main record.
  * It contains only a title, URL and snippet of matching text.
  * </code>
- *
- * @author will
  */
 public class ClusterRecord {
 

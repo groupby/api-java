@@ -14,8 +14,6 @@ import java.util.List;
  * <code>
  * The results object contains a reference to all the objects that come back from the search service.
  * </code>
- *
- * @author will
  */
 public class Results {
 

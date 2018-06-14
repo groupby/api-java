@@ -3,7 +3,6 @@ package com.groupbyinc.api.model;
 import com.groupbyinc.api.interfaces.PartialMatchRuleInterface;
 
 /**
- * @author osman
  * @internal
  */
 public class PartialMatchRule implements PartialMatchRuleInterface {

@@ -18,8 +18,6 @@ import java.util.Map;
  * - `allMeta`: a map of key value pairs.  If a value is multi-assign, there will additionally be a &lt;key&gt;List
  * item, with all the values.
  * </code>
- *
- * @author will
  */
 public class Record {
 

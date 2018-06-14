@@ -17,7 +17,6 @@ import java.util.List;
  * - `name`: the zone name
  * - `type`: `Records`: A list of zero or more records.
  * </code>
- * @author will
  */
 public class RecordZone extends Zone<RecordZone> {
 

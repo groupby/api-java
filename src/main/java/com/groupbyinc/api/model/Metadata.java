@@ -8,8 +8,6 @@ package com.groupbyinc.api.model;
  * should be displayed as a slider.
  * Or you might set an area metadata to inform the UI of the seasonal color scheme to use.
  * </code>
- *
- * @author will
  */
 public class Metadata {
 

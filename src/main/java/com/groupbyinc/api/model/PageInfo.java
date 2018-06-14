@@ -4,8 +4,6 @@ package com.groupbyinc.api.model;
  * <code>
  * Holds information about this page of data.
  * </code>
- *
- * @author will
  */
 public class PageInfo {
 

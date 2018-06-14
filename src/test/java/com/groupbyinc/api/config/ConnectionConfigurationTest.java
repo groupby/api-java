@@ -4,13 +4,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * @author groupby
- */
 public class ConnectionConfigurationTest {
 
   @Test
-  public void testExceedMaxConnectionLimit() throws Exception {
+  public void testExceedMaxConnectionLimit() {
     try {
       new ConnectionConfiguration(0, 0, 0, 1000, 0);
     } catch (IllegalStateException e) {
@@ -25,7 +22,7 @@ public class ConnectionConfigurationTest {
   }
 
   @Test
-  public void testExceedMaxConnectionPerRouteLimit() throws Exception {
+  public void testExceedMaxConnectionPerRouteLimit() {
     try {
       new ConnectionConfiguration(0, 0, 0, 0, 1000);
     } catch (IllegalStateException e) {

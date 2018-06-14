@@ -18,8 +18,6 @@ import java.util.Map;
  * - `zones`: a map of the zones by name.
  *
  * </code>
- *
- * @author will
  */
 public class Template {
 
