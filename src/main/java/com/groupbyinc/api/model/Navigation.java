@@ -9,7 +9,9 @@ import java.util.List;
 
 /**
  * <code>
- * The Navigation object represents dynamic navigation sent back from the search engine.
+ * The Navigation object represents dynamic navigation sent back from the search engine
+ * or sent to the engine to override Command Center settings.
+ *
  * Each navigation item has the following properties:
  *
  * - `id`: an MD5 hash of the name.
@@ -18,6 +20,7 @@ import java.util.List;
  * - `range`: true if the navigation option is a range.
  * - `or`: true if the navigation option supports or-queries.
  * - `refinements`: A list of the refinement values for this dynamic navigation
+ * - `pinnedRefinements`: A list of the refinement values to pin to the top of this dynamic navigation
  * - `sort`: If specified, an object detailing the sort field and sort order
  *
  * </code>
@@ -48,6 +51,7 @@ public class Navigation {
 
   @JsonInclude(value = JsonInclude.Include.NON_DEFAULT) private Boolean moreRefinements = Boolean.FALSE;
   private List<Refinement> refinements = new ArrayList<Refinement>();
+  @JsonInclude(value = JsonInclude.Include.NON_DEFAULT) private List<String> pinnedRefinements = new ArrayList<String>();
   private List<Metadata> metadata = new ArrayList<Metadata>();
 
   /**
@@ -272,6 +276,22 @@ public class Navigation {
    */
   public Navigation setType(com.groupbyinc.api.model.Navigation.Type type) {
     this.type = type;
+    return this;
+  }
+
+  /**
+   * @return A list of refinement values that you want to pin to the top of the navigation.
+   */
+  public List<String> getPinnedRefinements() {
+    return pinnedRefinements;
+  }
+
+  /**
+   * @param pinnedRefinements The refinement values to pin
+   * @return
+   */
+  public Navigation setPinnedRefinements(List<String> pinnedRefinements) {
+    this.pinnedRefinements = pinnedRefinements;
     return this;
   }
 }

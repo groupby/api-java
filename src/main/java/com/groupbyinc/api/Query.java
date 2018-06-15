@@ -33,6 +33,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import static java.util.Arrays.asList;
+
 public class Query {
 
   private static final Pattern REFINEMENTS_SPLITTER_PATTERN = new Pattern("~((?=[\\w.]*[=:]))");
@@ -111,6 +113,7 @@ public class Query {
     request.setBiasing(convertBiasing(biasing));
     request.setCustomUrlParams(getCustomUrlParams());
     request.setRefinements(generateSelectedRefinements(navigations));
+    request.setNavigations(generateNavigations(navigations));
     request.setRestrictNavigation(convertRestrictNavigation());
     request.setWildcardSearchEnabled(isWildcardSearchEnabled());
     request.setSecuredPayload(securedPayload);
@@ -190,6 +193,16 @@ public class Query {
       }
     }
     return refinements;
+  }
+
+  private List<com.groupbyinc.api.request.Navigation> generateNavigations(LinkedHashMap<String, Navigation> navigations) {
+    List<com.groupbyinc.api.request.Navigation> overrides = new ArrayList<com.groupbyinc.api.request.Navigation>();
+    for (Navigation n : navigations.values()) {
+      if (CollectionUtils.isNotEmpty(n.getPinnedRefinements())) {
+        overrides.add(new com.groupbyinc.api.request.Navigation().setName(n.getName()).setPinnedRefinements(n.getPinnedRefinements()));
+      }
+    }
+    return overrides;
   }
 
   private RestrictNavigation convertRestrictNavigation() {
@@ -776,6 +789,50 @@ public class Query {
    */
   public Query addValueRefinement(String navigationName, String value, boolean exclude) {
     return addRefinement(navigationName, new RefinementValue().setValue(value).setExclude(exclude));
+  }
+
+  /**
+   * <code>
+   * Add pinned value refinement.  Takes a refinement name and a set of values.
+   * </code>
+   *
+   * @param navigationName
+   *         The name of the navigation
+   * @param values
+   *         The refinement values
+   *
+   * @return
+   */
+  public Query setPinnedRefinements(String navigationName, String... values) {
+    Navigation navigation = navigations.get(navigationName);
+    if (navigation == null) {
+      navigation = new Navigation().setName(navigationName);
+      navigations.put(navigationName, navigation);
+    }
+    navigation.setPinnedRefinements(asList(values));
+    return this;
+  }
+
+  /**
+   * <code>
+   * Add pinned value refinement.  Takes a refinement name and a set of values.
+   * </code>
+   *
+   * @param navigationName
+   *         The name of the navigation
+   * @param values
+   *         The refinement values
+   *
+   * @return
+   */
+  public Query setPinnedRefinements(String navigationName, List<String> values) {
+    Navigation navigation = navigations.get(navigationName);
+    if (navigation == null) {
+      navigation = new Navigation().setName(navigationName);
+      navigations.put(navigationName, navigation);
+    }
+    navigation.setPinnedRefinements(new ArrayList<String>(values));
+    return this;
   }
 
   /**

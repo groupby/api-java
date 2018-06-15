@@ -17,6 +17,13 @@ public class RequestUtil {
     }
   };
 
+  private static final Comparator<Navigation> NAVIGATION_COMPARATOR = new Comparator<Navigation>() {
+    @Override
+    public int compare(Navigation o1, Navigation o2) {
+      return ObjectUtils.compare(o1.getName(), o2.getName());
+    }
+  };
+
   private static final Comparator<CustomUrlParam> CUSTOM_URL_PARAM_COMPARATOR = new Comparator<CustomUrlParam>() {
     @Override
     public int compare(CustomUrlParam o1, CustomUrlParam o2) {
@@ -78,6 +85,7 @@ public class RequestUtil {
       sort(biasing.getRestrictToIds(), STRING_COMPARATOR);
     }
 
+    sort(request.getNavigations(), NAVIGATION_COMPARATOR);
     sort(request.getIncludedNavigations(), STRING_COMPARATOR);
     sort(request.getExcludedNavigations(), STRING_COMPARATOR);
     sort(request.getOrFields(), STRING_COMPARATOR);

@@ -48,6 +48,7 @@ public class Request {
   @JsonInclude(JsonInclude.Include.NON_DEFAULT) private Boolean wildcardSearchEnabled = false;
   @JsonInclude(JsonInclude.Include.NON_EMPTY) private List<String> includedNavigations = new ArrayList<String>();
   @JsonInclude(JsonInclude.Include.NON_EMPTY) private List<String> excludedNavigations = new ArrayList<String>();
+  @JsonInclude(JsonInclude.Include.NON_EMPTY) private List<Navigation> navigations = new ArrayList<Navigation>();
   private Boolean pruneRefinements = true;
 
   public String getClientKey() {
@@ -305,6 +306,15 @@ public class Request {
 
   public Request setSecuredPayload(AesContent securedPayload) {
     this.securedPayload = securedPayload;
+    return this;
+  }
+
+  public List<Navigation> getNavigations() {
+    return navigations;
+  }
+
+  public Request setNavigations(List<Navigation> navigations) {
+    this.navigations = navigations;
     return this;
   }
 }
