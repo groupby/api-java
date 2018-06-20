@@ -332,7 +332,7 @@
         <plugin>
           <groupId>de.jutzig</groupId>
           <artifactId>github-release-plugin</artifactId>
-          <version>1.1.1</version>
+          <version>1.2.0</version>
           <configuration>
             <description>Release v${project.version}</description>
             <releaseName>v${project.version}</releaseName>
