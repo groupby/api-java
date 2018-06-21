@@ -36,7 +36,7 @@
     <!-- ### Versions -->
     <groupbyinc.common.version>126</groupbyinc.common.version>
     <api.servlet.version>2.5</api.servlet.version>
-    <api.jsp.version>2.1</api.jsp.version>
+    <api.jsp.version>2.2</api.jsp.version>
     <junit.version>4.12</junit.version>
     <cloning.util.version>1.9.2</cloning.util.version>
     <jregex.version>1.2_01</jregex.version>
