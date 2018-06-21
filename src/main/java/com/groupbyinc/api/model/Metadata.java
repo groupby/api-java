@@ -22,10 +22,7 @@ public class Metadata {
   }
 
   /**
-   * @param key
-   *         Set the name of this key
-   *
-   * @return
+   * @param key Set the name of this key
    */
   public Metadata setKey(String key) {
     this.key = key;
@@ -40,10 +37,7 @@ public class Metadata {
   }
 
   /**
-   * @param value
-   *         Set the value.
-   *
-   * @return
+   * @param value Set the value.
    */
   public Metadata setValue(String value) {
     this.value = value;

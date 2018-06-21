@@ -40,7 +40,6 @@ public class Biasing {
    *
    * @param restrictToIds
    *      The list of productIds.
-   * @return
    */
   public Biasing setRestrictToIds(List<String> restrictToIds) {
     this.restrictToIds = restrictToIds;
@@ -63,7 +62,6 @@ public class Biasing {
    *
    * @param bringToTop
    *      The list of productIds.
-   * @return
    */
   public Biasing setBringToTop(List<String> bringToTop) {
     this.bringToTop = bringToTop;
@@ -87,8 +85,6 @@ public class Biasing {
    *
    * @param augmentBiases
    *         True to augment biases, false otherwise
-   *
-   * @return
    */
   public Biasing setAugmentBiases(boolean augmentBiases) {
     this.augmentBiases = augmentBiases;
@@ -109,8 +105,6 @@ public class Biasing {
    *
    * @param biases
    *         The biases
-   *
-   * @return
    */
   public Biasing setBiases(List<Bias> biases) {
     this.biases = biases;

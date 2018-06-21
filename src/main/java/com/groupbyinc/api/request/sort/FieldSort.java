@@ -22,9 +22,7 @@ public class FieldSort implements Sort {
   }
 
   /**
-   *
    * @param field The source field name to sort by.
-   * @return
    */
   public FieldSort setField(String field) {
     this.field = field;
@@ -44,8 +42,7 @@ public class FieldSort implements Sort {
    *     Order in which the field will be applied.  Takes either
    *     `Ascending` or `Descending`
    * </code>
-   * @param order
-   * @return
+   * @param order The order in which the field will be applied
    */
   public FieldSort setOrder(Order order) {
     this.order = order;

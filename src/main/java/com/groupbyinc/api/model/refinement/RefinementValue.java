@@ -54,7 +54,7 @@ public class RefinementValue extends Refinement<RefinementValue> {
   }
 
   /**
-   * @param `obj`: the reference object with which to compare.
+   * @param o the reference object with which to compare.
    * @return `true` if this object is the same as the obj argument; `false` otherwise.
    */
   @Override

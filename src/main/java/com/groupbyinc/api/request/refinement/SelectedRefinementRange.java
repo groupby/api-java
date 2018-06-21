@@ -48,7 +48,6 @@ public class SelectedRefinementRange extends SelectedRefinement<SelectedRefineme
 
   /**
    * @param low Set the lower bound.
-   * @return
    */
   public SelectedRefinementRange setLow(String low) {
     this.low = low;
@@ -64,7 +63,6 @@ public class SelectedRefinementRange extends SelectedRefinement<SelectedRefineme
 
   /**
    * @param high Set the uppermost value.
-   * @return
    */
   public SelectedRefinementRange setHigh(String high) {
     this.high = high;

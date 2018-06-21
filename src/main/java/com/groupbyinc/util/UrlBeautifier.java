@@ -78,8 +78,6 @@ public class UrlBeautifier {
    * <code>
    * Get a map of UrlBeautifiers keyed by name.
    * </code>
-   *
-   * @return
    */
   public static Map<String, UrlBeautifier> getUrlBeautifiers() {
     return INJECTOR.get();
@@ -93,13 +91,11 @@ public class UrlBeautifier {
    * placed into a URL path segment.
    * </code>
    *
-   * @deprecated Use {@link #toUrl(String, Map<String, Navigation>)} ()}
+   * @deprecated Use {@link #toUrl(String, Map)} ()}
    * @param searchString
    *         The current search state.
    * @param existingRefinements
    *         The current refinement state
-   *
-   * @return
    *
    * @throws UrlBeautifier.UrlBeautificationException
    */
@@ -254,8 +250,6 @@ public class UrlBeautifier {
    * @param navigations
    *         The current refinement state
    *
-   * @return
-   *
    * @throws UrlBeautifier.UrlBeautificationException
    */
   public String toUrl(String searchString, Map<String, Navigation> navigations) throws UrlBeautifier.UrlBeautificationException {
@@ -296,8 +290,6 @@ public class UrlBeautifier {
    * @param uri
    *         The URI to parse into a query object
    *
-   * @return
-   *
    * @throws UrlBeautifier.UrlBeautificationException
    */
   public Query fromUrl(String uri) throws UrlBeautifier.UrlBeautificationException {
@@ -318,8 +310,6 @@ public class UrlBeautifier {
    *         The URI to parse into a query object
    * @param defaultQuery
    *         The default query to use if this URL does not correctly parse.
-   *
-   * @return
    *
    * @throws UrlBeautifier.UrlBeautificationException
    */
@@ -502,8 +492,6 @@ public class UrlBeautifier {
    * <code>
    * Return the current appended URL segment
    * </code>
-   *
-   * @return
    */
   public String getAppend() {
     return append;

@@ -351,8 +351,6 @@ public class Query {
    *
    * @param query
    *         The search string to fire against the engine.
-   *
-   * @return
    */
   public Query setQuery(String query) {
     this.query = query;
@@ -371,8 +369,6 @@ public class Query {
   /**
    * @param subCollection
    *         The string representation of a collection query.
-   *
-   * @return
    *
    * @deprecated since 2.0, use setCollection instead.
    */
@@ -404,8 +400,6 @@ public class Query {
    *
    * @param collection
    *         The string representation of a collection query.
-   *
-   * @return
    */
   public Query setCollection(String collection) {
     this.collection = collection;
@@ -432,8 +426,6 @@ public class Query {
    *
    * @param area
    *         The area name.
-   *
-   * @return
    */
   public Query setArea(String area) {
     this.area = area;
@@ -477,8 +469,6 @@ public class Query {
    * @param clientKey
    *         Your client key
    *
-   * @return
-   *
    * @internal
    */
   protected String getBridgeJsonRefinementSearch(String clientKey) {
@@ -512,8 +502,6 @@ public class Query {
    *
    * @param refinementString
    *         A tilde separated list of refinements
-   *
-   * @return
    */
   public Query addRefinementsByString(String refinementString) {
     if (refinementString == null) {
@@ -582,8 +570,6 @@ public class Query {
    *         The name of the refinement
    * @param refinement
    *         The refinement to add
-   *
-   * @return
    */
   private Query addRefinement(String navigationName, Refinement refinement) {
     Navigation navigation = navigations.get(navigationName);
@@ -604,8 +590,6 @@ public class Query {
    *
    * @param customUrlParam
    *         The parameter to add
-   *
-   * @return
    */
   public Query addCustomUrlParam(CustomUrlParam customUrlParam) {
     customUrlParams.add(customUrlParam);
@@ -629,8 +613,6 @@ public class Query {
    *         The parameter key
    * @param value
    *         The parameter value
-   *
-   * @return
    */
   public Query addCustomUrlParam(String key, String value) {
     customUrlParams.add(new CustomUrlParam().setKey(key).setValue(value));
@@ -645,8 +627,6 @@ public class Query {
    *
    * @param values
    *         The list of name/values
-   *
-   * @return
    */
   public Query addCustomUrlParamsByString(String values) {
     if (values == null) {
@@ -691,8 +671,6 @@ public class Query {
    *
    * @param name
    *         The case-sensitive name of the attribute to return
-   *
-   * @return
    */
   public Query addFields(String... name) {
     return addField(fields, name);
@@ -730,8 +708,6 @@ public class Query {
    * @param name
    *         The field that should be treated as OR by the search service before
    *         being executed.
-   *
-   * @return
    */
   public Query addOrField(String... name) {
     return addField(orFields, name);
@@ -748,8 +724,6 @@ public class Query {
    *         The low value
    * @param high
    *         The high value
-   *
-   * @return
    */
   public Query addRangeRefinement(String navigationName, String low, String high) {
     return addRangeRefinement(navigationName, low, high, false);
@@ -769,8 +743,6 @@ public class Query {
    *         The high value
    * @param exclude
    *         True if the results should exclude this range refinement, false otherwise
-   *
-   * @return
    */
   public Query addRangeRefinement(String navigationName, String low, String high, boolean exclude) {
     return addRefinement(navigationName, new RefinementRange().setLow(low).setHigh(high).setExclude(exclude));
@@ -785,8 +757,6 @@ public class Query {
    *         The name of the navigation
    * @param value
    *         The refinement value
-   *
-   * @return
    */
   public Query addValueRefinement(String navigationName, String value) {
     return addValueRefinement(navigationName, value, false);
@@ -803,8 +773,6 @@ public class Query {
    *         The refinement value
    * @param exclude
    *         True if the results should exclude this value refinement, false otherwise
-   *
-   * @return
    */
   public Query addValueRefinement(String navigationName, String value, boolean exclude) {
     return addRefinement(navigationName, new RefinementValue().setValue(value).setExclude(exclude));
@@ -829,8 +797,6 @@ public class Query {
    *
    * @param skip
    *         The number of documents to skip
-   *
-   * @return
    */
   public Query setSkip(int skip) {
     this.skip = skip;
@@ -856,8 +822,6 @@ public class Query {
    *
    * @param pageSize
    *         The number of records to return with the query.
-   *
-   * @return
    */
   public Query setPageSize(int pageSize) {
     this.pageSize = pageSize;
@@ -893,8 +857,6 @@ public class Query {
    *
    * @param returnBinary
    *         Whether to tell the search service to return binary data rather than JSON.
-   *
-   * @return
    */
   public Query setReturnBinary(boolean returnBinary) {
     this.returnBinary = returnBinary;
@@ -920,8 +882,6 @@ public class Query {
    * </code>
    *
    * @param biasingProfile The name of the biasing profile
-   *
-   * @return
    */
   public Query setBiasingProfile(String biasingProfile) {
     this.biasingProfile = biasingProfile;
@@ -947,8 +907,6 @@ public class Query {
    * </code>
    *
    * @param matchStrategyName The name of the match strategy
-   *
-   * @return
    */
   public Query setMatchStrategyName(String matchStrategyName) {
     this.matchStrategyName = matchStrategyName;
@@ -979,8 +937,6 @@ public class Query {
    *
    * @param language
    *         The value for language restrict
-   *
-   * @return
    */
   public Query setLanguage(String language) {
     this.language = language;
@@ -1021,8 +977,6 @@ public class Query {
    * </code>
    *
    * @param pruneRefinements true to prune refinements, false other
-   *
-   * @return
    */
   public Query setPruneRefinements(boolean pruneRefinements) {
     this.pruneRefinements = pruneRefinements;
@@ -1052,8 +1006,6 @@ public class Query {
    * </code>
    *
    * @param disableAutocorrection true to disable autocorrection, false otherwise
-   *
-   * @return
    */
   public Query setDisableAutocorrection(boolean disableAutocorrection) {
     this.disableAutocorrection = disableAutocorrection;
@@ -1092,7 +1044,7 @@ public class Query {
 
   /**
    * <code>
-   * <b>Warning</b> @see Query#setRestrictNavigation(RestrictNavigation). This is a convenience method.
+   * <b>Warning</b> See {@link Query#setRestrictNavigation(RestrictNavigation)}. This is a convenience method.
    * </code>
    *
    * @param name
@@ -1145,7 +1097,6 @@ public class Query {
    * </code>
    *
    * @param sort Any number of sort criteria.
-   * @return
    */
   public Query setSort(Sort... sort) {
     CollectionUtils.addAll(this.sort, sort);
@@ -1208,7 +1159,6 @@ public class Query {
    * </code>
    *
    * @param matchStrategy A match strategy composed of partial matching rules.
-   * @return
    */
   public Query setMatchStrategy(MatchStrategy matchStrategy) {
     this.matchStrategy = matchStrategy;
@@ -1249,8 +1199,6 @@ public class Query {
    *
    * @param navigationName
    *         The case-sensitive name of the navigation to return
-   *
-   * @return
    */
   public Query addIncludedNavigations(String... navigationName) {
     return addField(includedNavigations, navigationName);
@@ -1280,8 +1228,6 @@ public class Query {
    *
    * @param navigationName
    *         The case-sensitive name of the navigation to exclude
-   *
-   * @return
    */
   public Query addExcludedNavigations(String... navigationName) {
     return addField(excludedNavigations, navigationName);
@@ -1304,8 +1250,6 @@ public class Query {
    *
    * @param queryUrlParams
    *         The map of query level url parameters
-   *
-   * @return
    */
   public Query setQueryUrlParams(Map<String, String> queryUrlParams) {
     this.queryUrlParams = queryUrlParams;
@@ -1315,15 +1259,13 @@ public class Query {
   /**
    * <code>
    *
-   * @see Query#setQueryUrlParams(Map). This is a convenience method for when you have no
+   * See {@link Query#setQueryUrlParams(Map)}. This is a convenience method for when you have no
    * value for the url parameter.
    *
    * </code>
    *
    * @param key
    *         The key of the url parameter
-   *
-   * @return
    */
   public Query addQueryUrlParams(String key) {
     return addQueryUrlParams(key, null);
@@ -1332,7 +1274,7 @@ public class Query {
   /**
    * <code>
    *
-   * @see Query#setQueryUrlParams(Map).
+   * See {@link Query#setQueryUrlParams(Map)}.
    *
    * </code>
    *
@@ -1340,8 +1282,6 @@ public class Query {
    *         The key of the url parameter
    * @param value
    *         The value of the url parameter
-   *
-   * @return
    */
   public Query addQueryUrlParams(String key, String value) {
     this.queryUrlParams.put(key, value);
@@ -1351,15 +1291,13 @@ public class Query {
   /**
    * <code>
    *
-   * @see Query#setBiasing(Biasing). This is a convenience method to set which products should be
+   * See {@link Query#setBiasing(Biasing)}. This is a convenience method to set which products should be
    * brought to the top of the result set.
    *
    * </code>
    *
    * @param bringToTop
    *         Any number of product IDs to bring to the top of the result set.
-   *
-   * @return
    */
   public Query setBringToTop(String... bringToTop) {
     CollectionUtils.addAll(this.biasing.getBringToTop(), bringToTop);
@@ -1369,15 +1307,13 @@ public class Query {
   /**
    * <code>
    *
-   * @see Query#setBiasing(Biasing). This is a convenience method to set the list of products IDs that will be
+   * See {@link Query#setBiasing(Biasing)}. This is a convenience method to set the list of products IDs that will be
    * used for `restrictToIds`.
    *
    * </code>
    *
    * @param restrictToIds
    *         Any number of product IDs to bring to the top of the result set.
-   *
-   * @return
    */
   public Query setRestrictToIds(String... restrictToIds) {
     CollectionUtils.addAll(this.biasing.getRestrictToIds(), restrictToIds);
@@ -1387,14 +1323,12 @@ public class Query {
   /**
    * <code>
    *
-   * @see Query#setBiasing(Biasing). This is a convenience method to set the biasing augment status.
+   * See {@link Query#setBiasing(Biasing)}. This is a convenience method to set the biasing augment status.
    *
    * </code>
    *
    * @param augment
    *         True to replace the biases defined in Command Center, false to augment.
-   *
-   * @return
    */
   public Query setBiasingAugment(boolean augment) {
     biasing.setAugmentBiases(augment);
@@ -1404,13 +1338,12 @@ public class Query {
   /**
    * <code>
    *
-   * @see Query#setBiasing(Biasing). This is a convenience method to set the biasing influence.
+   * See {@link Query#setBiasing(Biasing)}. This is a convenience method to set the biasing influence.
    *
    * </code>
    *
    * @param influence
    *         The influence
-   * @return
    */
   public Query setInfluence(Float influence) {
     biasing.setInfluence(influence);
@@ -1420,7 +1353,7 @@ public class Query {
   /**
    * <code>
    *
-   * @see Query#setBiasing(Biasing). This is a convenience method to add an individual bias.
+   * See {@link Query#setBiasing(Biasing)}. This is a convenience method to add an individual bias.
    *
    * </code>
    *
@@ -1431,8 +1364,6 @@ public class Query {
    * @param strength
    *         The strength of the bias. Legal values are: "Absolute_Increase", "Strong_Increase", "Medium_Increase",
    *         "Weak_Increase", "Leave_Unchanged", "Weak_Decrease", "Medium_Decrease", "Strong_Decrease", "Absolute_Decrease".
-   *
-   * @return
    */
   public Query addBias(String name, String content, Bias.Strength strength) {
     biasing.getBiases().add(new Bias().setName(name).setContent(content).setStrength(strength));
@@ -1465,7 +1396,6 @@ public class Query {
    * </code>
    * @param sessionId
    *         The session ID
-   * @return
    */
   public Query setSessionId(String sessionId) {
     this.sessionId = sessionId;
@@ -1494,7 +1424,6 @@ public class Query {
    * </code>
    * @param visitorId
    *         The visitor ID
-   * @return
    */
   public Query setVisitorId(String visitorId) {
     this.visitorId = visitorId;
@@ -1562,7 +1491,6 @@ public class Query {
    * @param biasing
    *         The biasing parameters
    *
-   * @return
    * @internal
    */
   public Query setBiasing(Biasing biasing) {
@@ -1591,7 +1519,6 @@ public class Query {
    * @param securedPayload
    *         The secured payload received at login
    *
-   * @return
    * @internal
    */
   public Query setSecuredPayload(AesContent securedPayload) {

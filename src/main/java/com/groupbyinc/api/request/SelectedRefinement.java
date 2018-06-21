@@ -39,7 +39,6 @@ public abstract class SelectedRefinement<T extends SelectedRefinement<T>> {
 
   /**
    * @param id Set the ID
-   * @return
    */
   @SuppressWarnings("unchecked")
   public T setId(String id) {
@@ -56,7 +55,6 @@ public abstract class SelectedRefinement<T extends SelectedRefinement<T>> {
 
   /**
    * @param navigationName Set the navigation name
-   * @return
    */
   @SuppressWarnings("unchecked")
   public T setNavigationName(String navigationName) {
@@ -85,7 +83,6 @@ public abstract class SelectedRefinement<T extends SelectedRefinement<T>> {
   public abstract Type getType();
 
   /**
-   * @return
    * @internal
    */
   public abstract String toTildeString();
@@ -99,7 +96,6 @@ public abstract class SelectedRefinement<T extends SelectedRefinement<T>> {
 
   /**
    * @param exclude Set the exclude
-   * @return
    */
   @SuppressWarnings("unchecked")
   public T setExclude(Boolean exclude) {

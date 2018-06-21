@@ -26,7 +26,6 @@ public class SortByIds implements Sort {
    * </code>
    * @param ids
    *      The products IDs in the expected order for the result set.
-   * @return
    */
   public SortByIds setIds(List<String> ids) {
     this.ids = ids;

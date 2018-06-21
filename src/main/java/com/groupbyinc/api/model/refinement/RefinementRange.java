@@ -72,20 +72,20 @@ public class RefinementRange extends Refinement<RefinementRange> {
   }
 
   /**
-   * @param `obj`: the reference object with which to compare.
-   * @return `true` if this object is the same as the obj argument; `false` otherwise.
+   * @param o the reference object with which to compare.
+   * @return `true` if this object is the same as the o argument; `false` otherwise.
    */
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
-    } else if (obj == null || getClass() != obj.getClass()) {
+    } else if (o == null || getClass() != o.getClass()) {
       return false;
-    } else if (!super.equals(obj)) {
+    } else if (!super.equals(o)) {
       return false;
     }
 
-    RefinementRange that = (RefinementRange) obj;
+    RefinementRange that = (RefinementRange) o;
 
     if (getCount() != that.getCount()) {
       return false;

@@ -46,7 +46,6 @@ public class SelectedRefinementValue extends SelectedRefinement<SelectedRefineme
 
   /**
    * @param value Set the value
-   * @return
    */
   public SelectedRefinementValue setValue(String value) {
     this.value = value;

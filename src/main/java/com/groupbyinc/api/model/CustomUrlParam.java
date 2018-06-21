@@ -21,10 +21,7 @@ public class CustomUrlParam {
   }
 
   /**
-   * @param key
-   *         Set the name of this key
-   *
-   * @return
+   * @param key Set the name of this key
    */
   public CustomUrlParam setKey(String key) {
     this.key = key;
@@ -39,10 +36,7 @@ public class CustomUrlParam {
   }
 
   /**
-   * @param value
-   *         Set the value.
-   *
-   * @return
+   * @param value Set the value.
    */
   public CustomUrlParam setValue(String value) {
     this.value = value;

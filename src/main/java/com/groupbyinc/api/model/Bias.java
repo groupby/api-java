@@ -42,8 +42,6 @@ public class Bias {
    *
    * @param name
    *         The name of the field to bias on
-   *
-   * @return
    */
   public Bias setName(String name) {
     this.name = name;
@@ -64,8 +62,6 @@ public class Bias {
    *
    * @param content
    *         The value of the field to bias on
-   *
-   * @return
    */
   public Bias setContent(String content) {
     this.content = content;
@@ -86,8 +82,6 @@ public class Bias {
    *
    * @param strength
    *         The strength of the bias, if applied
-   *
-   * @return
    */
   public Bias setStrength(String strength) {
     this.strength = Strength.valueOf(strength);

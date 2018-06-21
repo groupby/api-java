@@ -28,7 +28,6 @@ public class Cluster {
    * @param records
    *         The list of cluster records to set
    *
-   * @return
    */
   public Cluster setRecords(List<ClusterRecord> records) {
     this.records = records;
@@ -50,7 +49,6 @@ public class Cluster {
    * @param term
    *         The cluster term
    *
-   * @return
    */
   public Cluster setTerm(String term) {
     this.term = term;

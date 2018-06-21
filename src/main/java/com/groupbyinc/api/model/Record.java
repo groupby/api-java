@@ -31,7 +31,6 @@ public class Record {
 
   /**
    * @internal
-   * @return
    */
   public List<RefinementMatch> getRefinementMatches() {
     return refinementMatches;
@@ -40,7 +39,6 @@ public class Record {
   /**
    * @internal
    * @param refinementMatches The list of refinement matches
-   * @return
    */
   public Record setRefinementMatches(List<RefinementMatch> refinementMatches) {
     this.refinementMatches = refinementMatches;
@@ -70,8 +68,6 @@ public class Record {
   /**
    * @param id
    *         Set the id
-   *
-   * @return
    */
   public Record setId(String id) {
     this.id = id;
@@ -94,8 +90,6 @@ public class Record {
   /**
    * @param url
    *         Set the record url
-   *
-   * @return
    */
   public Record setUrl(String url) {
     this.url = url;
@@ -113,8 +107,6 @@ public class Record {
   /**
    * @param snippet
    *         Set the snippet
-   *
-   * @return
    */
   public Record setSnippet(String snippet) {
     this.snippet = snippet;
@@ -125,8 +117,6 @@ public class Record {
    * @param name
    *         Get a specific metadata value. Essentially this represents an
    *         attribute of the record data.
-   *
-   * @return
    */
   public Object getMetaValue(String name) {
     return allMeta.get(name);
@@ -142,8 +132,6 @@ public class Record {
   /**
    * @param allMeta
    *         Set the metadata.
-   *
-   * @return
    */
   public Record setAllMeta(Map<String, Object> allMeta) {
     this.allMeta = allMeta;

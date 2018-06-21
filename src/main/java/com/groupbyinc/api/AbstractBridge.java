@@ -193,8 +193,6 @@ public abstract class AbstractBridge {
   }
 
   /**
-   * @return
-   *
    * @internal
    */
   public String getClusterBridgeUrl() {
@@ -210,8 +208,6 @@ public abstract class AbstractBridge {
    *         A query representing the search.
    *
    * @return Results object from the search service
-   *
-   * @throws IOException
    */
   public Results search(Query query) throws IOException {
     InputStream data = fireRequest(getBridgeUrl(), query.getQueryUrlParams(), query.getBridgeJson(clientKey), query.isReturnBinary());
@@ -231,8 +227,6 @@ public abstract class AbstractBridge {
   }
 
   /**
-   * @return
-   *
    * @internal
    */
   public String getBridgeUrl() {
@@ -378,8 +372,6 @@ public abstract class AbstractBridge {
   }
 
   /**
-   * @return
-   *
    * @internal
    */
   public String getBridgeRefinementsUrl() {
@@ -441,7 +433,7 @@ public abstract class AbstractBridge {
    * <code>
    * Set a list of headers.  Use `getHeaders().add(new BasicHeader())`
    * </code>
-   * @param headers
+   * @param headers The list of headers
    */
   public void setHeaders(List<Header> headers) {
     this.headers = headers;

@@ -60,7 +60,6 @@ public class Navigation {
 
   /**
    * @param name The name of the navigation
-   * @return
    */
   public Navigation setName(String name) {
     this.name = name;
@@ -76,7 +75,6 @@ public class Navigation {
 
   /**
    * @param displayName Set the display name
-   * @return
    */
   public Navigation setDisplayName(String displayName) {
     this.displayName = displayName;
@@ -93,7 +91,6 @@ public class Navigation {
 
   /**
    * @param refinements The refinement values
-   * @return
    */
   public Navigation setRefinements(List<Refinement> refinements) {
     this.refinements = refinements;
@@ -109,7 +106,6 @@ public class Navigation {
 
   /**
    * @param id Set the ID
-   * @return
    */
   public Navigation setId(String id) {
     this.id = id;
@@ -126,7 +122,6 @@ public class Navigation {
 
   /**
    * @param range Set range
-   * @return
    */
   public Navigation setRange(boolean range) {
     this.range = range;
@@ -151,10 +146,7 @@ public class Navigation {
   }
 
   /**
-   * @param or
-   *         Set whether this is an OR field
-   *
-   * @return
+   * @param or Set whether this is an OR field
    */
   public Navigation setOr(boolean or) {
     this.or = or;
@@ -215,7 +207,6 @@ public class Navigation {
 
   /**
    * @param metadata Set the metadata
-   * @return
    */
   public Navigation setMetadata(List<Metadata> metadata) {
     this.metadata = metadata;
@@ -235,7 +226,6 @@ public class Navigation {
 
   /**
    * @param moreRefinements True if this navigation has more refinement values than the ones returned.
-   * @return
    */
   public Navigation setMoreRefinements(Boolean moreRefinements) {
     this.moreRefinements = moreRefinements;
@@ -255,7 +245,6 @@ public class Navigation {
 
   /**
    * @param ignored True if this navigation has been ignored.
-   * @return
    */
   public Navigation setIgnored(Boolean ignored) {
     this.ignored = ignored;
@@ -280,7 +269,6 @@ public class Navigation {
 
   /**
    * @param type Value/Range/Dynamic_Range.
-   * @return
    */
   public Navigation setType(com.groupbyinc.api.model.Navigation.Type type) {
     this.type = type;
