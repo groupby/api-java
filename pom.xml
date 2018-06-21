@@ -624,6 +624,12 @@
                   <additionalparam>-Xdoclint:none</additionalparam>
                   <quiet>true</quiet>
                   <keywords>true</keywords>
+                  <tags>
+                    <tag>
+                      <name>internal</name>
+                      <placement>a</placement>
+                    </tag>
+                  </tags>
                 </configuration>
               </execution>
             </executions>
