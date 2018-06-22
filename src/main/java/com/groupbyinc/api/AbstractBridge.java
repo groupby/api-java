@@ -6,7 +6,6 @@ import com.groupbyinc.api.model.Results;
 import com.groupbyinc.api.request.RefinementsRequest;
 import com.groupbyinc.api.request.Request;
 import com.groupbyinc.common.apache.commons.collections4.MapUtils;
-import com.groupbyinc.common.apache.commons.io.Charsets;
 import com.groupbyinc.common.apache.commons.io.IOUtils;
 import com.groupbyinc.common.apache.commons.lang3.StringUtils;
 import com.groupbyinc.common.apache.http.ConnectionClosedException;
@@ -61,6 +60,7 @@ public abstract class AbstractBridge {
   private static final String REFINEMENTS = "/refinements";
   private static final String BODY = "\nbody:\n";
   private static final String EXCEPTION_FROM_BRIDGE = "Exception from bridge: ";
+  public static final Charset UTF_8 = Charset.forName("UTF-8");
 
   private final ConnectionConfiguration config;
   private final RequestConfig requestConfig;
@@ -238,7 +238,7 @@ public abstract class AbstractBridge {
   }
 
   private HttpResponse postToBridge(String url, Map<String, String> urlParams, String bridgeJson) throws IOException {
-    StringEntity entity = new StringEntity(bridgeJson, Charset.forName("UTF-8"));
+    StringEntity entity = new StringEntity(bridgeJson, UTF_8);
     entity.setContentType("application/json");
 
     HttpResponse response = null;
@@ -299,7 +299,7 @@ public abstract class AbstractBridge {
       LOG.warning("unable to parse error from response.");
     } finally {
       if (StringUtils.isBlank(msg)) {
-        msg.append(BODY).append(StringUtils.toEncodedString(bytes, Charsets.UTF_8));
+        msg.append(BODY).append(StringUtils.toEncodedString(bytes, UTF_8));
       }
     }
     throw new IOException(EXCEPTION_FROM_BRIDGE + status + msg.toString());

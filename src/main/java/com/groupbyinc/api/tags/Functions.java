@@ -6,8 +6,8 @@ import com.groupbyinc.api.model.Results;
 import com.groupbyinc.api.model.refinement.RefinementValue;
 import com.groupbyinc.common.apache.commons.codec.digest.DigestUtils;
 import com.groupbyinc.common.apache.commons.collections4.CollectionUtils;
-import com.groupbyinc.common.apache.commons.lang3.StringEscapeUtils;
 import com.groupbyinc.common.apache.commons.lang3.StringUtils;
+import com.groupbyinc.common.apache.commons.text.StringEscapeUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
