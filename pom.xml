@@ -21,7 +21,7 @@
     <url>https://github.com/groupby/api-java</url>
     <connection>scm:git:git@github.com:groupby/api-java.git</connection>
     <developerConnection>scm:git:git@github.com:groupby/api-java.git</developerConnection>
-    <tag>v2.5.9</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <properties>
@@ -34,7 +34,7 @@
     <log4j.properties />
 
     <!-- ### Versions -->
-    <groupbyinc.common.version>130</groupbyinc.common.version>
+    <groupbyinc.common.version>131</groupbyinc.common.version>
     <api.servlet.version>2.5</api.servlet.version>
     <api.jsp.version>2.2</api.jsp.version>
     <junit.version>4.12</junit.version>
