@@ -34,7 +34,7 @@
     <log4j.properties />
 
     <!-- ### Versions -->
-    <groupbyinc.common.version>132</groupbyinc.common.version>
+    <groupbyinc.common.version>133</groupbyinc.common.version>
     <api.servlet.version>2.5</api.servlet.version>
     <api.jsp.version>2.2</api.jsp.version>
     <junit.version>4.12</junit.version>
@@ -76,6 +76,12 @@
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
+      <artifactId>common-logging</artifactId>
+      <version>${groupbyinc.common.version}</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
       <artifactId>common-security</artifactId>
       <version>${groupbyinc.common.version}</version>
       <optional>true</optional>
@@ -99,12 +105,6 @@
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>common-test</artifactId>
-      <version>${groupbyinc.common.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>common-logging-internal</artifactId>
       <version>${groupbyinc.common.version}</version>
       <scope>test</scope>
     </dependency>
@@ -633,7 +633,6 @@
                   <detectJavaApiLink>false</detectJavaApiLink>
                   <detectLinks>false</detectLinks>
                   <validateLinks>false</validateLinks>
-                  <additionalparam>-Xdoclint:none</additionalparam>
                   <keywords>true</keywords>
                   <tags>
                     <tag>
