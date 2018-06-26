@@ -220,7 +220,11 @@ public abstract class AbstractBridge {
     if (response.getStatusLine().getStatusCode() != 200) {
       String status = response.getStatusLine().toString();
       byte[] bytes = IOUtils.toByteArray(data);
-      IOUtils.closeQuietly(data);
+      try {
+        data.close();
+      } catch (IOException e) {
+        // silently close
+      }
       handleErrorStatus(status, bytes, returnBinary);
     }
     return data;
@@ -400,7 +404,11 @@ public abstract class AbstractBridge {
    * </code>
    */
   public void shutdown() {
-    IOUtils.closeQuietly(httpClient);
+    try {
+      httpClient.close();
+    } catch (IOException e) {
+      // silently close
+    }
   }
 
   /**
