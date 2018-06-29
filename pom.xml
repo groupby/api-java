@@ -34,7 +34,7 @@
     <log4j.properties />
 
     <!-- ### Versions -->
-    <groupbyinc.common.version>141</groupbyinc.common.version>
+    <groupbyinc.common.version>142</groupbyinc.common.version>
     <api.servlet.version>2.5</api.servlet.version>
     <api.jsp.version>2.2</api.jsp.version>
     <junit.version>4.12</junit.version>
@@ -523,6 +523,7 @@
                     <Archive-Type>Uber JAR</Archive-Type>
                   </manifestEntries>
                 </transformer>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
               </transformers>
             </configuration>
           </execution>

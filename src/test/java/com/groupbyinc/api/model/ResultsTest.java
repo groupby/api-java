@@ -2,7 +2,6 @@ package com.groupbyinc.api.model;
 
 import com.groupbyinc.api.model.refinement.RefinementRange;
 import com.groupbyinc.api.model.refinement.RefinementValue;
-import com.groupbyinc.common.jackson.Mappers;
 import com.groupbyinc.common.test.util.AssertUtils;
 import org.junit.Test;
 
@@ -12,7 +11,7 @@ import static java.util.Collections.singletonList;
 public class ResultsTest {
 
   @Test
-  public void testGetSelectedNavigationJsonOneValue() throws Exception {
+  public void testGetSelectedNavigationJsonOneValue() {
     RefinementValue rv = new RefinementValue();
     rv.setValue("Ö'=\"");
 
@@ -20,12 +19,12 @@ public class ResultsTest {
         "{'name':'A','refinements':[{'type':'Value'," + "'value':\"Ö'=\\\"\"}],'metadata':[],'or':false,'range':false}", new Navigation().setName("A").setRefinements(singletonList((Refinement) rv)));
   }
 
-  private void assertNavigation(String pExpected, Navigation pNavigation) throws Exception {
-    AssertUtils.assertJsonEquals(pExpected, Mappers.writeValueAsString(pNavigation));
+  private void assertNavigation(String expected, Navigation navigation) {
+    AssertUtils.assertJsonEquals(expected, navigation);
   }
 
   @Test
-  public void testGetSelectedNavigationJsonOneRange() throws Exception {
+  public void testGetSelectedNavigationJsonOneRange() {
     RefinementRange rr = new RefinementRange();
     rr.setLow("10");
     rr.setHigh("100");
@@ -35,7 +34,7 @@ public class ResultsTest {
   }
 
   @Test
-  public void testGetSelectedNavigationJsonTwo() throws Exception {
+  public void testGetSelectedNavigationJsonTwo() {
     RefinementValue rv = new RefinementValue();
     rv.setValue("Ö'=\"");
 
