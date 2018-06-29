@@ -5,6 +5,7 @@ import com.groupbyinc.api.interfaces.PartialMatchRuleInterface;
 import com.groupbyinc.common.apache.commons.collections4.CollectionUtils;
 import com.groupbyinc.common.jackson.annotation.JsonIgnore;
 import com.groupbyinc.common.jackson.annotation.JsonProperty;
+import com.groupbyinc.common.jackson.annotation.JsonSetter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ public class MatchStrategy implements MatchStrategyInterface {
     return this;
   }
 
+  @JsonSetter
   public MatchStrategy setRules(List<PartialMatchRule> rules) {
     this.rules = rules;
     return this;

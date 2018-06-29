@@ -2,6 +2,7 @@ package com.groupbyinc.api.model;
 
 import com.groupbyinc.common.jackson.annotation.JsonIgnore;
 import com.groupbyinc.common.jackson.annotation.JsonProperty;
+import com.groupbyinc.common.jackson.annotation.JsonSetter;
 
 /**
  * <code>
@@ -83,6 +84,7 @@ public class Bias {
    * @param strength
    *         The strength of the bias, if applied
    */
+  @JsonSetter
   public Bias setStrength(String strength) {
     this.strength = Strength.valueOf(strength);
     return this;

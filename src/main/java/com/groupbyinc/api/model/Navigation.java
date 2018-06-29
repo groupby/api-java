@@ -3,6 +3,7 @@ package com.groupbyinc.api.model;
 import com.groupbyinc.common.jackson.annotation.JsonIgnore;
 import com.groupbyinc.common.jackson.annotation.JsonInclude;
 import com.groupbyinc.common.jackson.annotation.JsonProperty;
+import com.groupbyinc.common.jackson.annotation.JsonSetter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -188,6 +189,7 @@ public class Navigation {
    *
    * @param sort Set the sort by string.
    */
+  @JsonSetter
   public Navigation setSort(String sort) {
     this.sort = Sort.valueOf(sort);
     return this;
@@ -288,7 +290,6 @@ public class Navigation {
 
   /**
    * @param pinnedRefinements The refinement values to pin
-   * @return
    */
   public Navigation setPinnedRefinements(List<String> pinnedRefinements) {
     this.pinnedRefinements = pinnedRefinements;

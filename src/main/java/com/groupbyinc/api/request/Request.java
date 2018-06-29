@@ -5,6 +5,7 @@ import com.groupbyinc.common.apache.commons.collections4.CollectionUtils;
 import com.groupbyinc.common.jackson.annotation.JsonIgnore;
 import com.groupbyinc.common.jackson.annotation.JsonInclude;
 import com.groupbyinc.common.jackson.annotation.JsonProperty;
+import com.groupbyinc.common.jackson.annotation.JsonSetter;
 import com.groupbyinc.common.security.AesContent;
 
 import java.util.ArrayList;
@@ -169,6 +170,7 @@ public class Request {
     return this;
   }
 
+  @JsonSetter
   public Request setSort(List<Sort> sort) {
     this.sort = sort;
     return this;

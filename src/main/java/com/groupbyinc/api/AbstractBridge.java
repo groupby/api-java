@@ -6,20 +6,21 @@ import com.groupbyinc.api.model.Results;
 import com.groupbyinc.api.request.RefinementsRequest;
 import com.groupbyinc.api.request.Request;
 import com.groupbyinc.common.apache.commons.collections4.MapUtils;
-import com.groupbyinc.common.apache.commons.io.IOUtils;
 import com.groupbyinc.common.apache.commons.lang3.StringUtils;
 import com.groupbyinc.common.apache.http.ConnectionClosedException;
 import com.groupbyinc.common.apache.http.Header;
-import com.groupbyinc.common.apache.http.HttpResponse;
+import com.groupbyinc.common.apache.http.HttpEntity;
 import com.groupbyinc.common.apache.http.NoHttpResponseException;
 import com.groupbyinc.common.apache.http.StatusLine;
 import com.groupbyinc.common.apache.http.client.config.RequestConfig;
+import com.groupbyinc.common.apache.http.client.methods.CloseableHttpResponse;
 import com.groupbyinc.common.apache.http.client.methods.HttpPost;
 import com.groupbyinc.common.apache.http.client.utils.URIBuilder;
 import com.groupbyinc.common.apache.http.entity.StringEntity;
 import com.groupbyinc.common.apache.http.impl.client.CloseableHttpClient;
 import com.groupbyinc.common.apache.http.impl.client.HttpClientBuilder;
 import com.groupbyinc.common.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import com.groupbyinc.common.apache.http.util.EntityUtils;
 import com.groupbyinc.common.jackson.Mappers;
 import com.groupbyinc.common.security.AesContent;
 import com.groupbyinc.common.security.AesEncryption;
@@ -215,19 +216,15 @@ public abstract class AbstractBridge {
   }
 
   protected InputStream fireRequest(String url, Map<String, String> urlParams, String body, boolean returnBinary) throws IOException {
-    HttpResponse response = postToBridge(url, urlParams, body);
-    InputStream data = response.getEntity().getContent();
-    if (response.getStatusLine().getStatusCode() != 200) {
+    CloseableHttpResponse response = postToBridge(url, urlParams, body);
+    HttpEntity entity = response.getEntity();
+    if (response.getStatusLine().getStatusCode() == 200) {
+      return entity.getContent();
+    } else {
       String status = response.getStatusLine().toString();
-      byte[] bytes = IOUtils.toByteArray(data);
-      try {
-        data.close();
-      } catch (IOException e) {
-        // silently close
-      }
-      handleErrorStatus(status, bytes, returnBinary);
+      handleErrorStatus(status, EntityUtils.toByteArray(entity), returnBinary);
+      return null;
     }
-    return data;
   }
 
   /**
@@ -241,11 +238,11 @@ public abstract class AbstractBridge {
     return Mappers.readValue(data, Results.class, returnBinary);
   }
 
-  private HttpResponse postToBridge(String url, Map<String, String> urlParams, String bridgeJson) throws IOException {
+  private CloseableHttpResponse postToBridge(String url, Map<String, String> urlParams, String bridgeJson) throws IOException {
     StringEntity entity = new StringEntity(bridgeJson, UTF_8);
     entity.setContentType("application/json");
 
-    HttpResponse response = null;
+    CloseableHttpResponse response = null;
     boolean successful = false;
     int tries = 0;
     Exception lastError = null;
