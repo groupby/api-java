@@ -815,7 +815,18 @@ public class Query {
 
   /**
    * <code>
-   * Add pinned value refinement.  Takes a refinement name and a set of values.
+   * 
+   * By default, the engine will return up to twenty refinements for a navigation. These refinements are ordered by either count or value. However, there are cases where the business may require a particular refinement to be always returned at the top of the list regardless of count or value (e.g. a promoted or 'house' brand.) 
+   * 
+   * These refinements can be defined as `pinnedRefinements` within the `navigations` array, so that they are always returned at the top of the list in the Search API Response. There is a limit of 20 `pinnedRefinements` per navigation.
+   * 
+   * To define `pinnedRefinements`, you must always include the navigation name within the array, as shown below:
+   * 
+   * 
+   * <b>JSON Reference</b>:
+   * 
+   *     { "navigations": [ {"name": "brand", "pinnedRefinements": "Apple", "Bose", "Sennheiser"} ] }
+   *  
    * </code>
    *
    * @param navigationName
