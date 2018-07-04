@@ -240,13 +240,14 @@
               </manifest>
               <manifestEntries>
                 <Jdk-Compatibility-Version>${project.build.jdkVersion}</Jdk-Compatibility-Version>
-                <Maven-Version>${maven.version}</Maven-Version>
                 <Encoding>${project.build.sourceEncoding}</Encoding>
                 <Built-By>${project.organization.name}</Built-By>
                 <Created-By>${project.organization.name}</Created-By>
+                <!--suppress MavenModelInspection -->
                 <Created-Date>${date.current}</Created-Date>
                 <Vendor>${project.organization.name}</Vendor>
                 <Vendor-Url>${project.organization.url}</Vendor-Url>
+                <!--suppress MavenModelInspection -->
                 <Copyright>Copyright (c) ${date.current.year} ${project.organization.name}</Copyright>
               </manifestEntries>
             </archive>
@@ -267,13 +268,14 @@
               </manifest>
               <manifestEntries>
                 <Jdk-Compatibility-Version>${project.build.jdkVersion}</Jdk-Compatibility-Version>
-                <Maven-Version>${maven.version}</Maven-Version>
                 <Encoding>${project.build.sourceEncoding}</Encoding>
                 <Built-By>${project.organization.name}</Built-By>
                 <Created-By>${project.organization.name}</Created-By>
+                <!--suppress MavenModelInspection -->
                 <Created-Date>${date.current}</Created-Date>
                 <Vendor>${project.organization.name}</Vendor>
                 <Vendor-Url>${project.organization.url}</Vendor-Url>
+                <!--suppress MavenModelInspection -->
                 <Copyright>Copyright (c) ${date.current.year} ${project.organization.name}</Copyright>
               </manifestEntries>
             </archive>
@@ -385,13 +387,6 @@
             <id>set-parsedVersion-property</id>
             <goals>
               <goal>parse-version</goal>
-            </goals>
-          </execution>
-          <!-- ### set maven.version property -->
-          <execution>
-            <id>set-maven.version-property</id>
-            <goals>
-              <goal>maven-version</goal>
             </goals>
           </execution>
           <!-- ### set date.current property -->
