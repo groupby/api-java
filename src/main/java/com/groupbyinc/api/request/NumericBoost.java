@@ -2,9 +2,6 @@ package com.groupbyinc.api.request;
 
 import static com.groupbyinc.api.model.NumericBoost.DEFAULT_STRENGTH;
 
-/**
- * Created by groupby on 4/1/15.
- */
 public class NumericBoost {
 
   private String name;
