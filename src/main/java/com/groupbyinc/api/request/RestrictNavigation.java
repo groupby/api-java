@@ -1,8 +1,5 @@
 package com.groupbyinc.api.request;
 
-/**
- * Created by osman on 15/09/14.
- */
 public class RestrictNavigation {
 
   private String name;

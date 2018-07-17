@@ -2,9 +2,6 @@ package com.groupbyinc.api.model;
 
 import java.util.List;
 
-/**
- * Created by groupby on 07/01/15.
- */
 public class RefinementMatch {
 
   public static class Value {
