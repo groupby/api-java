@@ -828,7 +828,7 @@ public class Query {
    * 
    * <b>JSON Reference</b>:
    * 
-   *     { "navigations": [ {"name": "brand", "pinnedRefinements": "Apple", "Bose", "Sennheiser"} ] }
+   *     { "navigations": [ {"name": "brand", "pinnedRefinements": ["Apple", "Bose", "Sennheiser"]} ] }
    *  
    * </code>
    *
