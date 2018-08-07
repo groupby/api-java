@@ -1,4 +1,4 @@
-.*
+.circleci
 .DS_Store
 **/bin
 *.iml

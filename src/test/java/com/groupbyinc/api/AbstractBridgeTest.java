@@ -13,6 +13,7 @@ import com.groupbyinc.common.apache.http.impl.client.CloseableHttpClient;
 import com.groupbyinc.common.apache.http.impl.execchain.ClientExecChain;
 import com.groupbyinc.common.apache.http.impl.execchain.RetryExec;
 import com.groupbyinc.common.apache.http.protocol.ImmutableHttpProcessor;
+import com.groupbyinc.common.test.CircleCIParallelTestCase;
 import com.meterware.pseudoserver.PseudoServer;
 import com.meterware.pseudoserver.PseudoServlet;
 import com.meterware.pseudoserver.WebResource;
@@ -32,7 +33,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class AbstractBridgeTest {
+public class AbstractBridgeTest extends CircleCIParallelTestCase {
 
   protected String clientKey = "clientKey";
 
