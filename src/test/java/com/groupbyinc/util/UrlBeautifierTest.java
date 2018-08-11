@@ -4,6 +4,7 @@ import com.groupbyinc.api.Query;
 import com.groupbyinc.api.model.Navigation;
 import com.groupbyinc.api.model.refinement.RefinementValue;
 import com.groupbyinc.common.apache.commons.lang3.StringUtils;
+import com.groupbyinc.common.test.CircleCIParallelTestCase;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
-public class UrlBeautifierTest {
+public class UrlBeautifierTest extends CircleCIParallelTestCase {
 
   private UrlBeautifier test;
 

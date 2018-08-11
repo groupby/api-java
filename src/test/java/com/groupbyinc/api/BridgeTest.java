@@ -1,12 +1,13 @@
 package com.groupbyinc.api;
 
+import com.groupbyinc.common.test.CircleCIParallelTestCase;
 import com.groupbyinc.common.util.ResourceUtils;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class BridgeTest {
+public class BridgeTest extends CircleCIParallelTestCase {
 
   @Test
   public void testGB1546() throws Exception {

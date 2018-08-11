@@ -3,28 +3,29 @@ package com.groupbyinc.api;
 import com.groupbyinc.api.model.Sort;
 import com.groupbyinc.api.model.sort.FieldSort;
 import com.groupbyinc.common.apache.commons.lang3.ArrayUtils;
-import com.groupbyinc.common.test.util.AssertUtils;
+import com.groupbyinc.common.test.CircleCIParallelTestCase;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static com.groupbyinc.common.test.util.AssertUtils.assertJsonEquals;
 import static org.junit.Assert.assertEquals;
 
-public class QueryTest {
+public class QueryTest extends CircleCIParallelTestCase {
 
   private Query test = new Query();
 
   @Test
-  public void testNullSearch() throws Exception {
+  public void testNullSearch() {
     test.setPageSize(100);
     assertQuery("{'skip':0,'clientKey':'aoeu','pageSize':100,'returnBinary':true,'pruneRefinements':true}", test);
   }
 
-  private void assertQuery(String expected, Query actual) throws Exception {
-    AssertUtils.assertJsonEquals(expected, actual.getBridgeJson("aoeu"));
+  private void assertQuery(String expected, Query actual) {
+    assertJsonEquals(expected, actual.getBridgeJson("aoeu"));
   }
 
   @Test
-  public void testSingleSort() throws Exception {
+  public void testSingleSort() {
     test.setQuery("boston");
     test.addCustomUrlParamsByString("fromGoogle=true&bigspender=1");
     test.setCollection("docs");
@@ -64,7 +65,7 @@ public class QueryTest {
   }
 
   @Test
-  public void testMultipleSort() throws Exception {
+  public void testMultipleSort() {
     test.setQuery("boston");
     test.addCustomUrlParamsByString("fromGoogle=true&bigspender=1");
     test.setCollection("docs");
@@ -111,7 +112,7 @@ public class QueryTest {
   }
 
   @Test
-  public void testSortScore() throws Exception {
+  public void testSortScore() {
     test.setQuery("boston");
     test.addCustomUrlParamsByString("fromGoogle=true&bigspender=1");
     test.setCollection("docs");
@@ -158,7 +159,7 @@ public class QueryTest {
   }
 
   @Test
-  public void testWithVisitorIdSessionId() throws Exception {
+  public void testWithVisitorIdSessionId() {
     test.setQuery("boston");
     test.setCollection("docs");
     test.setArea("staging");
@@ -263,12 +264,12 @@ public class QueryTest {
     assertQuery(expected, test);
   }
 
-  private void assertQuery(Query expected, Query actual) throws Exception {
+  private void assertQuery(Query expected, Query actual) {
     assertQuery(expected.getBridgeJson("aoeu"), actual);
   }
 
   @Test
-  public void testQuoteInRefinement() throws Exception {
+  public void testQuoteInRefinement() {
     test.setPageSize(100);
     test.addRefinementsByString("abc=ab'");
     assertQuery("{" + //
@@ -306,7 +307,7 @@ public class QueryTest {
   }
 
   @Test
-  public void testGenerateWithNoLanguage() throws Exception {
+  public void testGenerateWithNoLanguage() {
     setupGeneratedQuery();
     assertQuery("{" + //
                 "    'biasingProfile': 'flange'," + //
@@ -342,7 +343,7 @@ public class QueryTest {
   }
 
   @Test
-  public void testGenerateWithNullLanguage() throws Exception {
+  public void testGenerateWithNullLanguage() {
     setupGeneratedQuery();
     test.setLanguage(null);
     assertQuery("{" + //
@@ -371,7 +372,7 @@ public class QueryTest {
   }
 
   @Test
-  public void testGenerateWithLanguage() throws Exception {
+  public void testGenerateWithLanguage() {
     setupGeneratedQuery();
     test.setLanguage("lang_en");
     assertQuery("{" + //
@@ -401,7 +402,7 @@ public class QueryTest {
   }
 
   @Test
-  public void testGenerateSubCollectionAndFrontEnd() throws Exception {
+  public void testGenerateSubCollectionAndFrontEnd() {
     test.setQuery("boston");
     test.addCustomUrlParamsByString("fromGoogle=true&bigspender=1");
     test.setCollection("docs");
@@ -436,7 +437,7 @@ public class QueryTest {
   }
 
   @Test
-  public void testPruneRefinementsFalse() throws Exception {
+  public void testPruneRefinementsFalse() {
     test.setQuery("boston");
     test.addCustomUrlParamsByString("fromGoogle=true&bigspender=1");
     test.setCollection("docs");
@@ -472,7 +473,7 @@ public class QueryTest {
   }
 
   @Test
-  public void testPruneRefinementsTrue() throws Exception {
+  public void testPruneRefinementsTrue() {
     test.setQuery("boston");
     test.addCustomUrlParamsByString("fromGoogle=true&bigspender=1");
     test.setCollection("docs");
@@ -508,7 +509,7 @@ public class QueryTest {
   }
 
   @Test
-  public void testRestrictedRefinements() throws Exception {
+  public void testRestrictedRefinements() {
     test.setRestrictNavigation("redsox", 2);
 
     assertQuery("{" + //
@@ -525,7 +526,7 @@ public class QueryTest {
   }
 
   @Test
-  public void testPinnedRefinementsWithValueRefinements() throws Exception {
+  public void testPinnedRefinementsWithValueRefinements() {
     test.setQuery("boston");
     test.addValueRefinement("redsox", "suck");
     test.setPinnedRefinements("redsox", "sux", "rule");
@@ -555,7 +556,7 @@ public class QueryTest {
   }
 
   @Test
-  public void testPinnedRefinementsWithoutValueRefinements() throws Exception {
+  public void testPinnedRefinementsWithoutValueRefinements() {
     test.setQuery("boston");
     test.setPinnedRefinements("redsox", "sux", "rule");
 

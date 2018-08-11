@@ -1,6 +1,7 @@
 package com.groupbyinc.util;
 
 import com.groupbyinc.api.parser.ParserException;
+import com.groupbyinc.common.test.CircleCIParallelTestCase;
 import org.junit.Test;
 
 import java.util.List;
@@ -12,10 +13,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-public class UrlReplacementTest {
+public class UrlReplacementTest extends CircleCIParallelTestCase {
 
   @Test
-  public void testToString() throws Exception {
+  public void testToString() {
     UrlReplacement r = new UrlReplacement(2, "a", OperationType.Swap);
     assertEquals("2-a", r.toString());
 

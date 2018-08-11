@@ -3,6 +3,7 @@ package com.groupbyinc.util;
 import com.groupbyinc.api.model.Navigation;
 import com.groupbyinc.api.model.refinement.RefinementValue;
 import com.groupbyinc.api.tags.UrlFunctions;
+import com.groupbyinc.common.test.CircleCIParallelTestCase;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,7 +14,7 @@ import java.util.List;
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 
-public class UrlFunctionsBugTest {
+public class UrlFunctionsBugTest extends CircleCIParallelTestCase {
 
   private final String DEFAULT_BEAUTIFIER = "default";
 

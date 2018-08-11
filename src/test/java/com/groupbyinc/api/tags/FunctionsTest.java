@@ -5,6 +5,7 @@ import com.groupbyinc.api.model.Refinement;
 import com.groupbyinc.api.model.Results;
 import com.groupbyinc.api.model.refinement.RefinementRange;
 import com.groupbyinc.api.model.refinement.RefinementValue;
+import com.groupbyinc.common.test.CircleCIParallelTestCase;
 import org.junit.Test;
 
 import java.util.List;
@@ -15,10 +16,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class FunctionsTest {
+public class FunctionsTest extends CircleCIParallelTestCase {
 
   @Test
-  public void testUncamel() throws Exception {
+  public void testUncamel() {
     assertUncamel("Java API Reference", "javaApiReference");
     assertUncamel("Java API Reference", "javaAPIReference");
     assertUncamel("GSA Configuration", "gsaConfiguration");
@@ -33,7 +34,7 @@ public class FunctionsTest {
   }
 
   @Test
-  public void testReverse() throws Exception {
+  public void testReverse() {
     List<String> reverse = Functions.reverse(asList("1", "2", "3"));
     assertEquals("[3, 2, 1]", reverse.toString());
   }
