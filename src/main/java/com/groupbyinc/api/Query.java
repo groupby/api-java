@@ -429,7 +429,7 @@ public class Query {
   /**
    * <code>
    * The area you wish to fire against, production, staging, etc...
-   * If blank, the default production area will be used.
+   * If not specified, the `Production` area will be used (and if one doesn't exist, an error will be returned).
    *
    * JSON Reference:
    *
