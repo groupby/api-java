@@ -69,6 +69,7 @@ public class Query {
   private boolean disableAutocorrection = false;
   private RestrictNavigation restrictNavigation;
   private Biasing biasing = new Biasing();
+  private boolean bot = false;
 
   /**
    * <code>
@@ -815,21 +816,21 @@ public class Query {
 
   /**
    * <code>
-   * 
+   *
    * By default, the engine will return up to twenty refinements for a navigation. These refinements are ordered by either count or value.
    * However, there are cases where the business may require a particular refinement to be always returned at the top of the list regardless
    * of count or value (e.g. a promoted or 'house' brand.)
-   * 
+   *
    * These refinements can be defined as `pinnedRefinements` within the `navigations` array, so that they are always returned at the
    * top of the list in the Search API Response. There is a limit of 20 `pinnedRefinements` per navigation.
-   * 
+   *
    * To define `pinnedRefinements`, you must always include the navigation name within the array, as shown below:
-   * 
-   * 
+   *
+   *
    * <b>JSON Reference</b>:
-   * 
+   *
    *     { "navigations": [ {"name": "brand", "pinnedRefinements": ["Apple", "Bose", "Sennheiser"]} ] }
-   *  
+   *
    * </code>
    *
    * @param navigationName
@@ -1593,5 +1594,30 @@ public class Query {
   public Query setSecuredPayload(AesContent securedPayload) {
     this.securedPayload = securedPayload;
     return this;
+  }
+
+  public boolean isBot() {
+    return bot;
+  }
+
+  /**
+   * <code>
+   * Url Parameter to indicate whether this query is bot traffic or not.
+   *
+   *
+   * </code>
+   *
+   * @param bot
+   *         True if this query is from a bot
+   *
+   * @internal
+   */
+  public void setBot(boolean bot) {
+    this.bot = bot;
+    if (bot) {
+      this.queryUrlParams.put("bot", "true");
+    } else {
+      this.queryUrlParams.remove("bot");
+    }
   }
 }
