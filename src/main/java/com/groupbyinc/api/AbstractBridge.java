@@ -37,6 +37,9 @@ import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 /**
@@ -50,13 +53,14 @@ import java.util.logging.Logger;
  */
 public abstract class AbstractBridge {
 
+  private static final Logger LOG = Logger.getLogger(AbstractBridge.class.getName());
+
   public static final int DEFAULT_RETRY_TIMEOUT = 80;
   public static final int DEFAULT_MAX_TRIES = 3;
   public static final String CLUSTER = "/cluster";
   protected static final String COLON = ":";
   protected static final String HTTP = "http://";
   protected static final String HTTPS = "https://";
-  private static final Logger LOG = Logger.getLogger(AbstractBridge.class.getName());
   private static final String SEARCH = "/search";
   private static final String REFINEMENTS = "/refinements";
   private static final String BODY = "\nbody:\n";
@@ -73,6 +77,7 @@ public abstract class AbstractBridge {
   private long retryTimeout = DEFAULT_RETRY_TIMEOUT;
   private long maxTries = DEFAULT_MAX_TRIES;
   private volatile List<Header> headers = new ArrayList<Header>();
+  private ScheduledExecutorService idleConnectionMonitor = Executors.newSingleThreadScheduledExecutor(ThreadUtils.defaultThreadFactory("idle-connections", false, false));
 
   /**
    * <code>
@@ -136,7 +141,7 @@ public abstract class AbstractBridge {
   }
 
   private void createClient(boolean compressResponse) {
-    PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
+    final PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
     cm.setMaxTotal(config.getMaxConnections());
     cm.setDefaultMaxPerRoute(config.getMaxConnectionsPerRoute());
 
@@ -145,6 +150,13 @@ public abstract class AbstractBridge {
       b.disableContentCompression();
     }
     httpClient = b.setConnectionManager(cm).setDefaultRequestConfig(requestConfig).build();
+    idleConnectionMonitor.scheduleAtFixedRate(new Runnable() {
+      @Override
+      public void run() {
+        cm.closeExpiredConnections();
+        cm.closeIdleConnections(20, TimeUnit.SECONDS);
+      }
+    }, 10, 30, TimeUnit.SECONDS);
   }
 
   /**
@@ -402,6 +414,7 @@ public abstract class AbstractBridge {
    */
   public void shutdown() {
     try {
+      idleConnectionMonitor.shutdown();
       httpClient.close();
     } catch (IOException e) {
       // silently close
