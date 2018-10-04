@@ -400,16 +400,12 @@ public class Query {
 
   /**
    * <code>
-   * The collection to use.  If you have uploaded additional data into collections apart from the default
-   * collection using the stream tool, you can access them by specifying them here.
-   * You can also search across multiple collections. It is important to note that relevancy is affected across
-   * collections and it is recommended that collections be modeled so that cross-collection searching is not required.
-   * As an example, to search across FAQs and Manuals you would use "FAQs|Manuals".
+   * The collection to use.  If you don't pass this parameter, `default` will be the collection used.
+   * This is case sensitive and should be same as your collection name.
    *
    * JSON Reference:
    *
    *     { "collection": "FAQs" }
-   *     { "collection": "FAQs|Manuals" }
    * </code>
    *
    * @param collection
