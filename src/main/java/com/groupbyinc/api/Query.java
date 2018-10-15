@@ -1363,7 +1363,7 @@ public class Query {
    * </code>
    *
    * @param bringToTop
-   *         Any number of product IDs to bring to the top of the result set.
+   *         Up to 300 of product IDs to bring to the top of the result set.
    */
   public Query setBringToTop(String... bringToTop) {
     CollectionUtils.addAll(this.biasing.getBringToTop(), bringToTop);
@@ -1379,7 +1379,7 @@ public class Query {
    * </code>
    *
    * @param restrictToIds
-   *         Any number of product IDs to bring to the top of the result set.
+   *         Up to 300 of product IDs that will be used to restrict the result set. You can use this to specify against which set of records any additional query or refinement actions should be taken.
    */
   public Query setRestrictToIds(String... restrictToIds) {
     CollectionUtils.addAll(this.biasing.getRestrictToIds(), restrictToIds);
