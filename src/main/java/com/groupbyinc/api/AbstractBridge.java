@@ -223,6 +223,10 @@ public abstract class AbstractBridge {
    * @return Results object from the search service
    */
   public Results search(Query query) throws IOException {
+    return search(clientKey, query);
+  }
+
+  protected Results search(String clientKey, Query query) throws IOException {
     InputStream data = fireRequest(getBridgeUrl(), query.getQueryUrlParams(), query.getBridgeJson(clientKey), query.isReturnBinary());
     return map(data, query.isReturnBinary());
   }
@@ -380,6 +384,10 @@ public abstract class AbstractBridge {
    * @throws IOException
    */
   public RefinementsResult refinements(Query query, String navigationName) throws IOException {
+    return refinements(clientKey, query, navigationName);
+  }
+
+  protected RefinementsResult refinements(String clientKey, Query query, String navigationName) throws IOException {
     InputStream data = fireRequest(getBridgeRefinementsUrl(), query.getQueryUrlParams(), query.getBridgeRefinementsJson(clientKey, navigationName), query.isReturnBinary());
     return mapRefinements(data, query.isReturnBinary());
   }
