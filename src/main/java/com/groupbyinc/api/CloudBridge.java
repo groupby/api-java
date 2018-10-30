@@ -1,10 +1,6 @@
 package com.groupbyinc.api;
 
 import com.groupbyinc.api.config.ConnectionConfiguration;
-import com.groupbyinc.common.apache.http.Header;
-import com.groupbyinc.common.apache.http.message.BasicHeader;
-
-import java.util.Iterator;
 
 public class CloudBridge extends AbstractBridge {
 
@@ -13,6 +9,7 @@ public class CloudBridge extends AbstractBridge {
   private static final int CLOUD_PORT = 443;
   private static final String CLOUD_PATH = "/api/v1";
   private static final String URL_SUFFIX = DOT + CLOUD_HOST + COLON + CLOUD_PORT + CLOUD_PATH;
+  private static final String SKIP_CACHING_HEADER_KEY = "Skip-Caching";
 
   /**
    * <code>
@@ -70,38 +67,15 @@ public class CloudBridge extends AbstractBridge {
    *
    * @internal
    */
-  public synchronized void  setCachingEnabled(boolean cachingEnabled) {
-    if (containsSkipCachingHeader()) {
+  public synchronized void setCachingEnabled(boolean cachingEnabled) {
+    if (containsHeader(getHeaders(), SKIP_CACHING_HEADER_KEY)) {
       if (cachingEnabled) {
-        removeSkipCachingHeader();
+        removeHeader(getHeaders(), SKIP_CACHING_HEADER_KEY);
       }
     } else {
       if (!cachingEnabled) {
-        addSkipCachingHeader();
+        addHeader(getHeaders(), SKIP_CACHING_HEADER_KEY, "true");
       }
     }
-  }
-
-  private boolean containsSkipCachingHeader() {
-    for (Header header : getHeaders()) {
-      if (header.getName().equalsIgnoreCase("Skip-Caching")) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  private void removeSkipCachingHeader() {
-    Iterator<Header> iterator = getHeaders().iterator();
-    while (iterator.hasNext()) {
-      Header header = iterator.next();
-      if (header.getName().equalsIgnoreCase("Skip-Caching")) {
-        iterator.remove();
-      }
-    }
-  }
-
-  private void addSkipCachingHeader() {
-    getHeaders().add(new BasicHeader("Skip-Caching", "true"));
   }
 }

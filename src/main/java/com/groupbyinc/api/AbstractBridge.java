@@ -20,6 +20,7 @@ import com.groupbyinc.common.apache.http.entity.StringEntity;
 import com.groupbyinc.common.apache.http.impl.client.CloseableHttpClient;
 import com.groupbyinc.common.apache.http.impl.client.HttpClientBuilder;
 import com.groupbyinc.common.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import com.groupbyinc.common.apache.http.message.BasicHeader;
 import com.groupbyinc.common.apache.http.util.EntityUtils;
 import com.groupbyinc.common.jackson.Mappers;
 import com.groupbyinc.common.security.AesContent;
@@ -35,6 +36,8 @@ import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
@@ -223,16 +226,20 @@ public abstract class AbstractBridge {
    * @return Results object from the search service
    */
   public Results search(Query query) throws IOException {
-    return search(clientKey, query);
+    return search(clientKey, Collections.<String, String>emptyMap(), query);
   }
 
-  protected Results search(String clientKey, Query query) throws IOException {
+  protected Results search(String clientKey, Map<String, String> headers, Query query) throws IOException {
     InputStream data = fireRequest(getBridgeUrl(), query.getQueryUrlParams(), query.getBridgeJson(clientKey), query.isReturnBinary());
     return map(data, query.isReturnBinary());
   }
 
   protected InputStream fireRequest(String url, Map<String, String> urlParams, String body, boolean returnBinary) throws IOException {
-    CloseableHttpResponse response = postToBridge(url, urlParams, body);
+    return fireRequest(url, urlParams, Collections.<String, String>emptyMap(), body, returnBinary);
+  }
+
+  protected InputStream fireRequest(String url, Map<String, String> urlParams, Map<String, String> headers, String body, boolean returnBinary) throws IOException {
+    CloseableHttpResponse response = postToBridge(url, urlParams, headers, body);
     HttpEntity entity = response.getEntity();
     if (response.getStatusLine().getStatusCode() == 200) {
       return entity.getContent();
@@ -254,7 +261,31 @@ public abstract class AbstractBridge {
     return Mappers.readValue(data, Results.class, returnBinary);
   }
 
-  private CloseableHttpResponse postToBridge(String url, Map<String, String> urlParams, String bridgeJson) throws IOException {
+  protected static void addHeader(List<Header> headers, String key, String value) {
+    removeHeader(headers, key);
+    headers.add(new BasicHeader(key, value));
+  }
+
+  protected static void removeHeader(List<Header> headers, String key) {
+    Iterator<Header> iterator = headers.iterator();
+    while (iterator.hasNext()) {
+      Header header = iterator.next();
+      if (header.getName().equalsIgnoreCase(key)) {
+        iterator.remove();
+      }
+    }
+  }
+
+  protected static boolean containsHeader(List<Header> headers, String key) {
+    for (Header header : headers) {
+      if (header.getName().equalsIgnoreCase(key)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private CloseableHttpResponse postToBridge(String url, Map<String, String> urlParams, Map<String, String> headers, String bridgeJson) throws IOException {
     StringEntity entity = new StringEntity(bridgeJson, UTF_8);
     entity.setContentType("application/json");
 
@@ -262,10 +293,17 @@ public abstract class AbstractBridge {
     boolean successful = false;
     int tries = 0;
     Exception lastError = null;
+
+    List<Header> finalHeaders = new ArrayList<Header>();
+    finalHeaders.addAll(this.headers);
+    for (Map.Entry<String, String> header : headers.entrySet()) {
+      addHeader(finalHeaders, header.getKey(), header.getValue());
+    }
+
     while (!successful && tries < maxTries) {
       try {
         HttpPost httpPost = new HttpPost(generateURI(url, urlParams, tries));
-        for (Header header : headers) {
+        for (Header header : finalHeaders) {
           httpPost.addHeader(header);
         }
         httpPost.setEntity(entity);
@@ -384,10 +422,10 @@ public abstract class AbstractBridge {
    * @throws IOException
    */
   public RefinementsResult refinements(Query query, String navigationName) throws IOException {
-    return refinements(clientKey, query, navigationName);
+    return refinements(clientKey, Collections.<String, String>emptyMap(), query, navigationName);
   }
 
-  protected RefinementsResult refinements(String clientKey, Query query, String navigationName) throws IOException {
+  protected RefinementsResult refinements(String clientKey, Map<String, String> headers, Query query, String navigationName) throws IOException {
     InputStream data = fireRequest(getBridgeRefinementsUrl(), query.getQueryUrlParams(), query.getBridgeRefinementsJson(clientKey, navigationName), query.isReturnBinary());
     return mapRefinements(data, query.isReturnBinary());
   }
