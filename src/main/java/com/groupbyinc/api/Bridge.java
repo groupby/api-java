@@ -19,6 +19,10 @@ public class Bridge extends AbstractBridge {
     this(clientKey, (secure ? HTTPS : HTTP) + bridgeHost + COLON + bridgePort, configuration);
   }
 
+  protected Bridge(String clientKey, String baseUrl) {
+    this(clientKey, baseUrl, new ConnectionConfiguration());
+  }
+
   protected Bridge(String clientKey, String baseUrl, ConnectionConfiguration configuration) {
     super(clientKey, baseUrl, configuration);
   }
