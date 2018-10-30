@@ -376,10 +376,18 @@ public abstract class AbstractBridge {
    * using the request object instead of the query object.
    */
   public Results search(Request request) throws IOException {
+    return search(request, Collections.<String, String>emptyMap());
+  }
+
+  /**
+   * @internal
+   * using the request object instead of the query object.
+   */
+  public Results search(Request request, Map<String, String> headers) throws IOException {
     makeBackwardsCompatible(request);
     String json = getJson(request);
     Boolean returnBinary = request.getReturnBinary() == null ? false : request.getReturnBinary();
-    InputStream data = fireRequest(getBridgeUrl(), request.getQueryUrlParams(), json, returnBinary);
+    InputStream data = fireRequest(getBridgeUrl(), request.getQueryUrlParams(), headers, json, returnBinary);
     return map(data, returnBinary);
   }
 
@@ -422,10 +430,6 @@ public abstract class AbstractBridge {
    * @throws IOException
    */
   public RefinementsResult refinements(Query query, String navigationName) throws IOException {
-    return refinements(clientKey, Collections.<String, String>emptyMap(), query, navigationName);
-  }
-
-  protected RefinementsResult refinements(String clientKey, Map<String, String> headers, Query query, String navigationName) throws IOException {
     InputStream data = fireRequest(getBridgeRefinementsUrl(), query.getQueryUrlParams(), query.getBridgeRefinementsJson(clientKey, navigationName), query.isReturnBinary());
     return mapRefinements(data, query.isReturnBinary());
   }
@@ -446,10 +450,18 @@ public abstract class AbstractBridge {
    * use RefinementsRequest object for refinement searches
    */
   public RefinementsResult refinements(RefinementsRequest request) throws IOException {
+    return refinements(request, Collections.<String, String>emptyMap());
+  }
+
+  /**
+   * @internal
+   * use RefinementsRequest object for refinement searches
+   */
+  public RefinementsResult refinements(RefinementsRequest request, Map<String, String> headers) throws IOException {
     makeBackwardsCompatible(request.getOriginalQuery());
     String json = getJson(request);
     Boolean returnBinary = request.getOriginalQuery().getReturnBinary() == null ? false : request.getOriginalQuery().getReturnBinary();
-    InputStream data = fireRequest(getBridgeRefinementsUrl(), request.getOriginalQuery().getQueryUrlParams(), json, returnBinary);
+    InputStream data = fireRequest(getBridgeRefinementsUrl(), request.getOriginalQuery().getQueryUrlParams(), headers, json, returnBinary);
     return mapRefinements(data, returnBinary);
   }
 
