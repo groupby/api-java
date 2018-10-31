@@ -392,7 +392,9 @@ public abstract class AbstractBridge {
   }
 
   private void makeBackwardsCompatible(Request request) {
-    request.setClientKey(clientKey);
+    if (StringUtils.isEmpty(request.getClientKey())) {
+      request.setClientKey(clientKey);
+    }
     if (request.getSkip() == null) {
       request.setSkip(0);
     }
