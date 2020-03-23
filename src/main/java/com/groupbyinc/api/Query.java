@@ -58,6 +58,7 @@ public class Query {
   private String biasingProfile;
   private String matchStrategyName;
   private String language;
+  private String preFilterExpression;
   private Map<String, String> queryUrlParams = new HashMap<String, String>();
   private List<CustomUrlParam> customUrlParams = new ArrayList<CustomUrlParam>();
   private LinkedHashMap<String, Navigation> navigations = new LinkedHashMap<String, Navigation>();
@@ -107,6 +108,7 @@ public class Query {
     request.setFields(fields);
     request.setOrFields(orFields);
     request.setLanguage(language);
+    request.setPreFilterExpression(preFilterExpression);
     request.setBiasingProfile(biasingProfile);
     request.setMatchStrategyName(matchStrategyName);
     request.setPageSize(pageSize);
@@ -1010,6 +1012,46 @@ public class Query {
   }
 
   /**
+   * @return The pre-filter expression on the query.
+   */
+  public String getPreFilterExpression() {
+    return preFilterExpression;
+  }
+
+  /**
+   * <code>
+   * Sets the pre-filter expression on the query and restricts the results based on the logical conditions defined by
+   * the expression. Fields targeted by the pre-filter expression must be refinable in the upload configuration.
+   *
+   * For example, if your records have a refinable field called "brand" and you wish to pre-filter the search for the brands
+   * "Samsung" and "Sony" your pre-filter expression would look like:
+   *
+   * `brand IN ["Samsung", "Sony"]`
+   *
+   * If you wanted to enhance this pre-filter and your records have a refinable field called "price", with a nested field called
+   * "value", and you wanted to pre-filter records where the price's value is less than $300 your pre-filter expression
+   * would look like:
+   *
+   * `brand IN ["Samsung", "Sony"] AND price.value < 300`
+   *
+   * You can use AND and OR to chain different logical expression together and use parenthesis to limit the scope of some
+   * expressions, for instance:
+   *
+   * `brand IN ["Samsung", "Sony"] AND (price.value < 300 OR customerRating >= 4.5)`
+   *
+   * Failing to provide a valid pre-filter expression will result in a 400 Bad Request response, where a description of
+   * the invalid expression part will be included to help you debug the issue.
+   *
+   * For more examples and the full syntax reference, please visit the public GroupBy Documentation.
+   * </code>
+   *
+   * @param preFilterExpression The pre-filter expression
+   */
+  public void setPreFilterExpression(String preFilterExpression) {
+    this.preFilterExpression = preFilterExpression;
+  }
+
+  /**
    * @return Are refinements with zero counts being removed.
    *
    * @internal
@@ -1042,7 +1084,7 @@ public class Query {
    *
    * </code>
    *
-   * @param pruneRefinements true to prune refinements, false other
+   * @param pruneRefinements true to prune refinements, false otherwise
    */
   public Query setPruneRefinements(boolean pruneRefinements) {
     this.pruneRefinements = pruneRefinements;

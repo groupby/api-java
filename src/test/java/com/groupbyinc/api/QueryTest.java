@@ -576,4 +576,20 @@ public class QueryTest extends CircleCIParallelTestCase {
                 "    'skip': 0" + //
                 "}", test);
   }
+
+  @Test
+  public void testPreFilterExpression() {
+    test.setQuery("nice products");
+    test.setPreFilterExpression("brand = \"shiny\"");
+
+    assertQuery("{" + //
+        "    'clientKey': 'aoeu'," + //
+        "    'pageSize': 10," + //
+        "    'pruneRefinements': true," + //
+        "    'query': 'nice products'," + //
+        "    'returnBinary': true," + //
+        "    'skip': 0," + //
+        "    'pre-filter': 'brand = \\\"shiny\\\"'" + //
+        "}", test);
+  }
 }
