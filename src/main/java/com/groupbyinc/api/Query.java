@@ -1047,8 +1047,9 @@ public class Query {
    *
    * @param preFilterExpression The pre-filter expression
    */
-  public void setPreFilterExpression(String preFilterExpression) {
+  public Query setPreFilterExpression(String preFilterExpression) {
     this.preFilterExpression = preFilterExpression;
+    return this;
   }
 
   /**
