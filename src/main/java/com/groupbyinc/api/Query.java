@@ -1032,12 +1032,12 @@ public class Query {
    * "value", and you wanted to pre-filter records where the price's value is less than $300 your pre-filter expression
    * would look like:
    *
-   * `brand IN ["Samsung", "Sony"] AND price.value < 300`
+   * `brand IN ["Samsung", "Sony"] AND price.value &lt; 300`
    *
    * You can use AND and OR to chain different logical expression together and use parenthesis to limit the scope of some
    * expressions, for instance:
    *
-   * `brand IN ["Samsung", "Sony"] AND (price.value < 300 OR customerRating >= 4.5)`
+   * `brand IN ["Samsung", "Sony"] AND (price.value &lt; 300 OR customerRating &gte; 4.5)`
    *
    * Failing to provide a valid pre-filter expression will result in a 400 Bad Request response, where a description of
    * the invalid expression part will be included to help you debug the issue.
