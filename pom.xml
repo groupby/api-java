@@ -10,7 +10,7 @@
   </parent>
 
   <artifactId>api-java-flux</artifactId>
-  <version>2.6.81-SNAPSHOT</version>
+  <version>3.0.0-SNAPSHOT</version>
 
   <packaging>jar</packaging>
 
@@ -250,6 +250,15 @@
       <plugin>
         <groupId>org.sonatype.plugins</groupId>
         <artifactId>nexus-staging-maven-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>6</source>
+          <target>6</target>
+        </configuration>
       </plugin>
     </plugins>
 
