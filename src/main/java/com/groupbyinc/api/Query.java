@@ -1042,7 +1042,7 @@ public class Query {
    * Failing to provide a valid pre-filter expression will result in a 400 Bad Request response, where a description of
    * the invalid expression part will be included to help you debug the issue.
    *
-   * For more examples and the full syntax reference, please visit the public <a href="https://groupbysupport.docs.stoplight.io/gb-docs/data-and-upload-management/search/pre-filters">GroupBy Documentation</a>.
+   * For more examples and the full syntax reference, please visit the public <a href="https://docs.groupbycloud.com/gb-docs/gb-implementation/search-implementation/pre-filters">GroupBy Documentation</a>.
    * </code>
    *
    * @param preFilterExpression The pre-filter expression
