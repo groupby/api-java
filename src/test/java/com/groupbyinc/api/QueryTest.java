@@ -592,4 +592,20 @@ public class QueryTest extends CircleCIParallelTestCase {
         "    'pre-filter': 'brand = \\\"shiny\\\"'" + //
         "}", test);
   }
+
+  @Test
+  public void testIntelligentNavigation() {
+    test.setQuery("Linen");
+    test.setIntelligentNavigationEnabled(true);
+
+    assertQuery("{" + //
+        "    'clientKey': 'aoeu'," + //
+        "    'pageSize': 10," + //
+        "    'pruneRefinements': true," + //
+        "    'query': 'Linen'," + //
+        "    'returnBinary': true," + //
+        "    'skip': 0," + //
+        "    'iNavEnabled': true" + //
+        "}", test);
+  }
 }

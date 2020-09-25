@@ -10,7 +10,7 @@
   </parent>
 
   <artifactId>api-java-flux</artifactId>
-  <version>3.0.2-SNAPSHOT</version>
+  <version>3.1.0-SNAPSHOT</version>
 
   <packaging>jar</packaging>
 
@@ -31,7 +31,7 @@
     <repo.upload.retryAttempts>3</repo.upload.retryAttempts>
 
     <!-- ### Versions -->
-    <groupbyinc.common.version>189</groupbyinc.common.version>
+    <groupbyinc.common.version>190</groupbyinc.common.version>
     <api.servlet.version>2.5</api.servlet.version>
     <api.jsp.version>2.2</api.jsp.version>
     <junit.version>4.12</junit.version>
