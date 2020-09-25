@@ -71,6 +71,7 @@ public class Query {
   private RestrictNavigation restrictNavigation;
   private Biasing biasing = new Biasing();
   private boolean bot = false;
+  private Boolean intelligentNavigationEnabled;
 
   /**
    * <code>
@@ -120,6 +121,8 @@ public class Query {
     request.setRestrictNavigation(convertRestrictNavigation());
     request.setWildcardSearchEnabled(isWildcardSearchEnabled());
     request.setSecuredPayload(securedPayload);
+    request.setIntelligentNavigationEnabled(intelligentNavigationEnabled);
+
     if (CollectionUtils.isNotEmpty(sort)) {
       for (Sort s : sort) {
         request.setSort(convertSort(s));
@@ -1658,5 +1661,31 @@ public class Query {
     } else {
       this.queryUrlParams.remove("bot");
     }
+  }
+
+  /**
+   * @return The intelligent navigation flag.
+   */
+  public Boolean getIntelligentNavigationEnabled() {
+    return intelligentNavigationEnabled;
+  }
+
+  /**
+   * <code>
+   * Explicitly enable or disable Intelligent Navigation (iNav), which will override any configuration applied to Areas or Rules that might trigger.
+   * Leave 'null' to allow the Area or Rule configurations to take priority.
+   *
+   * iNav will attempt to reorder your navigations and refinements based on popularity.
+   *
+   *
+   * </code>
+   *
+   * @param intelligentNavigationEnabled
+   *        The intelligent navigation flag.
+   *
+   * @internal
+   */
+  public void setIntelligentNavigationEnabled(Boolean intelligentNavigationEnabled) {
+    this.intelligentNavigationEnabled = intelligentNavigationEnabled;
   }
 }
