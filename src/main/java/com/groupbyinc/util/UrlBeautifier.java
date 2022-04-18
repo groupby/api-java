@@ -12,6 +12,7 @@ import com.groupbyinc.common.apache.commons.lang3.StringUtils;
 import com.groupbyinc.common.apache.http.client.utils.URIBuilder;
 import com.groupbyinc.injector.StaticInjector;
 import com.groupbyinc.injector.StaticInjectorFactory;
+import org.apache.logging.log4j.util.Strings;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -115,6 +116,9 @@ public class UrlBeautifier {
     addAppend(uri);
     addUnmappedRefinements(navigations, uri);
     String uriString = uri.toString();
+    // uriString.startsWith("null") in my mind this is not correct decision because
+    // we are trying to modify result without finding and fixing the cause
+    // The issue has been resolved. This code left here just in case
     return uriString.startsWith("null") ? uriString.substring(4) : uriString;
   }
 
@@ -164,9 +168,15 @@ public class UrlBeautifier {
               pathSegmentLookup.append(getToken(n.getName()));
               RefinementValue rv = (RefinementValue) r;
               rv.setValue(applyReplacementRule(n, rv.getValue(), indexOffSet, replacements));
-              String encodedRefValue = "/" + UrlEncoder.encode(rv.getValue());
-              indexOffSet += rv.getValue().length() + 1;
-              uri.setPath(uri.getPath() + encodedRefValue);
+              if(Strings.isNotBlank(UrlEncoder.encode(rv.getValue()))){
+                String encodedRefValue = "/" + UrlEncoder.encode(rv.getValue());
+                indexOffSet += rv.getValue().length() + 1;
+                if(Strings.isNotBlank(uri.getPath())){
+                  uri.setPath(uri.getPath() + encodedRefValue);
+                }else {
+                  uri.setPath(encodedRefValue);
+                }
+              }
               ri.remove();
               break;
             case Range:
@@ -187,13 +197,21 @@ public class UrlBeautifier {
 
   private void addReferenceBlock(StringBuilder reference, URIBuilder uri) {
     if (reference.length() > 1) {
-      uri.setPath(uri.getPath() + reference.toString());
+      if(Strings.isNotBlank(uri.getPath())){
+        uri.setPath(uri.getPath() + reference);
+      }else{
+        uri.setPath(reference.toString());
+      }
     }
   }
 
   private void addAppend(URIBuilder uri) {
     if (StringUtils.isNotBlank(append)) {
-      uri.setPath(uri.getPath() + append);
+      if(Strings.isNotBlank(uri.getPath())){
+        uri.setPath(uri.getPath() + append);
+      }else{
+        uri.setPath(append);
+      }
     }
   }
 
@@ -227,7 +245,11 @@ public class UrlBeautifier {
 
   private void addSearchString(String searchString, StringBuilder reference, URIBuilder pUri) {
     if (StringUtils.isNotBlank(searchString)) {
-      pUri.setPath(pUri.getPath() + "/" + UrlEncoder.encode(searchString));
+      if(Strings.isNotBlank(pUri.getPath())){
+        pUri.setPath(pUri.getPath() + "/" + UrlEncoder.encode(searchString));
+      }else{
+        pUri.setPath(UrlEncoder.encode(searchString));
+      }
       reference.append(SEARCH_NAVIGATION.getDisplayName());
     }
   }
@@ -278,6 +300,9 @@ public class UrlBeautifier {
     addAppend(uri);
     addUnmappedRefinements(groupedRefinements, uri);
     String uriString = uri.toString();
+    // uriString.startsWith("null") in my mind this is not correct decision because
+    // we are trying to modify result without finding and fixing the cause
+    // The issue has been resolved. This code left here just in case
     return uriString.startsWith("null") ? uriString.substring(4) : uriString;
   }
 
